@@ -1,5 +1,0 @@
-com\wade\framework\exceptions\base\BaseException$ExceptionLevel.class
-com\wade\framework\exceptions\BizExceptionEnum.class
-com\wade\framework\exceptions\Thrower.class
-com\wade\framework\exceptions\base\BaseException.class
-com\wade\framework\exceptions\BussinessException.class

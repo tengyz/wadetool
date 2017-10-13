@@ -1,7 +1,9 @@
 package com.wade.framework.common.util;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -919,14 +921,43 @@ public class StringHelper {
     }
     
     /**
+     * templageContentReplace:根据传入的Map参数替换短信模板中的变量
+     * @param templateContent
+     * @param paraMap
+     * @return
+     * @Date        2017年10月13日 上午11:41:47 
+     * @Author      yz.teng
+     * 
+     * 用法：
+     *  Map<String,Object> paraMap=new HashMap<String, Object>();
+     *  paraMap.put("YYYY", "1000");
+     *  paraMap.put("QF", "100");
+     *  String aString=getSmsMTContent("您查询的余额为$YYYY$,欠费$QF$", paraMap);
+     *  System.out.println(aString);
+     */
+    public static String templageContentReplace(String templateContent, Map<String, Object> paraMap) {
+        String replaceCommand = "";
+        String replaceChar = "$";
+        for (String key : paraMap.keySet()) {
+            replaceCommand = replaceChar + key + replaceChar;
+            if (templateContent.indexOf(replaceCommand) > -1) {
+                templateContent = templateContent.replace(replaceCommand, String.valueOf(paraMap.get(key)));
+            }
+        }
+        return templateContent;
+    }
+    
+    /**
      * 测试方法
      * 
      * @param args
      * @throws Exception
      */
     public static void main(String args[]) throws Exception {
-        System.out.println(getRandomNum(6));
-        System.out.println(getRandomNum(6));
-        System.out.println(getRandomNum(6));
+        Map<String, Object> paraMap = new HashMap<String, Object>();
+        paraMap.put("YYYY", "1000");
+        paraMap.put("QF", "100");
+        String aString = templageContentReplace("您查询的余额为$YYYY$,欠费$QF$", paraMap);
+        System.out.println(aString);
     }
 }

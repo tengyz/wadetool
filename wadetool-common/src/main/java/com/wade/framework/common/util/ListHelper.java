@@ -94,7 +94,6 @@ public class ListHelper {
             return null;
         }
         Map retMap = new HashMap();
-        
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map = (Map)list.get(i);
             if (keys != null) {

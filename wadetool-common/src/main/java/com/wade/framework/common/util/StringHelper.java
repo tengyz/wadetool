@@ -1,5 +1,6 @@
 package com.wade.framework.common.util;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,6 +43,11 @@ public class StringHelper {
     public static final String NOTFOUND_ERRORS = "NOTFOUND_ERRORS";
     
     public static final String DEFAULT_SEPARATOR = ",";
+    
+    /**
+     * URL字符集
+     */
+    private final static String ENCODE = "UTF-8";
     
     public static boolean isEmpty(String value) {
         return (value == null) || (value.length() == 0);
@@ -945,6 +951,51 @@ public class StringHelper {
             }
         }
         return templateContent;
+    }
+    
+    /**
+     * URL 解码
+     *
+     * @return String
+     * @author yz.teng
+     * @date 2015-3-17 下午04:09:51
+     */
+    public static String getURLDecoderString(String str) {
+        String result = "";
+        if (null == str) {
+            return "";
+        }
+        try {
+            result = java.net.URLDecoder.decode(str, ENCODE);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+    
+    /**
+     * URL 转码
+     *
+     * @return String
+     * @author yz.teng
+     * @date 2015-3-17 下午04:10:28
+     *  测试：String str = "测试1";
+     *  System.out.println(getURLEncoderString(str));
+     *  System.out.println(getURLDecoderString(str));
+     */
+    public static String getURLEncoderString(String str) {
+        String result = "";
+        if (null == str) {
+            return "";
+        }
+        try {
+            result = java.net.URLEncoder.encode(str, ENCODE);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
     
     /**

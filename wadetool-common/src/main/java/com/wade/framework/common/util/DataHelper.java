@@ -618,8 +618,6 @@ public class DataHelper {
         return outParams;
     }
     
-    // add by lif 2010-6-24 16:24:11 add
-    
     /**
      * 对ds中指定的若干列有则修改（将其对应的值格式化0.00后做修改）无则新增（对象中增加columns和""键值对）
      * 
@@ -1090,6 +1088,7 @@ public class DataHelper {
         data.put(key, data.getString(key) + c);
     }
     
+    // --------------------------------- 类型转换
     /**
      * String 转化成 int
      * 
@@ -1352,9 +1351,7 @@ public class DataHelper {
             
             String fee = "0";
             for (int j = 0; j < ds.size(); j++) {
-                
                 IDataMap tmpData = (IDataMap)ds.get(j);
-                
                 fee = addForDou(fee, tmpData.get(columns[i]).toString());
             }
             tmpData2.put(columns[i], fee);
@@ -1407,6 +1404,15 @@ public class DataHelper {
         return getDataFromIDataset(outDatas, index, null);
     }
     
+    /**
+     * 分页
+     * @param ids
+     * @param pg
+     * @return
+     * @throws Exception
+     * @Date        2017年11月5日 下午1:54:06 
+     * @Author      yz.teng
+     */
     public static IDataList getOnePageData(IDataList ids, Pagination pg) throws Exception {
         try {
             
@@ -1548,6 +1554,7 @@ public class DataHelper {
         return BaseDataHelper.distinct(source, fieldNames, token);
     }
     
+    // ------------------------------------ IDataMap、IDataList和map list转换
     /**
      * map转IData
      * 

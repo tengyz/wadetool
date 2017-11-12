@@ -1705,6 +1705,35 @@ public class DataHelper {
         return percent.format(c);
     }
     
+    public static boolean isEmpty(List args) {
+        if ((args == null) || (args.size() == 0)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isEmpty(String[] args) {
+        if ((args == null) || (args.length == 0)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isEmpty(Object[] args) {
+        if ((args == null) || (args.length == 0)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isNotEmpty(Object[] args) {
+        return !isEmpty(args);
+    }
+    
+    public static boolean isNotEmpty(List args) {
+        return !isEmpty(args);
+    }
+    
     /**
      * 测试方法
      * 

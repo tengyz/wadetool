@@ -2,7 +2,6 @@ package com.wade.framework.common.util;
 
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
@@ -14,6 +13,7 @@ import org.apache.log4j.Logger;
 
 import com.wade.framework.common.util.base.BaseStringHelper;
 import com.wade.framework.data.IDataMap;
+import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
@@ -601,6 +601,11 @@ public class StringHelper {
      * @param data 数据源
      * @param verifyKeys 校验key集合
      * @return
+     * 测试：
+     * IDataMap newItem = new DataHashMap();
+     *   newItem.put("NAME1", "123");
+     *   newItem.put("NAME2", "123");
+     *   System.out.println(verifyData(newItem, "NAME"));
      */
     public static boolean verifyData(IDataMap data, String verifyKeys) {
         return verifyData(data, verifyKeys, true);
@@ -1005,10 +1010,14 @@ public class StringHelper {
      * @throws Exception
      */
     public static void main(String args[]) throws Exception {
-        Map<String, Object> paraMap = new HashMap<String, Object>();
-        paraMap.put("YYYY", "1000");
-        paraMap.put("QF", "100");
-        String aString = templageContentReplace("您查询的余额为$YYYY$,欠费$QF$", paraMap);
-        System.out.println(aString);
+        //        Map<String, Object> paraMap = new HashMap<String, Object>();
+        //        paraMap.put("YYYY", "1000");
+        //        paraMap.put("QF", "100");
+        //        String aString = templageContentReplace("您查询的余额为$YYYY$,欠费$QF$", paraMap);
+        //        System.out.println(aString);
+        IDataMap newItem = new DataHashMap();
+        newItem.put("NAME1", "123");
+        newItem.put("NAME2", "123");
+        System.out.println(verifyData(newItem, "NAME"));
     }
 }

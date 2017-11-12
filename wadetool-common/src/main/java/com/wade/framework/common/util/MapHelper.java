@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -286,5 +287,30 @@ public class MapHelper {
         
         return map;
         
+    }
+    
+    public static boolean isEmpty(Map map) {
+        if ((map == null) || (map.size() <= 0)) {
+            return true;
+        }
+        return false;
+    }
+    
+    public static boolean isNotEmpty(Map map) {
+        return !isEmpty(map);
+    }
+    
+    public static Map subData(Map map, String group, boolean istrim) throws Exception {
+        Map element = new HashMap();
+        String prefix = group + "_";
+        for (Iterator i$ = map.keySet().iterator(); i$.hasNext();) {
+            Object key = i$.next();
+            
+            String name = key.toString();
+            if (name.startsWith(prefix)) {
+                element.put(istrim ? name.substring(prefix.length()) : name, map.get(name));
+            }
+        }
+        return element;
     }
 }

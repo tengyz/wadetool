@@ -509,6 +509,185 @@ public final class TimeHelper {
         return (yyyymm1 / 100 - yyyymm2 / 100) * 12 + (yyyymm1 % 100 - yyyymm2 % 100);
     }
     
+    public static Timestamp getTruncDate(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(11, 0);
+        rightNow.set(14, 0);
+        rightNow.set(13, 0);
+        rightNow.set(12, 0);
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getTimestampByYYYYMMDD(String dateString) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = formatter.parse(dateString);
+        return new Timestamp(date.getTime());
+    }
+    
+    public static Timestamp getTimestampByYYYYMMDDHHMMSS(String dateString) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date date = formatter.parse(dateString);
+        return new Timestamp(date.getTime());
+    }
+    
+    public static Timestamp getTimestampByHHMMSS(String dateString) throws Exception {
+        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+        Date date = formatter.parse(dateString);
+        return new Timestamp(date.getTime());
+    }
+    
+    public static Timestamp getDateOfNextMonthFirstDay(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(5, 1);
+        rightNow.set(11, 0);
+        rightNow.set(14, 0);
+        rightNow.set(13, 0);
+        rightNow.set(12, 0);
+        rightNow.set(2, rightNow.get(2) + 1);
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getDateOfPreMonthFirstDay(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(5, 1);
+        rightNow.set(11, 0);
+        rightNow.set(14, 0);
+        rightNow.set(13, 0);
+        rightNow.set(12, 0);
+        rightNow.set(2, rightNow.get(2) - 1);
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getDateOfCurrentMonthEndDay(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(5, rightNow.getActualMaximum(5));
+        
+        rightNow.set(11, 23);
+        rightNow.set(14, 59);
+        rightNow.set(13, 59);
+        rightNow.set(12, 59);
+        rightNow.set(2, rightNow.get(2));
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getLastDate(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(11, 23);
+        rightNow.set(14, 59);
+        rightNow.set(13, 59);
+        rightNow.set(12, 59);
+        rightNow.set(2, rightNow.get(2));
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getPreLastDate(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(5, rightNow.get(5) - 1);
+        
+        rightNow.set(11, 23);
+        rightNow.set(14, 59);
+        rightNow.set(13, 59);
+        rightNow.set(12, 59);
+        rightNow.set(2, rightNow.get(2));
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getNextDay(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(5, rightNow.get(5) + 1);
+        
+        rightNow.set(11, 0);
+        rightNow.set(14, 0);
+        rightNow.set(13, 0);
+        rightNow.set(12, 0);
+        rightNow.set(2, rightNow.get(2));
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getDateOfMonthFirstDay(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(5, 1);
+        rightNow.set(11, 0);
+        rightNow.set(14, 0);
+        rightNow.set(13, 0);
+        rightNow.set(12, 0);
+        rightNow.set(2, rightNow.get(2));
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static Timestamp getDateOfCurrentEndDay(Date date) {
+        Calendar rightNow = Calendar.getInstance();
+        rightNow.setTime(date);
+        rightNow.set(11, 23);
+        rightNow.set(14, 59);
+        rightNow.set(13, 59);
+        rightNow.set(12, 59);
+        rightNow.set(2, rightNow.get(2));
+        return new Timestamp(rightNow.getTimeInMillis());
+    }
+    
+    public static int getMonthSpace(Timestamp date1, Timestamp date2) throws Exception {
+        int result = 0;
+        
+        Calendar c1 = Calendar.getInstance();
+        Calendar c2 = Calendar.getInstance();
+        c1.setTime(date1);
+        c2.setTime(date2);
+        
+        if (c1.get(1) == c2.get(1))
+            result = c2.get(2) - c1.get(2);
+        else {
+            result = 12 * (c2.get(1) - c1.get(1)) + c2.get(2) - c1.get(2);
+        }
+        
+        return result == 0 ? 0 : Math.abs(result);
+    }
+    
+    public static Timestamp timeAddMonth(Timestamp time, int month) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(time);
+        cal.add(2, month);
+        return new Timestamp(cal.getTimeInMillis());
+    }
+    
+    public static Timestamp timeAddDay(Date time, int day) {
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(time);
+        cal.add(5, day);
+        return new Timestamp(cal.getTimeInMillis());
+    }
+    
+    public static final Timestamp encodeTimestamp(String timeStr) throws Exception {
+        String format = getTimestampFormat(timeStr);
+        return encodeTimestamp(format, timeStr);
+    }
+    
+    public static final Timestamp encodeTimestamp(String format, String timeStr) throws Exception {
+        if (StringHelper.isEmpty(timeStr)) {
+            return null;
+        }
+        
+        if (format.length() != timeStr.length()) {
+            format = getTimestampFormat(timeStr);
+        }
+        
+        SimpleDateFormat sdf = new SimpleDateFormat(format);
+        try {
+            return new Timestamp(sdf.parse(timeStr).getTime());
+        }
+        catch (Exception e) {
+            throw new Exception("timeutil-10001", e);
+        }
+    }
+    
     /**
      * 测试方法
      * 
@@ -516,6 +695,6 @@ public final class TimeHelper {
      * @throws Exception
      */
     public static void main(String args[]) throws Exception {
-        System.out.println(getTimestampFormat("29"));
+        System.out.println(getTimestampByYYYYMMDD("29"));
     }
 }

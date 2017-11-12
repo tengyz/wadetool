@@ -9,9 +9,9 @@ import org.apache.log4j.Logger;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SQLReady;
 
-import com.talkweb.framework.data.IDataList;
-import com.talkweb.framework.data.IDataMap;
 import com.wade.framework.common.util.StringHelper;
+import com.wade.framework.data.IDataList;
+import com.wade.framework.data.IDataMap;
 import com.wade.framework.spring.SpringContextsUtil;
 
 /**

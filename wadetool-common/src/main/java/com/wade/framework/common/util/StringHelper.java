@@ -1020,6 +1020,7 @@ public class StringHelper {
         //        newItem.put("NAME2", "123");
         //        System.out.println(verifyData(newItem, "NAME"));
         System.out.println(camelize("SPECIAL_SELF_NUMBER"));
+        //测试
         IDataMap newItem = new DataHashMap();
         newItem.put("NAME1", "123");
         newItem.put("NAME2", "123");

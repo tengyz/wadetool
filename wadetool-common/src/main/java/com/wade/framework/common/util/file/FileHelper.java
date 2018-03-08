@@ -12,18 +12,14 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
-import org.apache.tools.ant.Project;
-import org.apache.tools.ant.taskdefs.Expand;
-import org.apache.tools.zip.ZipEntry;
-import org.apache.tools.zip.ZipOutputStream;
 
-import com.github.junrar.Archive;
-import com.github.junrar.rarfile.FileHeader;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
 import com.wade.framework.data.impl.DataArrayList;
@@ -53,19 +49,19 @@ public class FileHelper {
     
     private static void unzip(String sourceZip, String destDir) throws Exception {
         try {
-            Project p = new Project();
-            Expand e = new Expand();
-            e.setProject(p);
-            e.setSrc(new File(sourceZip));
-            e.setOverwrite(false);
-            e.setDest(new File(destDir));
-            /*   
-            ant下的zip工具默认压缩编码为UTF-8编码，   
-                                而winRAR软件压缩是用的windows默认的GBK或者GB2312编码   
-                                所以解压缩时要制定编码格式   
-            */
-            e.setEncoding("UTF-8");
-            e.execute();
+            //            Project p = new Project();
+            //            Expand e = new Expand();
+            //            e.setProject(p);
+            //            e.setSrc(new File(sourceZip));
+            //            e.setOverwrite(false);
+            //            e.setDest(new File(destDir));
+            //            /*   
+            //            ant下的zip工具默认压缩编码为UTF-8编码，   
+            //                                而winRAR软件压缩是用的windows默认的GBK或者GB2312编码   
+            //                                所以解压缩时要制定编码格式   
+            //            */
+            //            e.setEncoding("UTF-8");
+            //            e.execute();
         }
         catch (Exception e) {
             e.printStackTrace();
@@ -84,74 +80,74 @@ public class FileHelper {
      * @Author      yz.teng
      */
     private static void unrar(String sourceRar, String destDir) throws Exception {
-        Archive a = null;
-        FileOutputStream fos = null;
-        try {
-            a = new Archive(new File(sourceRar));
-            FileHeader fh = a.nextFileHeader();
-            while (fh != null) {
-                if (!fh.isDirectory()) {
-                    //1 根据不同的操作系统拿到相应的 destDirName 和 destFileName    
-                    String compressFileName = "";
-                    //先判断是否有中文
-                    if (existZH(destDir)) {
-                        compressFileName = fh.getFileNameW();
-                    }
-                    else {
-                        compressFileName = fh.getFileNameString().trim();
-                    }
-                    
-                    String destFileName = "";
-                    String destDirName = "";
-                    //非windows系统     
-                    if (File.separator.equals("/")) {
-                        destFileName = destDir + compressFileName.replaceAll("\\\\", "/");
-                        destDirName = destFileName.substring(0, destFileName.lastIndexOf("/"));
-                        //windows系统      
-                    }
-                    else {
-                        destFileName = destDir + compressFileName.replaceAll("/", "\\\\");
-                        destDirName = destFileName.substring(0, destFileName.lastIndexOf("\\"));
-                    }
-                    //2创建文件夹     
-                    File dir = new File(destDirName);
-                    if (!dir.exists() || !dir.isDirectory()) {
-                        dir.mkdirs();
-                    }
-                    //3解压缩文件     
-                    fos = new FileOutputStream(new File(destFileName));
-                    a.extractFile(fh, fos);
-                    fos.close();
-                    fos = null;
-                }
-                fh = a.nextFileHeader();
-            }
-            a.close();
-            a = null;
-        }
-        catch (Exception e) {
-            throw e;
-        }
-        finally {
-            if (fos != null) {
-                try {
-                    fos.close();
-                    fos = null;
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            if (a != null) {
-                try {
-                    a.close();
-                    a = null;
-                }
-                catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
+        //        Archive a = null;
+        //        FileOutputStream fos = null;
+        //        try {
+        //            a = new Archive(new File(sourceRar));
+        //            FileHeader fh = a.nextFileHeader();
+        //            while (fh != null) {
+        //                if (!fh.isDirectory()) {
+        //                    //1 根据不同的操作系统拿到相应的 destDirName 和 destFileName    
+        //                    String compressFileName = "";
+        //                    //先判断是否有中文
+        //                    if (existZH(destDir)) {
+        //                        compressFileName = fh.getFileNameW();
+        //                    }
+        //                    else {
+        //                        compressFileName = fh.getFileNameString().trim();
+        //                    }
+        //                    
+        //                    String destFileName = "";
+        //                    String destDirName = "";
+        //                    //非windows系统     
+        //                    if (File.separator.equals("/")) {
+        //                        destFileName = destDir + compressFileName.replaceAll("\\\\", "/");
+        //                        destDirName = destFileName.substring(0, destFileName.lastIndexOf("/"));
+        //                        //windows系统      
+        //                    }
+        //                    else {
+        //                        destFileName = destDir + compressFileName.replaceAll("/", "\\\\");
+        //                        destDirName = destFileName.substring(0, destFileName.lastIndexOf("\\"));
+        //                    }
+        //                    //2创建文件夹     
+        //                    File dir = new File(destDirName);
+        //                    if (!dir.exists() || !dir.isDirectory()) {
+        //                        dir.mkdirs();
+        //                    }
+        //                    //3解压缩文件     
+        //                    fos = new FileOutputStream(new File(destFileName));
+        //                    a.extractFile(fh, fos);
+        //                    fos.close();
+        //                    fos = null;
+        //                }
+        //                fh = a.nextFileHeader();
+        //            }
+        //            a.close();
+        //            a = null;
+        //        }
+        //        catch (Exception e) {
+        //            throw e;
+        //        }
+        //        finally {
+        //            if (fos != null) {
+        //                try {
+        //                    fos.close();
+        //                    fos = null;
+        //                }
+        //                catch (Exception e) {
+        //                    e.printStackTrace();
+        //                }
+        //            }
+        //            if (a != null) {
+        //                try {
+        //                    a.close();
+        //                    a = null;
+        //                }
+        //                catch (Exception e) {
+        //                    e.printStackTrace();
+        //                }
+        //            }
+        //        }
     }
     
     public static boolean existZH(String str) {
@@ -429,7 +425,7 @@ public class FileHelper {
                 try {
                     zipOut.putNextEntry(new ZipEntry(fileName)); // 设置ZipEntry对象
                     // 支持中文  
-                    zipOut.setEncoding("GBK");
+                    //                    zipOut.setEncoding("GBK");
                     //将文件写入到压缩文件中
                     writeFile(file, zipOut);
                 }

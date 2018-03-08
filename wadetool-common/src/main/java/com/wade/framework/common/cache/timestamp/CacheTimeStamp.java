@@ -4,13 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.beetl.sql.core.SQLManager;
 
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
-import com.wade.framework.spring.SpringContextsUtil;
 
 /**
  * 专用于前台缓存的时间戳控制 缓存的时间戳配置在TD_B_COMMPARA表中 PARA_CODE为时间戳的KEY 通过getInstance(key) 可以获取一个缓存时间戳控制类的实例 PARA_CODE1为刷新时间戳的频率
@@ -30,8 +28,8 @@ public class CacheTimeStamp {
     
     private List<ICacheClearInvoker> clearInvokers = new ArrayList<ICacheClearInvoker>();
     
-    //查询数据库
-    private static SQLManager getService = null;
+    //    //查询数据库
+    //    private static SQLManager getService = null;
     
     private CacheTimeStamp(String timestampKey) {
         this.timestampKey = timestampKey;
@@ -118,9 +116,9 @@ public class CacheTimeStamp {
         // 获得字典表时间 wt_pub_commpara 的key=CACHE_REFRESH_SWITCH;
         String getTimestamp = null;
         try {
-            if (null == getService) {
-                getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
-            }
+            //            if (null == getService) {
+            //                getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
+            //            }
             IDataList getList = null;
             // getList=getService.queryList(new SQLReady(
             //"select t.PARA_CODE1 TIMESTAMP_CODE from RP_PUB_COMMPARA t where t.param_code='RP_CACHE_REFRESH_SWITCH'"));

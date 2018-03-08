@@ -3,7 +3,6 @@ package com.wade.framework.common.cache.param;
 import java.util.Arrays;
 
 import org.apache.log4j.Logger;
-import org.beetl.sql.core.SQLManager;
 
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
 import com.wade.framework.common.util.StringHelper;
@@ -13,13 +12,12 @@ import com.wade.framework.data.impl.DataArrayList;
 import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
-import com.wade.framework.spring.SpringContextsUtil;
 
 public class OrclTableParamDataProvider implements IParamDataProvider {
     private static final transient Logger log = Logger.getLogger(OrclTableParamDataProvider.class);
     
-    //查询数据库
-    private static SQLManager getService = null;
+    //    //查询数据库
+    //    private static SQLManager getService = null;
     
     @Override
     public IDataList getAllData(ParamConfigItem conf) throws Exception {
@@ -61,9 +59,9 @@ public class OrclTableParamDataProvider implements IParamDataProvider {
     }
     
     public IDataList getList(IDataMap param) throws Exception {
-        if (null == getService) {
-            getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
-        }
+        //        if (null == getService) {
+        //            getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
+        //        }
         log.info("=====getList=======param=:" + param);
         // 表名
         String tableName = param.getString("tableName");

@@ -12,7 +12,6 @@
 	<url>https://wade.com</url>
 
 	<modules>
-		<module>wadetool-all</module>
 		<module>wadetool-cache</module>
 		<module>wadetool-data</module>
 		<module>wadetool-log</module>
@@ -28,7 +27,6 @@
 	<properties>
 		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-
 		<!-- versions -->
 	 
 	</properties>
@@ -40,11 +38,11 @@
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+			<scope>provided</scope>
 		</dependency>
 		
 		</dependencies>
 	</dependencyManagement>
- 
  
 
 	<build>
@@ -68,19 +66,19 @@
 			</plugin>
 			
 			<!-- Source -->
-					<plugin>
-						<groupId>org.apache.maven.plugins</groupId>
-						<artifactId>maven-source-plugin</artifactId>
-						<version>3.0.1</version>
-						<executions>
-							<execution>
-								<phase>package</phase>
-								<goals>
-									<goal>jar-no-fork</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>jar-no-fork</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -90,14 +88,13 @@
         <repository>
             <id>nexus-releases</id>
             <name>Nexus Release Repository</name>
-            <url>http://220.168.18.94:8081/nexus/content/repositories/releases/</url>
+            <url>http://192.168.1.198:8081/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
 		    <id>snapshots</id>
 		    <name>Nexus Snapshot Repository</name>
-		    <url>http://220.168.18.94:8081/nexus/content/repositories/snapshots/</url>
+		    <url>http://192.168.1.198:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
     </distributionManagement>
 	 
-
 </project>

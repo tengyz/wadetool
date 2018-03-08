@@ -3,8 +3,6 @@ package com.wade.framework.common.cache;
 import java.util.Arrays;
 
 import org.apache.log4j.Logger;
-import org.beetl.sql.core.SQLManager;
-import org.beetl.sql.core.SQLReady;
 
 import com.wade.framework.cache.localcache.AbstractReadOnlyCache;
 import com.wade.framework.common.cache.timestamp.CacheTimeStamp;
@@ -15,15 +13,14 @@ import com.wade.framework.data.impl.DataArrayList;
 import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
-import com.wade.framework.spring.SpringContextsUtil;
 
 public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
     protected Logger log = Logger.getLogger(this.getClass());
     
     protected CacheTimeStamp timestamp = null;
     
-    //查询数据库
-    private static SQLManager getService = null;
+    //    //查询数据库
+    //    private static SQLManager getService = null;
     
     @Override
     public void refresh() throws Exception {
@@ -72,9 +69,9 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
     }
     
     public IDataList getList(IDataMap param) throws Exception {
-        if (null == getService) {
-            getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
-        }
+        //        if (null == getService) {
+        //            getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
+        //        }
         log.info("=BaseReadOnlyCache====getList=======param=:" + param);
         // 表名
         String tableName = param.getString("tableName");
@@ -129,11 +126,11 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
         // 判断查询哪个系统的数据库，调用相应系统的服务查询数据
         if (StringHelper.isNonBlank(dataSrc) && "REPORT_PARAM".equals(dataSrc)) {
             // REPORT_PARAM接口
-            ds = getService.queryList(new SQLReady(sql.toString()));
+            //            ds = getService.queryList(new SQLReady(sql.toString()));
         }
         else {
             // 默认走其他查询
-            ds = getService.queryList(new SQLReady(sql.toString()));
+            //            ds = getService.queryList(new SQLReady(sql.toString()));
         }
         
         log.info("=BaseReadOnlyCache====getList====查询结果===ds=:" + ds);

@@ -12,13 +12,14 @@
 
 	<artifactId>wadetool-crypto</artifactId>
 	<name>${project.artifactId}</name>
-	<description>wadetool 缓存</description>
+	<description>wadetool cro</description>
 	
 	<dependencies>
 	    <dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.17</version>
+			<scope>provided</scope>
 		</dependency>
  
 		 
@@ -31,12 +32,12 @@
         <repository>
             <id>nexus-releases</id>
             <name>Nexus Release Repository</name>
-            <url>http://220.168.18.94:8081/nexus/content/repositories/releases/</url>
+            <url>http://192.168.1.198:8081/nexus/content/repositories/releases/</url>
         </repository>
         <snapshotRepository>
 		    <id>snapshots</id>
 		    <name>Nexus Snapshot Repository</name>
-		    <url>http://220.168.18.94:8081/nexus/content/repositories/snapshots/</url>
+		    <url>http://192.168.1.198:8081/nexus/content/repositories/snapshots/</url>
 		</snapshotRepository>
     </distributionManagement>
 </project>

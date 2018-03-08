@@ -81,11 +81,12 @@ public final class HttpHelper {
             }
         }
         log.info("======rest调用接口=====返回结果==rtnJson" + rtnJson);
+        System.out.println("======rest调用接口=====返回结果==rtnJson=:" + rtnJson);
         return rtnJson;
     }
     
     public static void main(String[] args) throws Exception {
-        requestService("http://192.168.251.213:8080/providerService1/getName2", "");
+        requestService("http://localhost:8888/microservice/common/getSysDateByDB", "");
     }
     
 }

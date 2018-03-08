@@ -684,7 +684,7 @@ public final class TimeHelper {
             return new Timestamp(sdf.parse(timeStr).getTime());
         }
         catch (Exception e) {
-            throw new Exception("timeutil-10001", e);
+            throw new Exception("encodeTimestamp时间工具异常！！！", e);
         }
     }
     

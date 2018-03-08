@@ -1015,18 +1015,14 @@ public class StringHelper {
         //        paraMap.put("QF", "100");
         //        String aString = templageContentReplace("您查询的余额为$YYYY$,欠费$QF$", paraMap);
         //        System.out.println(aString);
-<<<<<<< HEAD
-//        IDataMap newItem = new DataHashMap();
-//        newItem.put("NAME1", "123");
-//        newItem.put("NAME2", "123");
-//        System.out.println(verifyData(newItem, "NAME"));
-    	 System.out.println(camelize("SPECIAL_SELF_NUMBER"));
-    	
-=======
+        //        IDataMap newItem = new DataHashMap();
+        //        newItem.put("NAME1", "123");
+        //        newItem.put("NAME2", "123");
+        //        System.out.println(verifyData(newItem, "NAME"));
+        System.out.println(camelize("SPECIAL_SELF_NUMBER"));
         IDataMap newItem = new DataHashMap();
         newItem.put("NAME1", "123");
         newItem.put("NAME2", "123");
         System.out.println(verifyData(newItem, "NAME"));
->>>>>>> 41ca4888fb3ba4148f97ff65ba476ff3560724de
     }
 }

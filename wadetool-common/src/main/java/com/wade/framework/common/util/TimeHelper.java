@@ -164,6 +164,34 @@ public final class TimeHelper {
         return format(parse(time), format);
     }
     
+    /**
+     * 两个时间差（秒单位）
+     * @param dateStr1 年月日 时分秒
+     * @param dateStr2
+     * @return
+     * @throws Exception
+     * @Date        2019年2月26日 下午9:19:01 
+     * @Author      yz.teng
+     */
+    public static final int secondBetween(String dateStr1, String dateStr2) throws Exception {
+        Date d1 = TimeHelper.parse(dateStr1);
+        Date d2 = TimeHelper.parse(dateStr2);
+        return secondBetween(d1, d2);
+    }
+    
+    public static final int secondBetween(Date date1, Date date2) throws Exception {
+        return (int)TimeHelper.compareDate(date1, date2, Calendar.SECOND);
+    }
+    
+    /**
+     * 时间差（天）
+     * @param dateStr1
+     * @param dateStr2
+     * @return
+     * @throws Exception
+     * @Date        2019年2月26日 下午9:19:36 
+     * @Author      yz.teng
+     */
     public static final int daysBetween(String dateStr1, String dateStr2) throws Exception {
         Date d1 = parse(dateStr1);
         Date d2 = parse(dateStr2);
@@ -181,17 +209,14 @@ public final class TimeHelper {
     public static long compareDate(Date date1, Date date2, int field) throws Exception {
         Calendar c1 = Calendar.getInstance();
         c1.setTime(date1);
-        
         Calendar c2 = Calendar.getInstance();
         c2.setTime(date2);
-        
         return compareCalendar(c1, c2, field);
     }
     
     public static long compareCalendar(Calendar c1, Calendar c2, int field) throws Exception {
         long t1 = c1.getTimeInMillis();
         long t2 = c2.getTimeInMillis();
-        
         switch (field) {
             case Calendar.SECOND:
                 return t1 / 1000 - t2 / 1000;
@@ -470,11 +495,9 @@ public final class TimeHelper {
      */
     private static final String getTheDateOfMonth(String dateStr, int day) {
         int yyyy = Integer.parseInt(dateStr.substring(0, 4));
-        
         boolean hasSep = dateStr.indexOf('-') > 0;
         int mmIndex = hasSep ? 5 : 4;
         int mm = Integer.parseInt(dateStr.substring(mmIndex, mmIndex + 2));
-        
         int maxDay = getLastDay(yyyy * 100 + mm);
         if (day > maxDay)
             day = maxDay;
@@ -636,18 +659,15 @@ public final class TimeHelper {
     
     public static int getMonthSpace(Timestamp date1, Timestamp date2) throws Exception {
         int result = 0;
-        
         Calendar c1 = Calendar.getInstance();
         Calendar c2 = Calendar.getInstance();
         c1.setTime(date1);
         c2.setTime(date2);
-        
         if (c1.get(1) == c2.get(1))
             result = c2.get(2) - c1.get(2);
         else {
             result = 12 * (c2.get(1) - c1.get(1)) + c2.get(2) - c1.get(2);
         }
-        
         return result == 0 ? 0 : Math.abs(result);
     }
     
@@ -674,11 +694,9 @@ public final class TimeHelper {
         if (StringHelper.isEmpty(timeStr)) {
             return null;
         }
-        
         if (format.length() != timeStr.length()) {
             format = getTimestampFormat(timeStr);
         }
-        
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         try {
             return new Timestamp(sdf.parse(timeStr).getTime());

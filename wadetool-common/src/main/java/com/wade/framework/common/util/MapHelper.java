@@ -12,6 +12,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
@@ -23,6 +25,8 @@ import com.wade.framework.exceptions.Thrower;
  * 
  */
 public class MapHelper {
+    private static final Logger log = LogManager.getLogger(MapHelper.class);
+    
     public static boolean isEmpty(Map<?, ?> map, Object key) {
         if (map == null)
             return true;
@@ -216,6 +220,7 @@ public class MapHelper {
             BeanUtils.populate(obj, map);
         }
         catch (Exception e) {
+            log.error("map2Bean2异常:", e);
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "transMap2Bean2 Error", e);
         }
     }
@@ -241,16 +246,14 @@ public class MapHelper {
                     Method setter = property.getWriteMethod();
                     setter.invoke(obj, value);
                 }
-                
             }
-            
         }
         catch (Exception e) {
+            log.error("map2Bean异常:", e);
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "transMap2Bean Error", e);
         }
         
         return;
-        
     }
     
     /**
@@ -260,7 +263,6 @@ public class MapHelper {
      * @return
      */
     public static Map<String, Object> bean2Map(Object obj) {
-        
         if (obj == null) {
             return null;
         }
@@ -276,17 +278,15 @@ public class MapHelper {
                     // 得到property对应的getter方法
                     Method getter = property.getReadMethod();
                     Object value = getter.invoke(obj);
-                    
                     map.put(key, value);
                 }
             }
         }
         catch (Exception e) {
+            log.error("bean2Map异常:", e);
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "transBean2Map Error", e);
         }
-        
         return map;
-        
     }
     
     public static boolean isEmpty(Map map) {
@@ -305,7 +305,6 @@ public class MapHelper {
         String prefix = group + "_";
         for (Iterator i$ = map.keySet().iterator(); i$.hasNext();) {
             Object key = i$.next();
-            
             String name = key.toString();
             if (name.startsWith(prefix)) {
                 element.put(istrim ? name.substring(prefix.length()) : name, map.get(name));

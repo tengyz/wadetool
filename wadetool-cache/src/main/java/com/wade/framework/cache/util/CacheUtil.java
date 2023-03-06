@@ -5,7 +5,8 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 本地缓存工具类
@@ -16,7 +17,7 @@ import org.apache.log4j.Logger;
  * @Author yz.teng
  */
 public class CacheUtil {
-    private static transient Logger log = Logger.getLogger(CacheUtil.class);
+    private static final Logger log = LogManager.getLogger(CacheUtil.class);
     
     public static final int objectSize(Object obj) {
         int size = 0;
@@ -30,21 +31,21 @@ public class CacheUtil {
             size = bytes.length;
         }
         catch (IOException e) {
-            log.error("计算对象所占内存大小发生错误！");
+            log.error("计算对象所占内存大小发生错误！", e);
         }
         finally {
             try {
                 oos.close();
             }
             catch (IOException e) {
-                log.error("关闭ObjectOutputStream时发生错误！");
+                log.error("关闭ObjectOutputStream时发生错误！", e);
             }
         }
         return size;
     }
     
     public static <V> V get(ICache cache, String cacheKey, ICacheSourceProvider<V> provider) throws Exception {
-        return get(cache, cacheKey, -1, provider);// 缓存一天时间
+        return get(cache, cacheKey, 0, provider);// 缓存一天时间
     }
     
     public static <V> V get(ICache cache, String cacheKey, int secTTL, ICacheSourceProvider<V> provider) throws Exception {

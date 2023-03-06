@@ -1,6 +1,7 @@
 package com.wade.framework.cache.localcache;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.quartz.Job;
 import org.quartz.JobDataMap;
 import org.quartz.JobExecutionContext;
@@ -17,7 +18,7 @@ import com.wade.framework.cache.localcache.interfaces.IReadWriteCache;
  * @Author      yizu.teng
  */
 public class CacheAutoRefreshJob implements Job {
-    private static final transient Logger log = Logger.getLogger(CacheAutoRefreshJob.class);
+    private static final Logger log = LogManager.getLogger(CacheAutoRefreshJob.class);
     
     public static final String CACHE_NAME = "CACHE_NAME";
     
@@ -42,14 +43,13 @@ public class CacheAutoRefreshJob implements Job {
                 }
             }
             catch (Exception e) {
-                log.error("本地只读缓存自动刷新失败! " + clazz.getName() + e);
+                log.error("本地只读缓存自动刷新失败! " + clazz.getName() + ",:", e);
             }
         }
         else if (READWRITE_CACHE.equals(cacheType)) {
             String cachename = map.getString(CACHE_NAME);
             IReadWriteCache cache = CacheFactory.getReadWriteCache(cachename);
             cache.refresh();
-            
             log.info("本地读写缓存自动刷新成功! " + cachename);
         }
     }

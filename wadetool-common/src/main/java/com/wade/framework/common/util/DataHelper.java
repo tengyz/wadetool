@@ -13,7 +13,8 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.util.CacheUtil;
 import com.wade.framework.cache.util.ICacheSourceProvider;
@@ -36,7 +37,7 @@ import com.wade.framework.exceptions.Thrower;
  * @Author yz.teng
  */
 public class DataHelper {
-    public static final Logger log = Logger.getLogger(DataHelper.class);
+    private static final Logger log = LogManager.getLogger(DataHelper.class);
     
     /**
      * 逗号","
@@ -471,6 +472,10 @@ public class DataHelper {
     }
     
     public static String join(String... valueArr) {
+        return StringUtils.join(valueArr, STR_SEPARATOR);
+    }
+    
+    public static String join(Object[] valueArr) {
         return StringUtils.join(valueArr, STR_SEPARATOR);
     }
     
@@ -1440,7 +1445,7 @@ public class DataHelper {
             return ret;
         }
         catch (Exception e) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "数据分页时发生错误！" + e.getMessage());
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "数据分页时发生错误！", e);
             return null;
         }
     }

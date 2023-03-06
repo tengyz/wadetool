@@ -9,7 +9,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.common.util.base.BaseStringHelper;
 import com.wade.framework.data.IDataMap;
@@ -26,7 +27,7 @@ import com.wade.framework.exceptions.Thrower;
  * @Author tengyizu
  */
 public class StringHelper {
-    private transient static Logger log = Logger.getLogger(StringHelper.class);
+    private static final Logger log = LogManager.getLogger(StringHelper.class);
     
     private static final String[] EMPTY_ARRAY = new String[0];
     
@@ -67,9 +68,7 @@ public class StringHelper {
         if (startIndex >= endIndex) {
             return "";
         }
-        
         StringBuilder sb = new StringBuilder();
-        
         for (int i = startIndex; i < endIndex; i++) {
             if (i > startIndex)
                 sb.append(separator);
@@ -91,7 +90,6 @@ public class StringHelper {
             return split(str, sep.charAt(0), needBlank);
         }
         List list = new ArrayList();
-        
         int idx = -1;
         int lastIdx = 0;
         int sepLen = sep.length();
@@ -115,7 +113,6 @@ public class StringHelper {
             return EMPTY_ARRAY;
         }
         List list = new ArrayList();
-        
         int lastIdx = 0;
         for (int i = 0; i < len; i++) {
             char c = str.charAt(i);
@@ -166,10 +163,8 @@ public class StringHelper {
                 for (int i = repeat * 2 - 2; i >= 0; i--) {
                     output2[i] = ch0;
                     output2[(i + 1)] = ch1;
-                    
                     i--;
                 }
-                
                 return new String(output2);
         }
         StringBuilder buf = new StringBuilder(outputLength);
@@ -254,18 +249,15 @@ public class StringHelper {
         if (str == null) {
             return null;
         }
-        
         if (start < 0) {
             start = str.length() + start;
         }
-        
         if (start < 0) {
             start = 0;
         }
         if (start > str.length()) {
             return "";
         }
-        
         return str.substring(start);
     }
     
@@ -273,29 +265,24 @@ public class StringHelper {
         if (str == null) {
             return null;
         }
-        
         if (end < 0) {
             end = str.length() + end;
         }
         if (start < 0) {
             start = str.length() + start;
         }
-        
         if (end > str.length()) {
             end = str.length();
         }
-        
         if (start > end) {
             return "";
         }
-        
         if (start < 0) {
             start = 0;
         }
         if (end < 0) {
             end = 0;
         }
-        
         return str.substring(start, end);
     }
     
@@ -309,7 +296,6 @@ public class StringHelper {
             return srcStr;
         }
         char[] cs = srcStr.toCharArray();
-        
         int c = 0;
         int endPos = -1;
         for (int i = 0; i < cs.length; i++) {
@@ -329,7 +315,6 @@ public class StringHelper {
         if (endPos == -1) {
             return srcStr;
         }
-        
         return new String(cs, 0, endPos);
     }
     
@@ -344,6 +329,27 @@ public class StringHelper {
     }
     
     /**
+     * get partition id
+     * @param id
+     * @return String
+     * @throws Exception
+     */
+    //    public String getPartitionId(String id) throws Exception {
+    //        return getPartitionId(id, 4);
+    //    }
+    
+    /**
+     * get partition id
+     * @param id
+     * @param length
+     * @return String
+     * @throws Exception
+     */
+    public String getPartitionId(String id, int length) throws Exception {
+        return String.valueOf(Long.parseLong(id) % (int)Math.pow(10, length));
+    }
+    
+    /**
      * 将标识采用Camel标记法. 首字母小写,后面每个单词大写字母开头 CHARGE_ID ==> chargeId
      * 
      * @param source 字符串
@@ -351,14 +357,10 @@ public class StringHelper {
      * @author
      */
     public static String camelize(String source) {
-        
         String the = source.toLowerCase();
-        
         StringBuffer result = new StringBuffer();
-        
         String[] theArray = the.split("_");
         result.append(theArray[0]);
-        
         for (int i = 1; i < theArray.length; i++) {
             result.append(Character.toUpperCase(theArray[i].charAt(0)) + theArray[i].substring(1));
         }
@@ -375,7 +377,6 @@ public class StringHelper {
      * @return String
      */
     public static String strncpy(String dest, String src, int len) {
-        
         String tmp = null;
         if (src.length() <= len) {
             dest = src;
@@ -544,6 +545,28 @@ public class StringHelper {
     }
     
     /**
+     * 检查字符串中是否包含指定的字符。如果字符串为<code>null</code>，将返回<code>false</code>。
+     * <pre>
+     * StringUtil.contains(null, *)    = false
+     * StringUtil.contains("", *)      = false
+     * StringUtil.contains("abc", 'a') = true
+     * StringUtil.contains("abc", 'z') = false
+     * </pre>
+     *
+     * @param str 要扫描的字符串
+     * @param searchChar 要查找的字符
+     *
+     * @return 如果找到，则返回<code>true</code>
+     */
+    public static boolean contains(String str, char searchChar) {
+        if ((str == null) || (str.length() == 0)) {
+            return false;
+        }
+        
+        return str.indexOf(searchChar) >= 0;
+    }
+    
+    /**
      * 检查字符串中是否含有对应key的键值对
      * 
      * @param arr
@@ -568,6 +591,35 @@ public class StringHelper {
     }
     
     /**
+     * 检查字符串是否是空白：<code>null</code>、空字符串<code>""</code>或只有空白字符。
+     * <pre>
+     * StringUtil.isBlank(null)      = true
+     * StringUtil.isBlank("")        = true
+     * StringUtil.isBlank(" ")       = true
+     * StringUtil.isBlank("bob")     = false
+     * StringUtil.isBlank("  bob  ") = false
+     * </pre>
+     *
+     * @param str 要检查的字符串
+     *
+     * @return 如果为空白, 则返回<code>true</code>
+     */
+    public static boolean isBlank2(String str) {
+        int length;
+        
+        if ((str == null) || ((length = str.length()) == 0)) {
+            return true;
+        }
+        
+        for (int i = 0; i < length; i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return false;
+            }
+        }
+        return true;
+    }
+    
+    /**
      * 判断value是否为空
      * 
      * @param value
@@ -575,6 +627,49 @@ public class StringHelper {
      */
     public static boolean isNonBlank(String value) {
         return !isBlank(value);
+    }
+    
+    /**
+     * 检查字符串是否不是空白：<code>null</code>、空字符串<code>""</code>或只有空白字符。
+     * <pre>
+     * StringUtil.isBlank(null)      = false
+     * StringUtil.isBlank("")        = false
+     * StringUtil.isBlank(" ")       = false
+     * StringUtil.isBlank("bob")     = true
+     * StringUtil.isBlank("  bob  ") = true
+     * </pre>
+     *
+     * @param str 要检查的字符串
+     *
+     * @return 如果为空白, 则返回<code>true</code>
+     */
+    public static boolean isNotBlank(String str) {
+        int length;
+        
+        if ((str == null) || ((length = str.length()) == 0)) {
+            return false;
+        }
+        
+        for (int i = 0; i < length; i++) {
+            if (!Character.isWhitespace(str.charAt(i))) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    /**
+     * 过滤字符串为空的问题
+     * 
+     * @param value
+     * @return
+     */
+    public static String checkIsNull(String value) {
+        if (value == null || value.length() == 0 || value.equals("null")) {
+            return "";
+        }
+        return value;
     }
     
     /**
@@ -1001,6 +1096,51 @@ public class StringHelper {
             e.printStackTrace();
         }
         return result;
+    }
+    
+    /**
+     * 比较两个字符串（大小写不敏感）。
+     * <pre>
+     * StringUtil.equalsIgnoreCase(null, null)   = true
+     * StringUtil.equalsIgnoreCase(null, "abc")  = false
+     * StringUtil.equalsIgnoreCase("abc", null)  = false
+     * StringUtil.equalsIgnoreCase("abc", "abc") = true
+     * StringUtil.equalsIgnoreCase("abc", "ABC") = true
+     * </pre>
+     *
+     * @param str1 要比较的字符串1
+     * @param str2 要比较的字符串2
+     *
+     * @return 如果两个字符串相同，或者都是<code>null</code>，则返回<code>true</code>
+     */
+    public static boolean equalsIgnoreCase(String str1, String str2) {
+        if (str1 == null) {
+            return str2 == null;
+        }
+        return str1.equalsIgnoreCase(str2);
+    }
+    
+    public static String createPrimaryKeySeq() {
+        String currentTimeMillisStr = new Long(System.currentTimeMillis()).toString();
+        return currentTimeMillisStr + genRandStr(25);
+    }
+    
+    /**
+     * 根据长度生成随机字符串
+     * @param len
+     * @return
+     */
+    public static String genRandStr(int len) {
+        String rand = "";
+        int readomWordIndex = 0;
+        String[] readomWord = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n",
+                "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O",
+                "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
+        for (int i = 0; i < len; i++) {
+            readomWordIndex = (int)(Math.random() * 52);
+            rand += readomWord[readomWordIndex];
+        }
+        return rand;
     }
     
     /**

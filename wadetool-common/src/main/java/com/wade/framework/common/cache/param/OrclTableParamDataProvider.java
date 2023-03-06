@@ -1,10 +1,11 @@
 package com.wade.framework.common.cache.param;
 
-import java.util.Arrays;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-import org.apache.log4j.Logger;
-
+import com.wade.framework.common.cache.CacheConfig;
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
+import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
@@ -14,10 +15,7 @@ import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 public class OrclTableParamDataProvider implements IParamDataProvider {
-    private static final transient Logger log = Logger.getLogger(OrclTableParamDataProvider.class);
-    
-    //    //查询数据库
-    //    private static SQLManager getService = null;
+    private static final Logger log = LogManager.getLogger(OrclTableParamDataProvider.class);
     
     @Override
     public IDataList getAllData(ParamConfigItem conf) throws Exception {
@@ -27,13 +25,7 @@ public class OrclTableParamDataProvider implements IParamDataProvider {
         data.put("sortKeys", conf.getSortKeys());
         data.put("dataSrc", conf.getDataSrc());
         data.put("tableState", conf.getTableState());
-        if (log.isDebugEnabled()) {
-            log.debug("===查询数据库==OrclTableParamDataProvider===getAllData,data=:" + data);
-        }
         IDataList list = getList(data);
-        if (log.isDebugEnabled()) {
-            log.debug("===查询数据库==OrclTableParamDataProvider===getAllData,list=:" + list);
-        }
         return list;
     }
     
@@ -47,26 +39,16 @@ public class OrclTableParamDataProvider implements IParamDataProvider {
         data.put("sortKeys", conf.getSortKeys());
         data.put("dataSrc", conf.getDataSrc());
         data.put("tableState", conf.getTableState());
-        if (log.isDebugEnabled()) {
-            log.debug("===查询数据库==OrclTableParamDataProvider===getSelectData,data=:" + data);
-        }
-        
         IDataList list = getList(data);
-        if (log.isDebugEnabled()) {
-            log.debug("===查询数据库==OrclTableParamDataProvider===getSelectData,list=:" + list);
-        }
         return list;
     }
     
     public IDataList getList(IDataMap param) throws Exception {
-        //        if (null == getService) {
-        //            getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
-        //        }
-        log.info("=====getList=======param=:" + param);
         // 表名
         String tableName = param.getString("tableName");
         // 查询字段
         String selColumns = param.getString("selColumns");
+        //查询的列
         String[] condColumns = (String[])param.get("condColumns");
         // 查询值
         String[] condValues = (String[])param.get("condValues");
@@ -96,7 +78,7 @@ public class OrclTableParamDataProvider implements IParamDataProvider {
                     sqlAConds.append(" like  ").append(condValue).append(" ");
                 }
                 else {
-                    sqlAConds.append(" = ").append(condValue).append(" ");
+                    sqlAConds.append(" = ").append("'").append(condValue).append("' ");
                 }
                 i++;
             }
@@ -110,20 +92,20 @@ public class OrclTableParamDataProvider implements IParamDataProvider {
         if (StringHelper.isNonBlank(sortKeys)) {
             sql.append(" order by ").append(sortKeys);
         }
-        log.info("condValues=:" + Arrays.toString(condValues));
-        log.info("缓存查询数据库getList=sql=:" + sql);
-        
         // 判断查询哪个系统的数据库，调用相应系统的服务查询数据
-        if (StringHelper.isNonBlank(dataSrc) && "REPORT_PARAM".equals(dataSrc)) {
-            // REPORT_PARAM接口
-            //            ds = getService.queryList(new SQLReady(sql.toString()));
+        if (StringHelper.isNonBlank(dataSrc) && "USER_CENTER_PARAM".equals(dataSrc)) {
+            if (log.isDebugEnabled()) {
+                log.debug("sql=:" + sql.toString());
+            }
+            //调用微服务查询数据库
+            IDataMap inParam = new DataHashMap();
+            inParam.put("sql", sql.toString());
+            String getList = HttpHelper.requestService(CacheConfig.GATEWAY_ADDR + "/common/queryList", inParam.toString());
+            if (log.isDebugEnabled()) {
+                log.debug("查询结果getList=:" + getList);
+            }
+            ds = new DataArrayList(getList);
         }
-        else {
-            // 默认走其他查询
-            //            ds = getService.queryList(new SQLReady(sql.toString()));
-        }
-        
-        log.info("=====getList====查询结果===ds=:" + ds);
         return ds;
     }
 }

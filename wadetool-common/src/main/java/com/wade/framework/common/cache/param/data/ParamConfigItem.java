@@ -9,7 +9,7 @@ import org.dom4j.Element;
 
 import com.wade.framework.cache.util.InstanceManager;
 import com.wade.framework.common.cache.param.IParamDataProvider;
-import com.wade.framework.common.cache.param.OrclTableParamDataProvider;
+import com.wade.framework.common.cache.param.MysqlTableParamDataProvider;
 
 public class ParamConfigItem {
     
@@ -41,7 +41,7 @@ public class ParamConfigItem {
     
     public ParamConfigItem(String tableName) {
         this.tableName = tableName;
-        this.paramDataProvider = new OrclTableParamDataProvider();
+        this.paramDataProvider = new MysqlTableParamDataProvider();
     }
     
     /**
@@ -68,7 +68,7 @@ public class ParamConfigItem {
         
         String provider = node.attributeValue("dataProvider");
         if (provider == null)
-            this.paramDataProvider = new OrclTableParamDataProvider();
+            this.paramDataProvider = new MysqlTableParamDataProvider();
         else {
             this.paramDataProvider = InstanceManager.newInstance(provider, IParamDataProvider.class, null);
         }
@@ -98,10 +98,9 @@ public class ParamConfigItem {
         if (indexes != null) {
             this.indexArr = indexes.split("\\|");
         }
-        
         String provider = (String)data.get("DATA_PROVIDER");
         if (provider == null)
-            this.paramDataProvider = new OrclTableParamDataProvider();
+            this.paramDataProvider = new MysqlTableParamDataProvider();
         else
             this.paramDataProvider = ((IParamDataProvider)InstanceManager.newInstance(provider, IParamDataProvider.class, null));
     }

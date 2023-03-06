@@ -12,14 +12,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONException;
-import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.data.IDataMap;
 import com.wade.framework.data.impl.DataHashMap;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 
 /**
  * json转换工具类
@@ -29,7 +30,7 @@ import com.wade.framework.data.impl.DataHashMap;
  * @Author      tengyz
  */
 public class JsonHelper {
-    private static final Logger log = Logger.getLogger(JsonHelper.class);
+    private static final Logger log = LogManager.getLogger(JsonHelper.class);
     
     /**
      * 字符串是否非空
@@ -77,6 +78,7 @@ public class JsonHelper {
             JSONObject.fromObject(value);
         }
         catch (JSONException e) {
+            log.error("isJson转换异常:", e);
             return false;
         }
         return true;
@@ -104,7 +106,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("toJSON转换异常" + e);
+            log.error("toJSON转换异常:", e);
         }
         return obj;
     }
@@ -121,7 +123,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("toJSONStr转换异常" + e);
+            log.error("toJSONStr转换异常:", e);
         }
         
         return jsonstr;
@@ -140,7 +142,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("parseToObject转换异常" + e);
+            log.error("parseToObject转换异常:", e);
         }
         return parseObj;
     }
@@ -192,6 +194,7 @@ public class JsonHelper {
             jObj = JSONObject.fromObject(jsonString);
         }
         catch (JSONException e) {
+            log.error("toJsonObject转换异常:", e);
             jObj = new JSONObject();
         }
         return jObj;
@@ -222,7 +225,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("parseToJSONArray转换异常" + e);
+            log.error("parseToJSONArray转换异常:", e);
         }
         return parseObj;
     }
@@ -240,7 +243,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("parseToObject转换异常" + e);
+            log.error("parseToObject转换异常:", e);
         }
         return parseObj;
     }
@@ -444,6 +447,7 @@ public class JsonHelper {
                 return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(s);
             }
             catch (java.text.ParseException e) {
+                log.error("getDateFromJSON转换异常:", e);
                 e.printStackTrace();
             }
         }

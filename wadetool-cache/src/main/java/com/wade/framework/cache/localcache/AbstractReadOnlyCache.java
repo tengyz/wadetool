@@ -5,7 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.interfaces.IReadOnlyCache;
 
@@ -17,7 +18,7 @@ import com.wade.framework.cache.localcache.interfaces.IReadOnlyCache;
  * @Author      yz.teng
  */
 public abstract class AbstractReadOnlyCache implements IReadOnlyCache {
-    private static final Logger LOG = Logger.getLogger(AbstractReadOnlyCache.class);
+    private static final Logger log = LogManager.getLogger(AbstractReadOnlyCache.class);
     
     private Map<String, Object> cache;
     
@@ -42,7 +43,7 @@ public abstract class AbstractReadOnlyCache implements IReadOnlyCache {
     }
     
     public synchronized void refresh() throws Exception {
-        LOG.info("只读缓存刷新! className:" + getClassName() + "=======start");
+        log.info("只读缓存刷新! className:" + getClassName() + "=======start");
         Map newCache = loadData();
         Map oldCache = this.cache;
         this.cache = newCache;
@@ -51,7 +52,7 @@ public abstract class AbstractReadOnlyCache implements IReadOnlyCache {
             oldCache.clear();
             oldCache = null;
         }
-        LOG.info("只读缓存刷新! className:" + getClassName() + "=======end");
+        log.info("只读缓存刷新! className:" + getClassName() + "=======end");
     }
     
     public Object get(String key) {

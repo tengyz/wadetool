@@ -1,26 +1,24 @@
 package com.wade.framework.common.cache;
 
-import java.util.Arrays;
-
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.AbstractReadOnlyCache;
 import com.wade.framework.common.cache.timestamp.CacheTimeStamp;
+import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
 import com.wade.framework.data.impl.DataArrayList;
 import com.wade.framework.data.impl.DataHashMap;
+import com.wade.framework.db.util.DbUtil;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
-    protected Logger log = Logger.getLogger(this.getClass());
+    private final static Logger log = LogManager.getLogger(BaseReadOnlyCache.class);
     
     protected CacheTimeStamp timestamp = null;
-    
-    //    //查询数据库
-    //    private static SQLManager getService = null;
     
     @Override
     public void refresh() throws Exception {
@@ -31,13 +29,12 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
                 if (this.timestamp == null) {
                     super.refresh();
                     this.timestamp = CacheTimeStamp.getInstance(getTimestampCode());
-                    
                 }
                 else if (this.timestamp.needReFreshCache()) {
-                    log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache()=:" + this.timestamp.needReFreshCache());
+                    log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache() start=:" + this.timestamp.needReFreshCache());
                     super.refresh();
+                    log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache() end=:" + this.timestamp.needReFreshCache());
                 }
-                
             }
         }
         catch (Exception e) {
@@ -69,10 +66,6 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
     }
     
     public IDataList getList(IDataMap param) throws Exception {
-        //        if (null == getService) {
-        //            getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
-        //        }
-        log.info("=BaseReadOnlyCache====getList=======param=:" + param);
         // 表名
         String tableName = param.getString("tableName");
         // 查询字段
@@ -89,7 +82,8 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
         
         IDataList ds = new DataArrayList();
         if (StringHelper.isBlank(tableName)) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "tableName不能为空");
+            log.error("tableName不能为空!" + tableName);
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "tableName不能为空!" + tableName);
             return ds;
         }
         if (selColumns == null)
@@ -120,20 +114,28 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
         if (StringHelper.isNonBlank(sortKeys)) {
             sql.append(" order by ").append(sortKeys);
         }
-        log.info("condValues=:" + Arrays.toString(condValues));
-        log.info("BaseReadOnlyCache缓存查询数据库getList=sql=:" + sql);
-        
-        // 判断查询哪个系统的数据库，调用相应系统的服务查询数据
-        if (StringHelper.isNonBlank(dataSrc) && "REPORT_PARAM".equals(dataSrc)) {
-            // REPORT_PARAM接口
-            //            ds = getService.queryList(new SQLReady(sql.toString()));
+        //调用微服务查询数据库
+        try {
+            //调用微服务查询数据库获取序列
+            IDataMap inParam = new DataHashMap();
+            inParam.put("sql", sql.toString());
+            String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
+            String getList = HttpHelper.requestService(url, inParam.toString());
+            ds = new DataArrayList(getList);
         }
-        else {
-            // 默认走其他查询
-            //            ds = getService.queryList(new SQLReady(sql.toString()));
+        catch (Exception e) {
+            log.error("BaseReadOnlyCache调用微服务查询数据库获取序列异常！", e);
+            try {
+                //当调用微服务异常时，直接查询数据库
+                DbUtil db = new DbUtil();
+                ds = db.queryList(sql.toString());
+                log.info("BaseReadOnlyCache当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
+            }
+            catch (Exception e2) {
+                log.error("BaseReadOnlyCache直接jdbc获取数据库时间异常:", e);
+                Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "BaseReadOnlyCache直接jdbc获取数据库时间异常！！！");
+            }
         }
-        
-        log.info("=BaseReadOnlyCache====getList====查询结果===ds=:" + ds);
         return ds;
     }
     

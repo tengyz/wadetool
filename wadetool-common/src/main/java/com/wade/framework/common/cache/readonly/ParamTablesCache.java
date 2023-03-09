@@ -37,7 +37,7 @@ public class ParamTablesCache extends BaseReadOnlyCache {
         List list = new ArrayList();
         if (FROM_DB) {
             //获取缓存配置表ST_PARAM_TABLES
-            IDataList getList = (IDataList)loadTableData("UC_ST_PARAM_TABLES");
+            IDataList getList = (IDataList)loadTableData("td_m_param_tables");
             for (int i = 0; i < getList.size(); i++) {
                 Map data = (Map)getList.get(i);
                 ParamConfigItem item = new ParamConfigItem(data);

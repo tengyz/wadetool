@@ -121,18 +121,20 @@ public class CacheTimeStamp {
     }
     
     private String getTimestamp(String timestampKey) throws Exception {
-        //获得字典表时间 UC_ST_STATIC 的key=ST_CACHE_REFRESH_SWITCH;
+        //获得字典表时间 TD_M_STATIC 的key=LOCAL_CACHE_REFRESH_SWITCH;
         String getTimestamp = null;
         try {
             IDataList ds = null;
-            String sql = "select t.DATA_NAME TIMESTAMP_CODE from UC_ST_STATIC  t where t.TYPE_ID='ST_CACHE_REFRESH_SWITCH' AND  VALID_FLAG='2'";
+            String sql = "select t.DATA_NAME  from TD_M_STATIC  t where t.TYPE_ID='LOCAL_CACHE_REFRESH_SWITCH' AND  VALID_FLAG='2'";
             try {
                 //调用微服务查询数据库获取序列
                 IDataMap param = new DataHashMap();
                 param.put("sql", sql);
                 String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
                 String getList = HttpHelper.requestService(url, param.toString());
-                ds = new DataArrayList(getList);
+                IDataMap getIData = new DataHashMap(getList);
+                String getString=getIData.getString("data");
+                ds = new DataArrayList(getString);
             }
             catch (Exception e) {
                 log.error("CacheTimeStamp调用微服务查询数据库获取序列异常！", e);
@@ -148,7 +150,7 @@ public class CacheTimeStamp {
                 }
             }
             IDataMap data = ds.first();
-            getTimestamp = data.getString("TIMESTAMP_CODE");
+            getTimestamp = data.getString("DATA_NAME");
         }
         catch (Exception e) {
             log.error("getTimestamp获取开关时间异常！！！", e);

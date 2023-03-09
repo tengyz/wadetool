@@ -121,7 +121,9 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
             inParam.put("sql", sql.toString());
             String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
             String getList = HttpHelper.requestService(url, inParam.toString());
-            ds = new DataArrayList(getList);
+            IDataMap getIData = new DataHashMap(getList);
+            String getString=getIData.getString("data");
+            ds = new DataArrayList(getString);
         }
         catch (Exception e) {
             log.error("BaseReadOnlyCache调用微服务查询数据库获取序列异常！", e);

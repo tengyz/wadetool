@@ -154,7 +154,7 @@ public class ParamMgr {
         }
         String version = (String)cacheTables.get(tableName);
         if (null == version) {
-            log.warn(tableName, "在UC_ST_CACHE_TABLES中未定义!");
+            log.error(tableName, "在TD_M_CACHE_TABLES表中未定义!");
             version = "0";
         }
         return version;

@@ -119,17 +119,17 @@
     </repositories>
 	
  <!-- 配置远程发布到私服，mvn deploy -->
-   <distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Nexus Release Repository</name>
-            <url>http://111.111.111.111/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-		    <id>snapshots</id>
-		    <name>Nexus Snapshot Repository</name>
-		    <url>http://111.111.111.111/nexus/content/repositories/snapshots/</url>
+	<distributionManagement>
+		<repository>
+			<id>maven-releases</id>
+			<name>maven-releases</name>
+			<url>http://182.43.37.215:8081/nexus/repository/maven-releases/</url>
+		</repository>
+		<snapshotRepository>
+			<id>maven-snapshots</id>
+			<name>maven-snapshots</name>
+			<url>http://182.43.37.215:8081/nexus/repository/maven-snapshots/</url>
 		</snapshotRepository>
-    </distributionManagement>
+	</distributionManagement>
 	 
 </project>

@@ -28,7 +28,7 @@ public class UacCacheTablesCache extends AbstractReadOnlyCache {
     
     public Map<String, Object> loadData() throws Exception {
         Map rtn = new HashMap();
-        String sql = "SELECT TABLE_NAME, date_format(VERSION,'%Y-%c-%d %H:%i:%s') VERSION FROM UC_ST_CACHE_TABLES WHERE STATE =1 ";
+        String sql = "SELECT TABLE_NAME, date_format(VERSION,'%Y-%c-%d %H:%i:%s') VERSION FROM TD_M_CACHE_TABLES WHERE STATE =1 ";
         IDataList ds = null;
         try {
             //调用微服务查询数据库获取序列
@@ -36,7 +36,9 @@ public class UacCacheTablesCache extends AbstractReadOnlyCache {
             inParam.put("sql", sql);
             String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
             String getList = HttpHelper.requestService(url, inParam.toString());
-            ds = new DataArrayList(getList);
+            IDataMap getIData = new DataHashMap(getList);
+            String getString=getIData.getString("data");
+            ds = new DataArrayList(getString);
         }
         catch (Exception e) {
             log.error("UacCacheTablesCache调用微服务查询数据库获取序列异常！", e);

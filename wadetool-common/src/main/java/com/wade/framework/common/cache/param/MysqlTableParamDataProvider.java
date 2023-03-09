@@ -105,7 +105,9 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
                 inParam.put("sql", sql.toString());
                 String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
                 String getList = HttpHelper.requestService(url, inParam.toString());
-                dsList = new DataArrayList(getList);
+                IDataMap getIData = new DataHashMap(getList);
+                String getString=getIData.getString("data");
+                dsList = new DataArrayList(getString);
             }
             catch (Exception e) {
                 log.error("MysqlTableParamDataProvider调用微服务查询数据库获取序列异常！", e);

@@ -15,7 +15,7 @@ public class Db {
     
     private String pwd = "";
     
-    private String className = "com.mysql.jdbc.Driver";
+    private String className = "com.mysql.cj.jdbc.Driver";
     
     private String url = "";
     

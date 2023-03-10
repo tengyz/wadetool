@@ -163,7 +163,7 @@ public final class HttpHelper {
             }
         }
         catch (Exception e) {
-            System.err.println("UAC用户中心SDK，initHttps get,url=:" + url + "异常：" + e.fillInStackTrace());
+            System.err.println("xxx，initHttps get,url=:" + url + "异常：" + e.fillInStackTrace());
             e.printStackTrace();
             e.fillInStackTrace();
             return null;
@@ -234,7 +234,7 @@ public final class HttpHelper {
                 return http;
             }
             catch (Exception e) {
-                System.err.println("UAC用户中心SDK，initHttps initHttps,异常：" + e.fillInStackTrace());
+                System.err.println("xxx，initHttps initHttps,异常：" + e.fillInStackTrace());
                 e.printStackTrace();
                 e.fillInStackTrace();
             }
@@ -322,9 +322,9 @@ public final class HttpHelper {
     public static void main(String[] args) throws Exception {
         //requestService("http://localhost:8888/microservice/common/getSysDateByDB", "");
         Map<String, String> headers = new HashMap();
-        headers.put("Authusername", "adinfoAdmin");
-        headers.put("authpassword", "adinfo@wd1");
-        String aaa = get("http://10.124.130.159/ADInfoCenter/users/xa/xauser2", null, headers, CONTENT_TYPE_JSON);
+        headers.put("Authusername", "123123");
+        headers.put("authpassword", "123");
+        String aaa = get("http://112.111.123.123/123/users/123/123", null, headers, CONTENT_TYPE_JSON);
         System.out.println("aaa=:" + aaa);
     }
     

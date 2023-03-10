@@ -101,10 +101,12 @@ public class OrclTableParamDataProvider implements IParamDataProvider {
             IDataMap inParam = new DataHashMap();
             inParam.put("sql", sql.toString());
             String getList = HttpHelper.requestService(CacheConfig.GATEWAY_ADDR + "/common/queryList", inParam.toString());
+            IDataMap getIData = new DataHashMap(getList);
+            String getListString=getIData.getString("data");
             if (log.isDebugEnabled()) {
-                log.debug("查询结果getList=:" + getList);
+                log.debug("查询结果getList=:" + getListString);
             }
-            ds = new DataArrayList(getList);
+            ds = new DataArrayList(getListString);
         }
         return ds;
     }

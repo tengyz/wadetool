@@ -98,12 +98,12 @@ public class RedisFactory_clusd {
         //        config.setTestOnBorrow(true);
         //        // Redis集群的节点集合
         //        Set<HostAndPort> jedisClusterNodes = new HashSet<HostAndPort>();
-        //        jedisClusterNodes.add(new HostAndPort("10.124.131.216", 7000));
-        //        jedisClusterNodes.add(new HostAndPort("10.124.131.216", 7001));
-        //        jedisClusterNodes.add(new HostAndPort("10.124.131.216", 7002));
-        //        jedisClusterNodes.add(new HostAndPort("10.124.131.216", 7003));
-        //        jedisClusterNodes.add(new HostAndPort("10.124.131.216", 7004));
-        //        jedisClusterNodes.add(new HostAndPort("10.124.131.216", 7005));
+        //        jedisClusterNodes.add(new HostAndPort("101.114.111.123", 7000));
+        //        jedisClusterNodes.add(new HostAndPort("101.114.111.123", 7001));
+        //        jedisClusterNodes.add(new HostAndPort("101.114.111.123", 7002));
+        //        jedisClusterNodes.add(new HostAndPort("101.114.111.123", 7003));
+        //        jedisClusterNodes.add(new HostAndPort("101.114.111.123", 7004));
+        //        jedisClusterNodes.add(new HostAndPort("101.114.111.123", 7005));
         //        // 节点，超时时间，最多重定向次数，链接池
         //        jedisCluster = new JedisCluster(jedisClusterNodes, 2000, 100, config);
         if (log.isInfoEnabled()) {

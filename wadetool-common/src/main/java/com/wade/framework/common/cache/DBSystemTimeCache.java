@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.wade.framework.data.impl.DataHashMap;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,11 +29,13 @@ public class DBSystemTimeCache extends AbstractReadOnlyCache {
         Map rtn = new HashMap();
         try {
             //调用微服务获取数据库时间
-            String sysdate = HttpHelper.requestService(CacheConfig.GATEWAY_ADDR + "/common/getSysDateByDB", "");
+            String sysdateData = HttpHelper.requestService(CacheConfig.GATEWAY_ADDR + "/common/getSysDateByDB", "");
+            IDataMap getSysdateIData = new DataHashMap(sysdateData);
+            String getSysdateString=getSysdateIData.getString("data");
             if (log.isDebugEnabled()) {
-                log.debug("调用微服务获取数据库时间=:" + sysdate);
+                log.debug("调用微服务获取数据库时间=:" + getSysdateString);
             }
-            rtn.put("DBSystemTimeCache", getLong(sysdate));
+            rtn.put("DBSystemTimeCache", getLong(getSysdateString));
         }
         catch (Exception e) {
             log.error("DBSystemTimeCache调用微服务获取数据库时间异常:" + e.getMessage(), e);

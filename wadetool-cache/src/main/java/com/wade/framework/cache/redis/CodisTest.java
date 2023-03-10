@@ -11,7 +11,7 @@ public class CodisTest {
     public static void main(String[] args) {
         System.out.println("jedisPool");
         JedisResourcePool jedisPool = RoundRobinJedisPool.create()
-                .curatorClient("10.236.0.84:2181,10.236.0.85:2181,10.236.0.86:2181", 3000)
+                .curatorClient("111.123.120.123:2181,111.123.120.123,111.123.120.123:2181", 3000)
                 .zkProxyDir("/zk/codis/db_codis-demo2/proxy")
                 .build();
         

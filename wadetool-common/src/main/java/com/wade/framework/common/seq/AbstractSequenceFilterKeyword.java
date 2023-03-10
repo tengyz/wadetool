@@ -128,9 +128,10 @@ public abstract class AbstractSequenceFilterKeyword implements ISequence {
                     IDataMap param = new DataHashMap();
                     param.put("sql", sql);
                     String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
-                    //String url = "http://10.124.131.213:8100/common/queryList";
                     String getList = HttpHelper.requestService(url, param.toString());
-                    ds = new DataArrayList(getList);
+                    IDataMap getIData = new DataHashMap(getList);
+                    String getString=getIData.getString("data");
+                    ds = new DataArrayList(getString);
                 }
                 catch (Exception e) {
                     log.error("AbstractSequence调用微服务查询数据库获取序列异常！", e);

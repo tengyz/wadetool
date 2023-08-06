@@ -25,7 +25,16 @@ import com.wade.framework.exceptions.Thrower;
 
 /**
  * 获取静态参数工具类
- * 
+ * source:配置的aicache会走aicache,可通过aicache刷新缓存
+ * dataType:CacheConfig.xml中的 server_code
+ * 不配置走的分布式缓存,没个表的缓存数据在redis上key为:STATIC_PARAM_TAB_VERSION_表名
+ * 查询条件列需要走上BS_PARAM_TABLES表配置的主键和索引才能命中缓存
+ * 否则在aicache缓存中找不到
+ * 这样刷新缓存需要删除redis
+ * STATIC_PARAM_TAB_VERSION_表名
+ * 的key
+ * 在使用ParamMgr获取缓存的时候一定要按表bs_param_tables配置的主键和索引列查找
+ * 否则会出现缓存无法刷新的情况
  * @Description 获取静态参数工具类
  * @ClassName ParamMgr
  * @Date 2016年1月22日 下午4:56:11

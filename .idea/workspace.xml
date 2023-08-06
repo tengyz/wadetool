@@ -4,111 +4,20 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="8e2f9e2f-10a2-4740-a32e-259336c42a36" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-aop/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-aop/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-aop/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-aop/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/BussinessLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/BussinessLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/LogAop.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/LogAop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/MethodTimeAdvice.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/MethodTimeAdvice.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/SpringContextsUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-aop/src/main/java/com/wade/framework/spring/SpringContextsUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/AbstractReadOnlyCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/AbstractReadOnlyCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/CacheAutoRefreshJob.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/CacheAutoRefreshJob.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/CacheFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/CacheFactory.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/CacheXml.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/CacheXml.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/ConcurrentLRUMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/ConcurrentLRUMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/ReadWriteCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/ReadWriteCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/interfaces/IReadOnlyCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/interfaces/IReadOnlyCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/interfaces/IReadWriteCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/localcache/interfaces/IReadWriteCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/CacheUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/CacheUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/ICache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/ICache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/ICacheSourceProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/ICacheSourceProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/InstanceManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/src/main/java/com/wade/framework/cache/util/InstanceManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/BaseReadOnlyCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/BaseReadOnlyCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/CacheManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/CacheManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/DBSystemTimeCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/DBSystemTimeCache.java" afterDir="false" />
+    <list default="true" id="8e2f9e2f-10a2-4740-a32e-259336c42a36" name="Changes" comment="add by tt">
+      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/jarRepositories.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.project" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/classes/com/wade/framework/cache/redis/CodisTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/classes/com/wade/framework/cache/redis/CodisTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/classes/com/wade/framework/cache/redis/JedisSentinelTest.class" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/classes/com/wade/framework/cache/redis/JedisSentinelTest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/maven-archiver/pom.properties" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/maven-archiver/pom.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/wadetool-cache-iam.v20210915-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/wadetool-cache-iam.v20210915-jar-with-dependencies.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/wadetool-cache-iam.v20210915-sources.jar" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/wadetool-cache-iam.v20210915-sources.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wadetool-cache/target/wadetool-cache-iam.v20210915.jar" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-cache/target/wadetool-cache-iam.v20210915.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/ParamMgr.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/ParamMgr.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/StaticCachaBaseUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/StaticCachaBaseUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/impl/AbstractCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/impl/AbstractCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/impl/LocalCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/impl/LocalCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/IParamDataProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/IParamDataProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/OrclTableParamDataProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/OrclTableParamDataProvider.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/ParamConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/ParamConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/data/ParamConfigItem.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/data/ParamConfigItem.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/data/ReadOnlyData.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/data/ReadOnlyData.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/data/ReadOnlyDataset.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/data/ReadOnlyDataset.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/store/ParamTable.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/store/ParamTable.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/store/ParamTableIndex.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/param/store/ParamTableIndex.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/readonly/ParamTablesCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/readonly/ParamTablesCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/readonly/StaticParamCache.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/readonly/StaticParamCache.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/timestamp/CacheTimeStamp.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/timestamp/CacheTimeStamp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/timestamp/DefaultCacheClearInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/timestamp/DefaultCacheClearInvoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/timestamp/ICacheClearInvoker.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/cache/timestamp/ICacheClearInvoker.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/DataHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/DataHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/HttpHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/HttpHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/JsonHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/JsonHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/ListHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/ListHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/MapHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/MapHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/StringHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/StringHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/TimeHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/TimeHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/TreeJson.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/TreeJson.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/base/BaseDataHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/base/BaseDataHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/base/BaseStringHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/base/BaseStringHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/base/BaseTimeHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/base/BaseTimeHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/ExcelExportUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/ExcelExportUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/FileHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/FileHelper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/FileMan.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/FileMan.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/FileTools.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/FileTools.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/RemoveBom.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-common/src/main/java/com/wade/framework/common/util/file/RemoveBom.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-crypto/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-crypto/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-crypto/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-crypto/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-crypto/src/main/java/com/wade/framework/crypto/CryptUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-crypto/src/main/java/com/wade/framework/crypto/CryptUtil.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-crypto/src/main/java/com/wade/framework/crypto/MD5Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-crypto/src/main/java/com/wade/framework/crypto/MD5Util.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/DataComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/DataComparator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/EasyuiCombobox.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/EasyuiCombobox.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/EasyuiDataGrid.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/EasyuiDataGrid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataList.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/IDataOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/Timer.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/Timer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataArrayList.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataArrayList.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataHashMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataHashMap.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataInput.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataInput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataOutput.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/DataOutput.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/Pagination.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-data/src/main/java/com/wade/framework/data/impl/Pagination.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-db/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-db/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/src/main/java/com/wade/framework/db/seq/AbstractSequence.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/src/main/java/com/wade/framework/db/seq/FuncSequence.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/src/main/java/com/wade/framework/db/seq/ISequence.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/src/main/java/com/wade/framework/db/seq/SeqBase.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-db/src/main/java/com/wade/framework/db/seq/SeqHelper.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-demo/deploy.bat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-demo/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-exceptions/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-exceptions/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-exceptions/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-exceptions/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/BizExceptionEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/BizExceptionEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/BussinessException.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/BussinessException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/Thrower.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/Thrower.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/base/BaseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-exceptions/src/main/java/com/wade/framework/exceptions/base/BaseException.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-file/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-file/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-file/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-file/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-file/src/main/java/com/wade/framework/file/config/PropertiesConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-file/src/main/java/com/wade/framework/file/config/PropertiesConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-file/src/main/java/com/wade/framework/file/config/XMLConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-file/src/main/java/com/wade/framework/file/config/XMLConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-log/deploy.bat" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-log/deploy.bat" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-log/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-log/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-log/src/main/java/com/wade/framework/logger/Logger.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-log/src/main/java/com/wade/framework/logger/Logger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-log/src/main/java/com/wade/framework/logger/SysLogger.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-log/src/main/java/com/wade/framework/logger/SysLogger.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wadetool-log/src/main/java/com/wade/framework/logger/SysLoggerFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/wadetool-log/src/main/java/com/wade/framework/logger/SysLoggerFactory.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +32,16 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitSEFilterConfiguration">
+    <file-type-list>
+      <filtered-out-file-type name="LOCAL_BRANCH" />
+      <filtered-out-file-type name="REMOTE_BRANCH" />
+      <filtered-out-file-type name="TAG" />
+      <filtered-out-file-type name="COMMIT_BY_MESSAGE" />
+    </file-type-list>
+  </component>
   <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
     <option name="recentBranches">
       <RecentBranches>
         <option name="branchesForRepo">
@@ -154,7 +72,10 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
+        <option name="localRepository" value="$PROJECT_DIR$/../../../../tj/tools/apache-maven-3.8.6/conf/settings.xml" />
+        <option name="mavenHome" value="$PROJECT_DIR$/../../../../tj/tools/apache-maven-3.8.6" />
         <option name="useMavenConfig" value="true" />
+        <option name="userSettingsFile" value="$PROJECT_DIR$/../../../../tj/tools/apache-maven-3.8.6/conf/settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -167,7 +88,12 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="MavenSettings" />
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -177,8 +103,46 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1678111198793</updated>
-      <workItem from="1678111199997" duration="1374000" />
+      <workItem from="1678111199997" duration="5926000" />
+      <workItem from="1678275536217" duration="2206000" />
+      <workItem from="1678325698312" duration="2000000" />
+      <workItem from="1678348767837" duration="4318000" />
+      <workItem from="1678430234490" duration="482000" />
+      <workItem from="1678460638089" duration="5581000" />
+      <workItem from="1678786323140" duration="716000" />
+      <workItem from="1678788668299" duration="600000" />
+      <workItem from="1684123432690" duration="1039000" />
+      <workItem from="1691330230671" duration="301000" />
     </task>
+    <task id="LOCAL-00001" summary="add by tengs">
+      <created>1678112975583</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1678112975583</updated>
+    </task>
+    <task id="LOCAL-00002" summary="add by tengs">
+      <created>1678355409170</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1678355409170</updated>
+    </task>
+    <task id="LOCAL-00003" summary="add by tt">
+      <created>1678461803236</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1678461803236</updated>
+    </task>
+    <task id="LOCAL-00004" summary="add by tt">
+      <created>1678462967739</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1678462967739</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -194,5 +158,10 @@
         </entry>
       </map>
     </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="add by tengs" />
+    <MESSAGE value="add by tt" />
+    <option name="LAST_COMMIT_MESSAGE" value="add by tt" />
   </component>
 </project>

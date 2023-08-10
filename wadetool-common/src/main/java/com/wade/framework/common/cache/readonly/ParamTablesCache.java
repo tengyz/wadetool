@@ -22,7 +22,7 @@ import com.wade.framework.file.config.XMLConfig;
  * @Date        2016年12月24日 上午12:51:54 
  * @Author      yz.teng
  */
-public class ParamTableParamTablesCachesCache extends BaseReadOnlyCache {
+public class ParamTablesCache extends BaseReadOnlyCache {
     private static final Logger log = LogManager.getLogger(ParamTablesCache.class);
     
     //现在不走xml配置 直接走表配置的

@@ -48,6 +48,8 @@ public class ParamMgr {
     public static final String ACCT_KEY_PREFIX = "UAC_";
     
     public static final int CACHE_KEY_MAX_LEN = 250;
+
+    private static final boolean REDIS_DISABLED = "true".equals(RedisConfig.get("staticparam.disabled"));
     
     /**
      * 查询字典缓存
@@ -119,11 +121,15 @@ public class ParamMgr {
                 log.error("从只读缓存中读取参数出错", e);
             }
         }
+        //等于like
         ParamCacheSourceProvider provider = new ParamCacheSourceProvider(itemConf, cols, values);
+        //初始化redis客户端
         ICache cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
-        //获取分布式缓存,获取版本号
+        //获取redis分布式缓存,获取版本号
         String version = getCacheTableVersion(tableName);
-        log.debug("获取分布式缓存,获取版本号 version=:" + version);
+        if (log.isDebugEnabled()) {
+            log.debug("获取分布式缓存,获取版本号 version=:" + version);
+        }
         if (version != null) {
             if (cache != null) {
                 String cacheKey = getCacheKey(tableName, version, cols, values);
@@ -132,13 +138,15 @@ public class ParamMgr {
                 }
                 IDataList list = CacheUtil.get(cache, cacheKey, provider);
                 if (log.isInfoEnabled()) {
-                    log.info("get param from redis_cache," + cacheKey + ":" + list + ",use time:" + Long.valueOf(timer.getUseTime()));
+                    log.info("get param from redis_cache," + cacheKey + ":" + list + ",use time:" + Long.valueOf(timer.getUseTimeInMillis()));
                 }
                 return list;
             }
-            log.debug(new Object[] {"staticparam_cache is null"});
+            if (log.isDebugEnabled()) {
+                log.debug("static param_cache is null");
+            }
         }
-        // 最后查询数据库
+        //如果前面条件不满足，最后查询数据库
         IDataList list = provider.getSource();
         if (log.isDebugEnabled()) {
             log.debug("get param from database," + tableName + Arrays.toString(cols) + Arrays.toString(values) + ":" + list + ",use time:"
@@ -161,8 +169,12 @@ public class ParamMgr {
                 cacheTables = CacheManager.getReadOnlyCache(UacCacheTablesCache.class);
             }
         }
+        if (REDIS_DISABLED) {
+            return null;
+        }
         String version = (String)cacheTables.get(tableName);
-        if (null == version) {
+        if (null == version|| (version.length() == 0)) {
+            //UOP_PARAM数据库下面
             log.error(tableName, "在TD_M_CACHE_TABLES表中未定义!");
             version = "0";
         }

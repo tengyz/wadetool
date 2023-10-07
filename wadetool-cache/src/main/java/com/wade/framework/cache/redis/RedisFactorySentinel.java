@@ -22,8 +22,8 @@ import redis.clients.util.SafeEncoder;
  * @Date        2018年4月19日 上午1:18:15 
  * @Author      yz.teng
  */
-public class RedisFactorybak {
-    private static final Logger log = LogManager.getLogger(RedisFactorybak.class);
+public class RedisFactorySentinel {
+    private static final Logger log = LogManager.getLogger(RedisFactorySentinel.class);
     
     private static JedisSentinelPool redisSentinelJedisPool = null;
     
@@ -31,7 +31,7 @@ public class RedisFactorybak {
         Properties config = new Properties();
         InputStream is = null;
         try {
-            is = RedisFactorybak.class.getClassLoader().getResourceAsStream("application.properties");
+            is = RedisFactorySentinel.class.getClassLoader().getResourceAsStream("application.properties");
             config.load(is);
         }
         catch (IOException e) {
@@ -123,8 +123,9 @@ public class RedisFactorybak {
      * 在多线程环境同步初始化
      */
     private static synchronized void poolInit() {
-        if (redisSentinelJedisPool == null)
+        if (redisSentinelJedisPool == null){
             createJedisPool();
+        }
     }
     
     /**
@@ -164,7 +165,6 @@ public class RedisFactorybak {
     
     /**
      * 释放资源
-     * @param jedis
      * @Date        2018年5月12日 下午7:30:10 
      * @Author      yz.teng
      */
@@ -207,7 +207,7 @@ public class RedisFactorybak {
     }
     
     private static byte[] keyToBytes(String key) {
-        return SafeEncoder.encode(key);
+        return RedisSafeEncoder.encode(key);
     }
     
     private static byte[] valueToBytes(Object object) {
@@ -215,12 +215,28 @@ public class RedisFactorybak {
     }
     
     private static <T> T valueFromBytes(byte[] bytes) {
-        if (bytes != null)
+        if (bytes != null) {
             return com.wade.framework.cache.redis.Serialize.deserialize(bytes);
+        }
         return null;
     }
     
     public static void set(String key, Object value) {
+        Jedis jedis = null;
+        try {
+            jedis = getJedis();
+            jedis.set(keyToBytes(key), valueToBytes(value));
+        }
+        catch (Exception e) {
+            log.error("set error" + jedis + e.fillInStackTrace());
+            e.printStackTrace();
+        }
+        finally {
+            close(jedis);
+        }
+    }
+
+    public static void setObject(String key, Object value) {
         Jedis jedis = null;
         try {
             jedis = getJedis();
@@ -251,6 +267,24 @@ public class RedisFactorybak {
             close(jedis);
         }
     }
+
+    public static void setexObject(String key, int seconds, Object value) {
+        Jedis jedis = null;
+        try {
+            jedis = getJedis();
+            if (value == null) {
+                jedis.del(keyToBytes(key));
+            }
+            jedis.setex(keyToBytes(key), seconds, valueToBytes(value));
+        }
+        catch (Exception e) {
+            log.error("setex error:" + jedis + e.fillInStackTrace());
+        }
+        finally {
+            close(jedis);
+        }
+    }
+
     
     @SuppressWarnings("unchecked")
     public static <T> T get(String key) {
@@ -262,6 +296,23 @@ public class RedisFactorybak {
         }
         catch (Exception e) {
             log.error("get error" + jedis + e.fillInStackTrace());
+            e.printStackTrace();
+        }
+        finally {
+            close(jedis);
+        }
+        return value;
+    }
+
+    public static Object getObject(String key) {
+        Jedis jedis = null;
+        Object value = null;
+        try {
+            jedis = getJedis();
+            value = (Object)valueFromBytes(jedis.get(keyToBytes(key)));
+        }
+        catch (Exception e) {
+            log.error("getObject error" + jedis + e.fillInStackTrace());
             e.printStackTrace();
         }
         finally {

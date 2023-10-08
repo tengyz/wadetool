@@ -32,7 +32,9 @@ public class CacheConfig {
     /**
      * 从配置文件，读取网关地址
      */
-    public static final String GATEWAY_ADDR = getProperty("gateWayAddr");
+ //   public static final String GATEWAY_ADDR = getProperty("gateWayAddr");
+
+    public static final String STATICPARAM_DISABLED = getProperty("staticparam.disabled");
     
     /**
      * 读取config.properties文件
@@ -99,7 +101,7 @@ public class CacheConfig {
     }
     
     public static void main(String args[]) throws Exception {
-        System.out.println("====:" + CacheConfig.GATEWAY_ADDR);
+        //System.out.println("====:" + CacheConfig.GATEWAY_ADDR);
     }
     
 }

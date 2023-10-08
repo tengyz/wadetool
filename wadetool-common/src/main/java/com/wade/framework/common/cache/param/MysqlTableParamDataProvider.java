@@ -65,9 +65,10 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "tableName不能为空");
             return ds;
         }
-        if (selColumns == null)
+        if (selColumns == null){
             selColumns = "*";
-        
+        }
+
         StringBuilder sqlAConds = new StringBuilder();
         StringBuilder sql = new StringBuilder().append("SELECT ").append(selColumns).append(" FROM ").append(tableName).append(" A WHERE 1 = 1 ");
         int i = 0;
@@ -100,26 +101,12 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
                 log.debug("sql=:" + sql.toString());
             }
             try {
-                //调用微服务查询数据库获取序列
-                IDataMap inParam = new DataHashMap();
-                inParam.put("sql", sql.toString());
-                String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
-                String getList = HttpHelper.requestService(url, inParam.toString());
-                IDataMap getIData = new DataHashMap(getList);
-                String getString=getIData.getString("data");
-                dsList = new DataArrayList(getString);
+                //当调用微服务异常时，直接查询数据库
+                dsList = DbUtil.queryList(sql.toString());
+                log.info("MysqlTableParamDataProvider直接jdbc获取数据库时间=:" + dsList);
             }
             catch (Exception e) {
-                log.error("MysqlTableParamDataProvider调用微服务查询数据库获取序列异常！", e);
-                try {
-                    //当调用微服务异常时，直接查询数据库
-                    DbUtil db = new DbUtil();
-                    dsList = db.queryList(sql.toString());
-                    log.info("MysqlTableParamDataProvider当调用微服务异常时，直接jdbc获取数据库时间=:" + dsList);
-                }
-                catch (Exception e2) {
-                    log.error("MysqlTableParamDataProvider直接jdbc获取数据库时间异常:", e);
-                }
+                log.error("MysqlTableParamDataProvider直接jdbc获取数据库时间异常:", e);
             }
         }
         return dsList;

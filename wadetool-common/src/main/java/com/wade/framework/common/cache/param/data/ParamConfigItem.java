@@ -26,10 +26,10 @@ public class ParamConfigItem {
     private String eparchyKey = null;
     
     private String sortKeys = null;
-    
-    private String dataSrc = null;//数据源名称系统管理：SYSPARAM
-    
-    private String tableState = null;//表的状态字段和条件
+    //数据源名称系统管理：SYSPARAM
+    private String dataSrc = null;
+    //表的状态字段和条件
+    private String tableState = null;
     
     public String getTableState() {
         return tableState;

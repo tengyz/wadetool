@@ -26,31 +26,17 @@ import com.wade.framework.db.util.DbUtil;
 public class UacCacheTablesCache extends AbstractReadOnlyCache {
     private static final Logger log = LogManager.getLogger(UacCacheTablesCache.class);
     
+    @Override
     public Map<String, Object> loadData() throws Exception {
         Map rtn = new HashMap();
         String sql = "SELECT TABLE_NAME, date_format(VERSION,'%Y-%c-%d %H:%i:%s') VERSION FROM TD_M_CACHE_TABLES WHERE STATE =1 ";
         IDataList ds = null;
         try {
-            //调用微服务查询数据库获取序列
-            IDataMap inParam = new DataHashMap();
-            inParam.put("sql", sql);
-            String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
-            String getList = HttpHelper.requestService(url, inParam.toString());
-            IDataMap getIData = new DataHashMap(getList);
-            String getString=getIData.getString("data");
-            ds = new DataArrayList(getString);
+            ds = DbUtil.queryList(sql);
+            log.info("UacCacheTablesCache直接jdbc获取数据库时间=:" + ds);
         }
         catch (Exception e) {
-            log.error("UacCacheTablesCache调用微服务查询数据库获取序列异常！", e);
-            try {
-                //当调用微服务异常时，直接查询数据库
-                DbUtil db = new DbUtil();
-                ds = db.queryList(sql);
-                log.info("UacCacheTablesCache当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
-            }
-            catch (Exception e2) {
-                log.error("UacCacheTablesCache直接jdbc获取数据库时间异常:", e);
-            }
+            log.error("UacCacheTablesCache直接jdbc获取数据库时间异常:", e);
         }
         
         int i = 0;

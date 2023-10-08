@@ -32,6 +32,7 @@ public class ParamTablesCache extends BaseReadOnlyCache {
     
     private static final String COLLECTION_KEY = "__ALL_PARAM_TABLES";
     
+    @Override
     public Map<String, Object> loadData() throws Exception {
         Map map = new HashMap();
         List list = new ArrayList();

@@ -15,6 +15,9 @@ import com.wade.framework.db.util.DbUtil;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
+/**
+ * 基础
+ */
 public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
     private final static Logger log = LogManager.getLogger(BaseReadOnlyCache.class);
     
@@ -86,8 +89,9 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "tableName不能为空!" + tableName);
             return ds;
         }
-        if (selColumns == null)
+        if (selColumns == null) {
             selColumns = "*";
+        }
         
         StringBuilder sqlAConds = new StringBuilder();
         StringBuilder sql = new StringBuilder().append("SELECT ").append(selColumns).append(" FROM ").append(tableName).append(" A WHERE 1 = 1 ");
@@ -114,29 +118,15 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
         if (StringHelper.isNonBlank(sortKeys)) {
             sql.append(" order by ").append(sortKeys);
         }
-        //调用微服务查询数据库
+        //调用查询数据库
         try {
-            //调用微服务查询数据库获取序列
-            IDataMap inParam = new DataHashMap();
-            inParam.put("sql", sql.toString());
-            String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
-            String getList = HttpHelper.requestService(url, inParam.toString());
-            IDataMap getIData = new DataHashMap(getList);
-            String getString=getIData.getString("data");
-            ds = new DataArrayList(getString);
+            //直接查询数据库
+            ds = DbUtil.queryList(sql.toString());
+            log.info("BaseReadOnlyCache直接jdbc获取数据库时间=:" + ds);
         }
         catch (Exception e) {
-            log.error("BaseReadOnlyCache调用微服务查询数据库获取序列异常！", e);
-            try {
-                //当调用微服务异常时，直接查询数据库
-                DbUtil db = new DbUtil();
-                ds = db.queryList(sql.toString());
-                log.info("BaseReadOnlyCache当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
-            }
-            catch (Exception e2) {
-                log.error("BaseReadOnlyCache直接jdbc获取数据库时间异常:", e);
-                Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "BaseReadOnlyCache直接jdbc获取数据库时间异常！！！");
-            }
+            log.error("BaseReadOnlyCache直接jdbc获取数据库时间异常:", e);
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "BaseReadOnlyCache直接jdbc获取数据库时间异常！！！");
         }
         return ds;
     }

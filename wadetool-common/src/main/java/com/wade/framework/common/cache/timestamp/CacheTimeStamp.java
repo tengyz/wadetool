@@ -26,7 +26,7 @@ import com.wade.framework.exceptions.Thrower;
 public class CacheTimeStamp {
     private static final Logger log = LogManager.getLogger(CacheTimeStamp.class);
     
-    public static final String CACHE_TIMESTAMP = "WT_CACHE_REFRESH_SWITCH";
+    public static final String CACHE_TIMESTAMP = "LOCAL_CACHE_REFRESH_SWITCH";
     
     private String cacheTimestamp = null;
     
@@ -125,29 +125,15 @@ public class CacheTimeStamp {
         String getTimestamp = null;
         try {
             IDataList ds = null;
-            String sql = "select t.DATA_NAME  from TD_M_STATIC  t where t.TYPE_ID='LOCAL_CACHE_REFRESH_SWITCH' AND  VALID_FLAG='2'";
+            StringBuilder sql = new StringBuilder().append("select t.DATA_NAME  from TD_M_STATIC  t where t.TYPE_ID='").append(CACHE_TIMESTAMP).append("' AND  VALID_FLAG='2'");
             try {
-                //调用微服务查询数据库获取序列
-                IDataMap param = new DataHashMap();
-                param.put("sql", sql);
-                String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
-                String getList = HttpHelper.requestService(url, param.toString());
-                IDataMap getIData = new DataHashMap(getList);
-                String getString=getIData.getString("data");
-                ds = new DataArrayList(getString);
+                //直接查询数据库
+                ds = DbUtil.queryList(sql.toString());
+                log.info("CacheTimeStamp直接jdbc获取数据库时间=:" + ds);
             }
             catch (Exception e) {
-                log.error("CacheTimeStamp调用微服务查询数据库获取序列异常！", e);
-                try {
-                    //当调用微服务异常时，直接查询数据库
-                    DbUtil db = new DbUtil();
-                    ds = db.queryList(sql);
-                    log.info("CacheTimeStamp当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
-                }
-                catch (Exception e2) {
-                    log.error("CacheTimeStamp直接jdbc获取数据库时间异常:", e);
-                    Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "CacheTimeStamp直接jdbc获取数据库时间异常！！！");
-                }
+                log.error("CacheTimeStamp直接jdbc获取数据库时间异常:", e);
+                Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "CacheTimeStamp直接jdbc获取数据库时间异常！！！");
             }
             IDataMap data = ds.first();
             getTimestamp = data.getString("DATA_NAME");

@@ -29,9 +29,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class TreeJson implements Serializable {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
     
     public String getId() {
@@ -129,8 +127,10 @@ public class TreeJson implements Serializable {
     public static List<TreeJson> formatTree(List<Map<String, Object>> listData, String rootId) {
         TreeJson root = new TreeJson();
         TreeJson node = new TreeJson();
-        List<TreeJson> treelist = new ArrayList<TreeJson>();// 拼凑好的json格式的数据
-        List<TreeJson> parentnodes = new ArrayList<TreeJson>();// parentnodes存放所有的父节点
+        // 拼凑好的json格式的数据
+        List<TreeJson> treelist = new ArrayList<TreeJson>();
+        // parentnodes存放所有的父节点
+        List<TreeJson> parentnodes = new ArrayList<TreeJson>();
         boolean flag = false;
         List<TreeJson> list = formatTreeJson(listData);
         for (int i = 0; i < list.size(); i++) {

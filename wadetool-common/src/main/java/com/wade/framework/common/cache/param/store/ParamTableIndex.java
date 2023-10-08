@@ -8,9 +8,7 @@ import com.wade.framework.common.util.DataHelper;
 import com.wade.framework.common.util.StringHelper;
 
 public class ParamTableIndex implements Serializable {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -6673183183232359047L;
     
     private int id = -1;

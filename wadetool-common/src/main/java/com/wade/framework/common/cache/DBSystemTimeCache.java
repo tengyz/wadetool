@@ -28,30 +28,16 @@ public class DBSystemTimeCache extends AbstractReadOnlyCache {
     public Map<String, Object> loadData() throws Exception {
         Map rtn = new HashMap();
         try {
-            //调用微服务获取数据库时间
-            String sysdateData = HttpHelper.requestService(CacheConfig.GATEWAY_ADDR + "/common/getSysDateByDB", "");
-            IDataMap getSysdateIData = new DataHashMap(sysdateData);
-            String getSysdateString=getSysdateIData.getString("data");
-            if (log.isDebugEnabled()) {
-                log.debug("调用微服务获取数据库时间=:" + getSysdateString);
-            }
-            rtn.put("DBSystemTimeCache", getLong(getSysdateString));
+            //当调用微服务异常时，直接查询数据库
+            IDataList getList = DbUtil.queryList("select date_format(now(),'%Y-%c-%d %H:%i:%s') as nowtimes from dual");
+            IDataMap getData = getList.first();
+            String sysdate = getData.getString("NOWTIMES");
+            log.info("当调用微服务异常时，直接jdbc获取数据库时间=:" + sysdate);
+            rtn.put("DBSystemTimeCache", getLong(sysdate));
         }
         catch (Exception e) {
-            log.error("DBSystemTimeCache调用微服务获取数据库时间异常:" + e.getMessage(), e);
-            try {
-                //当调用微服务异常时，直接查询数据库
-                DbUtil db = new DbUtil();
-                IDataList getList = db.queryList("select date_format(now(),'%Y-%c-%d %H:%i:%s') as nowtimes from dual");
-                IDataMap getData = getList.first();
-                String sysdate = getData.getString("NOWTIMES");
-                log.info("当调用微服务异常时，直接jdbc获取数据库时间=:" + sysdate);
-                rtn.put("DBSystemTimeCache", getLong(sysdate));
-            }
-            catch (Exception e2) {
-                log.error("DBSystemTimeCache直接jdbc获取数据库时间异常:" + e.getMessage(), e);
-                rtn.put("DBSystemTimeCache", Long.valueOf(0));
-            }
+            log.error("DBSystemTimeCache直接jdbc获取数据库时间异常:" + e.getMessage(), e);
+            rtn.put("DBSystemTimeCache", Long.valueOf(0));
         }
         log.info("DBSystemTimeCache调用微服务获取数据库时间rtn=:" + rtn);
         return rtn;

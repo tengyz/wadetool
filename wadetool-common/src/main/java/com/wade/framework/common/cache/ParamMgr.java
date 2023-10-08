@@ -49,7 +49,7 @@ public class ParamMgr {
     
     public static final int CACHE_KEY_MAX_LEN = 250;
 
-    private static final boolean REDIS_DISABLED = "true".equals(RedisConfig.get("staticparam.disabled"));
+    private static final boolean REDIS_DISABLED = "true".equals(CacheConfig.STATICPARAM_DISABLED);
     
     /**
      * 查询字典缓存
@@ -122,7 +122,7 @@ public class ParamMgr {
             }
         }
         //等于like
-        ParamCacheSourceProvider provider = new ParamCacheSourceProvider(itemConf, cols, values);
+        com.wade.framework.common.cache.param.ParamCacheSourceProvider provider = new com.wade.framework.common.cache.param.ParamCacheSourceProvider(itemConf, cols, values);
         //初始化redis客户端
         ICache cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
         //获取redis分布式缓存,获取版本号
@@ -278,20 +278,4 @@ public class ParamMgr {
     
 }
 
-class ParamCacheSourceProvider implements ICacheSourceProvider<IDataList> {
-    private ParamConfigItem conf = null;
-    
-    private String[] cols = null;
-    
-    private String[] values = null;
-    
-    public ParamCacheSourceProvider(ParamConfigItem conf, String[] cols, String[] values) {
-        this.conf = conf;
-        this.cols = cols;
-        this.values = values;
-    }
-    
-    public IDataList getSource() throws Exception {
-        return conf.getParamDataProvider().getSelectData(conf, cols, values);
-    }
-}
+

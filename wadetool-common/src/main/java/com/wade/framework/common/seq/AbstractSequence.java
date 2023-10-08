@@ -116,26 +116,12 @@ public abstract class AbstractSequence implements ISequence {
                 }
                 IDataList ds = null;
                 try {
-                    //调用微服务查询数据库获取序列
-                    IDataMap param = new DataHashMap();
-                    param.put("sql", sql);
-                    String url = CacheConfig.GATEWAY_ADDR + "/common/queryList";
-                    String getList = HttpHelper.requestService(url, param.toString());
-                    IDataMap getIData = new DataHashMap(getList);
-                    String getString=getIData.getString("data");
-                    ds = new DataArrayList(getString);
+                    //当调用微服务异常时，直接查询数据库
+                    ds = DbUtil.queryList(sql);
+                    log.info("AbstractSequence当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
                 }
                 catch (Exception e) {
-                    log.error("AbstractSequence调用微服务查询数据库获取序列异常！", e);
-                    try {
-                        //当调用微服务异常时，直接查询数据库
-                        DbUtil db = new DbUtil();
-                        ds = db.queryList(sql);
-                        log.info("AbstractSequence当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
-                    }
-                    catch (Exception e2) {
-                        log.error("AbstractSequence直接jdbc获取数据库时间异常:", e);
-                    }
+                    log.error("AbstractSequence直接jdbc获取数据库时间异常:", e);
                 }
                 if (null != ds && !"".equals(ds)) {
                     if (null != ds.getData(0) && !"".equals(ds.getData(0))) {

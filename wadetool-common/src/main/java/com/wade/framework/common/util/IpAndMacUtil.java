@@ -9,7 +9,6 @@ public class IpAndMacUtil {
     
     /**
      * 查询ip地址
-     * @param args
      * 
      * @throws UnknownHostException
      * 

@@ -56,12 +56,8 @@ public class ParamTable implements Serializable {
     private Map<String, IDataList>[] indexDatas = null;
     
     /**
-     * 构造函数
-     * 
-     * @param tableName 表名
-     * @param primaryKeys 主键列的集合，各列名称以逗号“,”分割
-     * @param indexes 索引列的集合，各索引以“|”分割，每个索引内各列以逗号“,”分割
-     * @param eparchyKey 地州字段的列名
+     * 构造函数，@param tableName 表名，@param primaryKeys 主键列的集合，各列名称以逗号“,”分割
+     * param indexes 索引列的集合，各索引以“|”分割，每个索引内各列以逗号“,”分割，@param eparchyKey 地州字段的列名
      */
     public ParamTable(ParamConfigItem itemConf) {
         this.tableName = itemConf.getTableName();
@@ -150,8 +146,9 @@ public class ParamTable implements Serializable {
         String[] value = null;
         ParamTableIndex idx = null;
         
-        if (cols == null || values == null)
+        if (cols == null || values == null) {
             return srcDatas;
+        }
         int idxIndex = 0;
         for (; idxIndex < indexes.length; idxIndex++) {
             idx = indexes[idxIndex];
@@ -167,8 +164,9 @@ public class ParamTable implements Serializable {
         if (!like) {
             for (int i = 0; i < value.length; i++) {
                 IDataList ds = indexDatas[idxIndex].get(value[i]);
-                if (ds != null)
+                if (ds != null){
                     return ds;
+                }
             }
         }
         return null;

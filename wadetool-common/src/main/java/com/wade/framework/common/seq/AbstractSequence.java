@@ -27,7 +27,7 @@ import com.wade.framework.db.util.DbUtil;
 public abstract class AbstractSequence implements ISequence {
     private static final Logger log = LogManager.getLogger(AbstractSequence.class);
     
-    private static final int MIN_FETCH_SIZE = 1;
+    private static final int MIN_FETCH_SIZE = 10;
     
     private static final int MAX_FETCH_SIZE = 10;
     
@@ -44,6 +44,8 @@ public abstract class AbstractSequence implements ISequence {
     }
     
     public AbstractSequence(String seqName, int fetchSize) {
+        this.seqName = seqName;
+        this.fetchSize = fetchSize;
         if (StringHelper.isBlank(seqName)) {
             throw new IllegalArgumentException("序列名不能为空！");
         }
@@ -57,22 +59,19 @@ public abstract class AbstractSequence implements ISequence {
             this.fetchSize = MAX_FETCH_SIZE;
             log.warn("批量获取序列，fetchSize设置过大[fetchSize=" + fetchSize + "]，系统自动修改为" + MAX_FETCH_SIZE);
         }
-        this.seqName = seqName;
-        this.fetchSize = fetchSize;
-        
         //oracle
         //this.sql = ("select " + this.seqName + ".nextval  from dual connect by level <= " + this.fetchSize);
         //拼转sql
         StringBuffer sqlAllTemp = new StringBuffer();
         sqlAllTemp.append("SELECT A.NEXTVALS FROM ( ");
-        for (int i = 0; i < fetchSize; i++) {
-            if (i == fetchSize - 1) {
+        for (int i = 0; i < this.fetchSize; i++) {
+            if (i == this.fetchSize - 1) {
                 sqlAllTemp.append("SELECT NEXTVAL('");
                 sqlAllTemp.append(seqName);
                 sqlAllTemp.append("') AS NEXTVALS  FROM DUAL ");
             }
             else {
-                if (i != fetchSize) {
+                if (i != this.fetchSize) {
                     sqlAllTemp.append("SELECT NEXTVAL('");
                     sqlAllTemp.append(seqName);
                     sqlAllTemp.append("') AS NEXTVALS  FROM DUAL UNION ");
@@ -86,6 +85,7 @@ public abstract class AbstractSequence implements ISequence {
             }
         }
         sqlAllTemp.append(" )A  ORDER BY  A.NEXTVALS ASC ");
+        log.info("AbstractSequence this fetchSize=:" + this.fetchSize);
         this.sql = sqlAllTemp.toString();
     }
     
@@ -118,7 +118,8 @@ public abstract class AbstractSequence implements ISequence {
                 try {
                     //当调用微服务异常时，直接查询数据库
                     ds = DbUtil.queryList(sql);
-                    log.info("AbstractSequence当调用微服务异常时，直接jdbc获取数据库时间=:" + ds);
+                    log.info("AbstractSequence直接jdbc获取数据库时间sql=:" + sql);
+                    log.info("AbstractSequence直接jdbc获取数据库时间ds=:" + ds);
                 }
                 catch (Exception e) {
                     log.error("AbstractSequence直接jdbc获取数据库时间异常:", e);

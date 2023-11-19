@@ -162,13 +162,14 @@ CREATE TABLE `st_s_sequence` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统序列号生成表';
 
 函数：
-CREATE DEFINER=`root`@`%` FUNCTION `currval`(v_seq_name VARCHAR(50)) RETURNS int(11)
-begin        
-    declare value integer;         
-    set value = 0;         
-    select current_val into value  from st_s_sequence where seq_name = v_seq_name;   
-   return value;   
-end
+
+CREATE DEFINER = CURRENT_USER FUNCTION currval(v_seq_name VARCHAR(50)) RETURNS int(11)
+BEGIN
+declare value integer; 
+    set value = 0;
+    select current_val into value  from st_s_sequence where seq_name = v_seq_name;
+return value;
+END;
 ```
 
 

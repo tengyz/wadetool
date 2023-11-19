@@ -162,14 +162,36 @@ CREATE TABLE `st_s_sequence` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统序列号生成表';
 
 函数：
-
-CREATE DEFINER = CURRENT_USER FUNCTION currval(v_seq_name VARCHAR(50)) RETURNS int(11)
+CREATE DEFINER=`root`@`%` FUNCTION `currval`(seqname VARCHAR(50)) RETURNS bigint
+    READS SQL DATA
 BEGIN
-declare value integer; 
-    set value = 0;
-    select current_val into value  from st_s_sequence where seq_name = v_seq_name;
-return value;
-END;
+  DECLARE current bigint;
+  SET current = 0;
+  SELECT current_val INTO current
+    FROM td_m_sequence
+   WHERE seq_name = upper(seqname);
+  RETURN current;
+END
+
+CREATE DEFINER=`root`@`%` FUNCTION `nextval`(seqname VARCHAR(50)) RETURNS bigint
+    DETERMINISTIC
+BEGIN
+  UPDATE td_m_sequence
+     SET current_val = current_val + increment_val
+   WHERE seq_name = upper(seqname);
+  RETURN currval(seqname);
+END
+
+
+-- 插入序列到序列表
+insert into td_m_sequence select 'aaaa1',0,1,'admin',NOW();
+
+-- 查看序列当前值
+select currval('aaaa1');
+
+-- 查看序列下一个的值，并使序列当前值设置为下一个的值
+select nextval('aaaa1');
+
 ```
 
 

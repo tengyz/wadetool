@@ -19,7 +19,14 @@ import com.wade.framework.data.Timer;
 
 /**
  * 根据序列名称获取序列值
- * @Description 根据序列名称获取序列值 
+ * @Description 根据序列名称获取序列值
+ *  sequence 使用优化。
+ * 1.批量使用单独的sequence，并且每次增长设置为100或者（100，10000根据批量的量定），应用自己补齐0-99值，降低了取序列频率。
+ * 2. 序列的cache 值要重复考虑根据业务需求调整，序列增加很快的，就需要调高cache值。
+ * 3. 重复值问题（批量表和正常业务是同一个表的情况）。建议：现在16位值yyyymmdd00000000，批量业务可以是yyyymm(dd+31)00000000。
+ * 分两种序列，单笔业务序列与批量业务序列，单笔业务序列步长为1，前台每次取50个序列缓存于内存中；后台批量业务序列步长为10000，取一次后再在内存中自动补足9999个序列缓存于内存中
+ * 	单笔业务序列格式：2位库号+6位年月日+8位序列
+ * 	批量业务序列格式：2位库号+4位年月+10位序列
  * @ClassName   SeqHelper 
  * @Date        2017年6月20日 下午2:45:35 
  * @Author      yz.teng
@@ -75,7 +82,6 @@ public class SeqHelper {
     /**
      * 根据账户ID到账务库取序列号
      * @param seqName 序列名称
-     * @param acctId 账户ID
      * @return
      * @throws Exception
      */
@@ -239,6 +245,13 @@ public class SeqHelper {
         System.out.println("去重前的大小" + list.size());
         List<String> newlist = new ArrayList<String>(new HashSet<String>(list));
         System.out.println("去后大小" + newlist.size());
+
+//TDOO
+//        StringBuilder strbuf = new StringBuilder();
+//        strbuf.append(getOrderno()); // 获取地域编码序号，不足两位前面补9
+//        strbuf.append(getSysDate_yyMMdd()); // 取6位系统时间，yyMMdd
+//        strbuf.append(fillupFigure(nextval, 8, "0")); // 取初始序列,不足8位前面补 0
+//        nextval = strbuf.toString();
         
     }
     

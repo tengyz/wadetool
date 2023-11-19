@@ -11,7 +11,12 @@ import com.wade.framework.common.util.base.BaseTimeHelper;
  * 时间工具类
  * 
  * @Description 时间工具类(日期格式化,日期解析,日期操作,账期加减)
- * @ClassName TimeUtil
+ * @ClassName TimeHelper
+ * 	时间工具类TimeHelper
+ * 	日期格式化
+ * 	日期解析
+ * 	日期操作
+ * 	账期加减
  * @Date 2015年11月4日 上午10:19:31
  * @Author yz.teng
  */

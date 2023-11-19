@@ -32,6 +32,10 @@ import com.wade.framework.exceptions.Thrower;
  * 
  * @Description 数据处理转换工具类(数据工具类DataHelper,IData中字段判空,IData、IDataset中金额字段格式化,IDataset过滤操作)
  * 数据类型之间的转换，比如int转string
+ * 	数据工具类DataHelper
+ * 	IData中字段判空
+ * 	IData、IDataset中金额字段格式化
+ * 	IDataset过滤操作
  * @ClassName DataHelper
  * @Date 2015年11月4日 上午10:19:31
  * @Author yz.teng

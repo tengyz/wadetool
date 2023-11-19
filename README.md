@@ -25,7 +25,7 @@ wadetool java tool
 
 **2.分布式缓存**
 
-A. Memcached缓存
+A. Memcached缓存：在 **Memcached**中可以保存的item数据量是没有限制的，只要内存足够 
 
 - ​    会话缓存
 - ​    共享缓存
@@ -36,11 +36,7 @@ A. Memcached缓存
 B. Redis缓存
 
 
-- ​    权限缓存：  当初我们的权限缓存是基于Memcached做的，但没考虑批量判权限的场景，
-
-​               在批量判2000个权限时，由于反复多次的反序列化操作，以及2000多次网络
-​               Round-Trip（往返时延）开销，遇到了严重的性能问题，后来深入研究了Redis数据结构特
-​               性，将权限框架做了适度的改造，一下子性能提高了4000多倍。
+- ​    权限缓存：  当初我们的权限缓存是基于Memcached做的，但没考虑批量判权限的场景，在批量判2000个权限时，由于反复多次的反序列化操作，以及2000多次网络Round-Trip（往返时延）开销，遇到了严重的性能问题，后来深入研究了Redis数据结构特性，将权限框架做了适度的改造，一下子性能提高了4000多倍。最终采用redis的hmset，hmget返回Set<String>类型
 
 
 #### 本地缓存
@@ -121,6 +117,18 @@ maxSize="2000"，当超过此容量时，会采用LRU算法淘汰冷数据
 **CCD查询结果集缓存**：配置*.sql文件，这是一条根据优惠编码查询优惠信息的SQL，由于优惠表查询频繁，且数据不会经常变动，因此考虑将此SQL查询出来的结果集做缓存。
 在sql文件的首行，打上--IS_CACHE=Y的标记，注意大写。
 检查SQL涉及的所有表，是否存在于CACHE_TABLES中，如果不存在需要手工加上，如果已经存在就不用管了，注意大写，VERSION配置成SYSDATE，STATE配置成U，CACHE_TABLES用来保存表的版本号，通过改变版本号，可实现缓存的刷新，后面会说明原理。
+select SQL_STMT from CODE_CODE where TAB_NAME = ? and SQL_REF = ?
+先查询memCache缓存，如果没有直接查询数据库，然后在放入缓存
+
+```
+CODE_CODE字段
+String tabName;
+String sqlRef;
+String sqlStmt;
+List<String> sqlStmtLines;
+char isCache;
+int ttl;
+```
 
 **4.staticparam_cache**
 **静态参数翻译缓存**：所有基于StaticUtil返回的数据都会被缓存，并且都存进了参数翻译缓存，
@@ -140,6 +148,32 @@ maxSize="2000"，当超过此容量时，会采用LRU算法淘汰冷数据
 
 用于获取数据库序列或者雪花算法序列id
 工具类：SeqHelper
+
+```
+根据序列名称获取当前值，比如zhangsan，返回zhangsan1、zhangsan2、zhangsan3、、、、以此类推
+mysql脚本：
+CREATE TABLE `st_s_sequence` (
+  `seq_name` varchar(50) NOT NULL,
+  `current_val` int(20) NOT NULL,
+  `increment_val` int(11) NOT NULL DEFAULT '1',
+  `create_staff_id` varchar(50) DEFAULT NULL,
+  `create_time` datetime DEFAULT NULL,
+  PRIMARY KEY (`seq_name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='系统序列号生成表';
+
+函数：
+CREATE DEFINER=`root`@`%` FUNCTION `currval`(v_seq_name VARCHAR(50)) RETURNS int(11)
+begin        
+    declare value integer;         
+    set value = 0;         
+    select current_val into value  from st_s_sequence where seq_name = v_seq_name;   
+   return value;   
+end
+```
+
+
+
+
 
 ####  字符串工具
 工具类：StringHelper

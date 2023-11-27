@@ -126,8 +126,7 @@ public class DbUtil {
     }
     
     public static void main(String[] args) throws ParseException {
-        DbUtil db = new DbUtil();
-        IDataList getList = db.queryList("select date_format(now(),'%Y-%c-%d %H:%i:%s') as nowtimes from dual");
+        IDataList getList = DbUtil.queryList("select date_format(now(),'%Y-%c-%d %H:%i:%s') as nowtimes from dual");
         IDataMap getData = getList.first();
         String sysdate = getData.getString("NOWTIMES");
         log.info("直接jdbc获取数据库时间=:" + sysdate);

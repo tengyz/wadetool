@@ -32,6 +32,25 @@ public class Db {
         }
     }
     
+    public Db(String dataSrc) {
+        conn = null;
+        url = "";
+        userName = "";
+        pwd = "";
+        try {
+            url = DbConfig.getProperty(dataSrc + ".cache.dbUrl");
+            userName = DbConfig.getProperty(dataSrc + ".cache.dbUserName");
+            pwd = DbConfig.getProperty(dataSrc + ".cache.dbPassowrd");
+            log.info("=Db=dataSrc===url=:" + url);
+            log.info("=Db=dataSrc===userName=:" + userName);
+            Class.forName(className);
+            conn = (Connection)DriverManager.getConnection(url, userName, pwd);
+        }
+        catch (Exception e) {
+            log.error("jdbc DB获取数据库异常", e);
+        }
+    }
+    
     public Connection getConnection() {
         return conn;
     }

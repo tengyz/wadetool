@@ -5,10 +5,10 @@ import java.util.Arrays;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import com.wade.framework.cache.localcache.CacheFactory;
 import com.wade.framework.cache.localcache.interfaces.IReadOnlyCache;
 import com.wade.framework.cache.util.CacheUtil;
 import com.wade.framework.cache.util.ICache;
-import com.wade.framework.cache.util.ICacheSourceProvider;
 import com.wade.framework.common.cache.param.ParamConfig;
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
 import com.wade.framework.common.cache.param.data.ReadOnlyDataset;
@@ -48,8 +48,8 @@ public class ParamMgr {
     public static final String ACCT_KEY_PREFIX = "UAC_";
     
     public static final int CACHE_KEY_MAX_LEN = 250;
-
-    private static final boolean REDIS_DISABLED = "true".equals(CacheConfig.STATICPARAM_DISABLED);
+    
+    private static final boolean REDIS_DISABLED = "false".equals(CacheConfig.STATICPARAM_DISABLED);
     
     /**
      * 查询字典缓存
@@ -90,6 +90,7 @@ public class ParamMgr {
     private static IDataList getList(String tableName, String[] cols, String[] values, boolean like) throws Exception {
         // 开始计算时间
         Timer timer = new Timer();
+        long s = System.nanoTime();
         if (cols != null && values != null && cols.length != values.length) {
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, Arrays.toString(cols), Arrays.toString(values));
         }
@@ -122,15 +123,27 @@ public class ParamMgr {
             }
         }
         //等于like
-        com.wade.framework.common.cache.param.ParamCacheSourceProvider provider = new com.wade.framework.common.cache.param.ParamCacheSourceProvider(itemConf, cols, values);
-        //初始化redis客户端
-        ICache cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
+        com.wade.framework.common.cache.param.ParamCacheSourceProvider provider = new com.wade.framework.common.cache.param.ParamCacheSourceProvider(
+                itemConf, cols, values);
+        ICache cache = null;
+        //        //本地读写缓存，在配置文件上配置readwrite，把需要配置的表名称加上
+        //        cache = CacheManager.getCache(tableName);
+        //        if (cache != null) {
+        //            String cacheKey = getCacheKey(cols, values);
+        //            IDataList list = CacheUtil.get(cache, cacheKey, provider);
+        //            if (log.isDebugEnabled())
+        //                log.debug("get param from cache [", tableName, "] ", cols, values, ":", list, "use time:", System.nanoTime() - s);
+        //            return list;
+        //        }
+        
         //获取redis分布式缓存,获取版本号
         String version = getCacheTableVersion(tableName);
         if (log.isDebugEnabled()) {
             log.debug("获取分布式缓存,获取版本号 version=:" + version);
         }
         if (version != null) {
+            //初始化redis客户端
+            cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
             if (cache != null) {
                 String cacheKey = getCacheKey(tableName, version, cols, values);
                 if (log.isDebugEnabled()) {
@@ -166,16 +179,17 @@ public class ParamMgr {
     public static String getCacheTableVersion(String tableName) throws Exception {
         if (cacheTables == null) {
             synchronized (ParamMgr.class) {
-                cacheTables = CacheManager.getReadOnlyCache(UacCacheTablesCache.class);
+                //cacheTables = CacheManager.getReadOnlyCache(UacCacheTablesCache.class);
+                cacheTables = CacheFactory.getReadOnlyCache(UacCacheTablesCache.class);
             }
         }
         if (REDIS_DISABLED) {
             return null;
         }
         String version = (String)cacheTables.get(tableName);
-        if (null == version|| (version.length() == 0)) {
-            //UOP_PARAM数据库下面
-            log.error(tableName, "在TD_M_CACHE_TABLES表中未定义!");
+        if (null == version || (version.length() == 0)) {
+            //UOP_PARAM数据库下面,在UOP_PARAM.CACHE_TABLES中未定义!
+            log.warn(tableName, "在TD_M_CACHE_TABLES表中未定义!");
             version = "0";
         }
         return version;
@@ -277,5 +291,3 @@ public class ParamMgr {
     }
     
 }
-
-

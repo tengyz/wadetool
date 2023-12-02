@@ -3,9 +3,7 @@ package com.wade.framework.common.cache.param;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.common.cache.CacheConfig;
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
-import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
@@ -65,10 +63,10 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "tableName不能为空");
             return ds;
         }
-        if (selColumns == null){
+        if (selColumns == null) {
             selColumns = "*";
         }
-
+        
         StringBuilder sqlAConds = new StringBuilder();
         StringBuilder sql = new StringBuilder().append("SELECT ").append(selColumns).append(" FROM ").append(tableName).append(" A WHERE 1 = 1 ");
         int i = 0;
@@ -103,10 +101,23 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
             try {
                 //当调用微服务异常时，直接查询数据库
                 dsList = DbUtil.queryList(sql.toString());
-                log.info("MysqlTableParamDataProvider直接jdbc获取数据库时间=:" + dsList);
+                log.info("MysqlTableParamDataProvider直接jdbc获取数据库数据=:" + dsList);
             }
             catch (Exception e) {
-                log.error("MysqlTableParamDataProvider直接jdbc获取数据库时间异常:", e);
+                log.error("MysqlTableParamDataProvider直接jdbc获取数据库数据异常:", e);
+            }
+        }
+        else {
+            if (log.isDebugEnabled()) {
+                log.debug("sql=:" + sql.toString());
+            }
+            try {
+                //当调用微服务异常时，直接查询数据库
+                dsList = DbUtil.queryList(sql.toString(), dataSrc);
+                log.info("判断查询哪个系统的数据库，调用相应系统的服务查询数据dataSrc=：" + dataSrc + "MysqlTableParamDataProvider直接jdbc获取数据库数据=:" + dsList);
+            }
+            catch (Exception e) {
+                log.error("MysqlTableParamDataProvider直接jdbc获取数据库数据异常:", e);
             }
         }
         return dsList;

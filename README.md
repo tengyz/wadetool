@@ -26,15 +26,15 @@ wadetool java tool
 
 A. Memcached缓存：在 **Memcached**中可以保存的item数据量是没有限制的，只要内存足够
 
--  会话缓存
--  共享缓存
--  CCD缓存
--  静态参数翻译缓存
--  并发控制缓存
+- 会话缓存
+- 共享缓存
+- CCD缓存
+- 静态参数翻译缓存
+- 并发控制缓存
 
 B. Redis缓存
 
--  权限缓存：
+- 权限缓存：
   当初我们的权限缓存是基于Memcached做的，但没考虑批量判权限的场景，在批量判2000个权限时，由于反复多次的反序列化操作，以及2000多次网络Round-Trip（往返时延）开销，遇到了严重的性能问题，后来深入研究了Redis数据结构特性，将权限框架做了适度的改造，一下子性能提高了4000多倍。最终采用redis的hmset，hmget返回Set<String>
   类型
 
@@ -50,6 +50,8 @@ B. Redis缓存
 
 **服务缓存：**对服务的接入管控，并发管控；
 
+会话缓存、共享缓存、CCD缓存、静态参数缓存、并发控制缓存 权限缓存 会话缓存 静态参数缓存 并发控制缓存 CCD缓存 共享缓存
+
 #### 本地缓存
 
 在我们的系统中，本地缓存也称JVM缓存，即存在于JVM内部，其本质是一个HashMap，适用于缓存少量数据，又需要以极高频率访问的场景，典型的例子就是：CODE_CODE模板、CACHE_TABLES表、TD_S_BIZENV表、MVEL配置表、数据模糊化配置表。
@@ -57,9 +59,12 @@ B. Redis缓存
 
 特点 访问速度极快 容量有限 在所有JVM中冗余，在分布式环境中会缓存多份
 
-**本地只读缓存**（IReadOnlyCache） 特点 通过实现loadData接口，采用一次性全量加载方式 100%命中 由于做了只读限制，多线程访问下可以做到无锁，极大提高访问速度
+**本地只读缓存**（IReadOnlyCache） 特点 通过实现loadData接口，采用一次性全量加载方式 100%命中 由于做了只读限制，多线程访问下可以做到无锁，极大提高访问速度，要求缓存数据一次性全量加载，确保缓存 100%
+命中。
 
 **本地读写缓存**（IReadWriteCache） 特点 采用按需增量加载方式 采用LRU算法淘汰冷数据 多线程环境下需要采用读写锁控制数据一致性（框架级做）
+
+适合那些没法一次性全量加载的场合，采用按需加载方式，即先看缓存有没有，没有再查数据库或读文件，再将数据缓存起来。
 
 #### 本地缓存--配置说明
 
@@ -105,11 +110,28 @@ public class UacCacheTablesCache extends AbstractReadOnlyCache {
 }
 
 第二步：localcache.xml文件中的 <readonly>元素里面
+<!--
+			className: 缓存实现类  (必配参数)
+			cronExpr: 缓存清理时间 (可选参数，默认不自动清空。)
+			init: 系统初始化时是否立即初始化缓存 (可选参数, 默认不初始化)
+-->
 <cache className="com.wade.framework.common.cache.readonly.UacCacheTablesCache" cronExpr="30 * * * ?"  init="true" />
 
 第三步：只读缓存的使用方式
 IReadOnlyCache cacheTables = CacheManager.getReadOnlyCache(UacCacheTablesCache.class);
 String version = (String)cacheTables.get(tableName);
+
+
+/** 从工厂里获取缓存实例 */
+IReadOnlyCache cache = CacheFactory.getReadOnlyCache(BizEnvCache.class);
+
+/** 从缓存实例里获取缓存对象 */
+Object obj = cache.get("XXX");
+
+...
+
+
+
 ```
 
 #### 时间缓存
@@ -120,8 +142,6 @@ String version = (String)cacheTables.get(tableName);
 #### 业务环境配置表
 
 业务经常需要配置一些开关、接口调用地址等需要高频访问的数据，以往我们都是将这些数据配置字典表
-
-
 
 #### 本地读写缓存
 
@@ -142,6 +162,22 @@ String version = (String)cacheTables.get(tableName);
 `cache.put(cacheKey, cacheValue);`
 `}`
 `}
+
+
+private static final ICache cache = CacheManager.getCache("ACCT_CONFIG");
+String key = "BATCH_JOB_TYPE_" + infoTypes;
+		return CacheUtil.get(cache, key, new ICacheSourceProvider<IDataset>() {
+			@Override
+			public IDataset getSource() throws Exception {
+				IDataset model = new DatasetList();
+				String[] infoTypeArr = infoTypes.split(",");
+				for (int i = 0; i < infoTypeArr.length; i++) {
+					IDataset ds = ParamMgr.getList("TD_B_IDTONAME", "SPECIAL_FLAG,INFO_TYPE", "1," + infoTypeArr[i]);
+					model.addAll(ds);
+				}
+				return model;
+			}
+		});
 ```
 
 #### 分布式缓存

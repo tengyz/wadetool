@@ -59,7 +59,7 @@ public class DbConfig {
         return cfg;
     }
     
-    private static String getProperty(String name) {
+    public static String getProperty(String name) {
         if (data.containsKey(name)) {
             String value = (String)data.get(name);
             return value != null ? value : null;
@@ -103,6 +103,7 @@ public class DbConfig {
     }
     
     public static void main(String args[]) throws Exception {
+        System.out.println("====:" + getProperty("cache.dbUrl"));
         System.out.println("====:" + DbConfig.CACHE_DBURL);
     }
     

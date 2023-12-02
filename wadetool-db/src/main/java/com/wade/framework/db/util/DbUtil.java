@@ -1,10 +1,6 @@
 package com.wade.framework.db.util;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
@@ -33,6 +29,27 @@ public class DbUtil {
         catch (Exception e) {
             e.printStackTrace();
             log.error("jdbc DbUtil queryList异常", e);
+            return null;
+        }
+        finally {
+            colseResource(conn, pstm, rs);
+        }
+    }
+    
+    public static IDataList queryList(String sql, String dataSrc) {
+        Db db = new Db(dataSrc);
+        Connection conn = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            conn = db.getConnection();
+            pstm = conn.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            return resultSetToList(rs);
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            log.error("sql=：" + sql + "jdbc DbUtil queryList异常", e);
             return null;
         }
         finally {

@@ -18,8 +18,10 @@ import java.util.zip.ZipOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
 import com.wade.framework.data.impl.DataArrayList;
@@ -35,7 +37,7 @@ import com.wade.framework.exceptions.Thrower;
  * @Author      yz.teng
  */
 public class FileHelper {
-    private static final Logger log = Logger.getLogger(FileHelper.class);
+    private static final Logger log = LogManager.getLogger(StringHelper.class);
     
     /**
      * 解压zip格式压缩包   
@@ -488,6 +490,40 @@ public class FileHelper {
         FileInputStream in = new FileInputStream(file);
         FileMan.writeInputToOutput(in, zipout, true);
         in.close();
+    }
+    
+    /***
+     * 获取应用目录
+     * @param name
+     * @return
+     */
+    public String getDomainPath(String name) {
+        String path = getClass().getProtectionDomain().getCodeSource().getLocation().getPath();
+        if (name == null || "".equals(name))
+            return path;
+        
+        String[] dirs = name.split("/");
+        String pathname = "";
+        boolean find = true;
+        for (int i = 0; i < dirs.length; i++) {
+            int index = path.indexOf(dirs[i]);
+            
+            if (index != -1 && find) {
+                find = true;
+                pathname = path.substring(0, index + dirs[i].length() + 1);
+            }
+            else {
+                find = false;
+                if (i == 0)
+                    return "";
+                File file = new File(pathname + dirs[i]);
+                if (file.exists())
+                    pathname = pathname + dirs[i] + "/";
+                else
+                    return "";
+            }
+        }
+        return pathname;
     }
     
     public static void main(String args[]) throws Exception {

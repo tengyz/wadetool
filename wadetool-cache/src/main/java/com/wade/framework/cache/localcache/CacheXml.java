@@ -7,7 +7,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
@@ -20,7 +21,7 @@ import org.jdom.input.SAXBuilder;
  * @Author      yz.teng
  */
 final class CacheXml {
-    private static final Logger log = Logger.getLogger(CacheFactory.class);
+    private static final Logger log = LogManager.getLogger(CacheXml.class);
     
     private static final String CACHE_FILENAME = "localcache.xml";
     
@@ -95,11 +96,10 @@ final class CacheXml {
             String className = elem.getAttributeValue("className");
             String init = elem.getAttributeValue("init");
             String cronExpr = elem.getAttributeValue("cronExpr");
-            
-            if ((init == null) || ("".equals(init))) {
+            if ((null == init) || ("".equals(init))) {
                 init = "false";
             }
-            if (cronExpr == null) {
+            if (null == cronExpr) {
                 cronExpr = "";
             }
             ReadOnlyCacheItem item = new ReadOnlyCacheItem(className, init, cronExpr);
@@ -116,17 +116,15 @@ final class CacheXml {
             String name = elem.getAttributeValue("name");
             String maxSize = elem.getAttributeValue("maxSize");
             String cronExpr = elem.getAttributeValue("cronExpr");
-            
-            if ((maxSize == null) || ("".equals(maxSize))) {
+            if ((null == maxSize) || ("".equals(maxSize))) {
                 maxSize = "2000";
             }
-            if (cronExpr == null) {
+            if (null == cronExpr) {
                 cronExpr = "";
             }
             ReadWriteCacheItem item = new ReadWriteCacheItem(name, Integer.parseInt(maxSize), cronExpr);
             rtn.add(item);
         }
-        
         return rtn;
     }
     

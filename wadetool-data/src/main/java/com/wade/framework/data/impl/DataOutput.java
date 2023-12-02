@@ -56,7 +56,6 @@ public class DataOutput implements IDataOutput, Serializable {
             str.append("\"data\":" + this.data.toString());
         }
         str.append("}");
-        
         return str.toString();
     }
 }

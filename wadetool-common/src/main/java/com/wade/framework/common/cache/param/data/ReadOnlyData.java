@@ -10,9 +10,7 @@ import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 public class ReadOnlyData implements IDataMap {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -114877960942030528L;
     
     private IDataMap data = null;

@@ -6,7 +6,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.util.CacheUtil;
 import com.wade.framework.cache.util.ICacheSourceProvider;
@@ -30,13 +31,9 @@ import com.wade.framework.exceptions.Thrower;
  * @author tengyz 2016-5-10 下午07:03:03
  */
 public class ParamTable implements Serializable {
+    private static final Logger log = LogManager.getLogger(ParamTable.class);
     
     private static final long serialVersionUID = 6053908101123034071L;
-    
-    /**
-     * 日志操作对象
-     */
-    private static final Logger log = Logger.getLogger(ParamTable.class);
     
     /**
      * 表名
@@ -59,12 +56,8 @@ public class ParamTable implements Serializable {
     private Map<String, IDataList>[] indexDatas = null;
     
     /**
-     * 构造函数
-     * 
-     * @param tableName 表名
-     * @param primaryKeys 主键列的集合，各列名称以逗号“,”分割
-     * @param indexes 索引列的集合，各索引以“|”分割，每个索引内各列以逗号“,”分割
-     * @param eparchyKey 地州字段的列名
+     * 构造函数，@param tableName 表名，@param primaryKeys 主键列的集合，各列名称以逗号“,”分割
+     * param indexes 索引列的集合，各索引以“|”分割，每个索引内各列以逗号“,”分割，@param eparchyKey 地州字段的列名
      */
     public ParamTable(ParamConfigItem itemConf) {
         this.tableName = itemConf.getTableName();
@@ -153,8 +146,9 @@ public class ParamTable implements Serializable {
         String[] value = null;
         ParamTableIndex idx = null;
         
-        if (cols == null || values == null)
+        if (cols == null || values == null) {
             return srcDatas;
+        }
         int idxIndex = 0;
         for (; idxIndex < indexes.length; idxIndex++) {
             idx = indexes[idxIndex];
@@ -170,8 +164,9 @@ public class ParamTable implements Serializable {
         if (!like) {
             for (int i = 0; i < value.length; i++) {
                 IDataList ds = indexDatas[idxIndex].get(value[i]);
-                if (ds != null)
+                if (ds != null){
                     return ds;
+                }
             }
         }
         return null;

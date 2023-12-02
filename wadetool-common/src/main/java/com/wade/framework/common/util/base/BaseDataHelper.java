@@ -101,7 +101,6 @@ public final class BaseDataHelper {
             if (include)
                 subset.add(subdata);
         }
-        
         return subset;
     }
     
@@ -136,7 +135,6 @@ public final class BaseDataHelper {
         for (int i = 0; i < list.size(); i++) {
             value.add(nullable ? null : "");
         }
-        
         int index = 0;
         for (Iterator i$ = list.iterator(); i$.hasNext();) {
             Object obj = i$.next();
@@ -147,9 +145,7 @@ public final class BaseDataHelper {
             else if ((obj instanceof IDataMap)) {
                 d1 = (IDataMap)obj;
             }
-            
             Iterator iter = d1.keySet().iterator();
-            
             while (iter.hasNext()) {
                 String k1 = (String)iter.next();
                 IDataList v1 = (IDataList)data.get(k1);
@@ -224,14 +220,11 @@ public final class BaseDataHelper {
                 break;
             }
         }
-        
         int[] ms = new int[tail + 1];
-        
         int i = 0;
         for (int size = ms.length; i < size; i++) {
             ms[i] = marks[i];
         }
-        
         return ms;
     }
     
@@ -260,7 +253,6 @@ public final class BaseDataHelper {
         data.put("k2", "v2");
         data.put("k5", "v5");
         ds.add(data);
-        
         System.out.println(datasetToData(ds, false));
     }
 }

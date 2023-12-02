@@ -6,9 +6,10 @@ import java.util.Map;
 
 /**
  * list工具类
- * 
- * @author yz.teng
- * 
+ * @Description list工具类 
+ * @ClassName   ListHelper 
+ * @Date        2018年12月10日 上午11:34:42 
+ * @Author      yz.teng
  */
 public class ListHelper {
     public static final int ORDER_ASCEND = 0;

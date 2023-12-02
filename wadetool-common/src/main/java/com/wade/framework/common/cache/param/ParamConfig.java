@@ -11,10 +11,11 @@ import com.wade.framework.common.cache.readonly.ParamTablesCache;
 
 /**
  * 本地缓存表配置xml
- * @author tengyz
- *
+ * @Description 本地缓存表配置xml 
+ * @ClassName   ParamConfig 
+ * @Date        2018年3月29日 上午11:00:03 
+ * @Author      yz.teng
  */
-
 public class ParamConfig {
     
     private static Map<String, ParamConfigItem> paramItemConfs = CacheManager.getStaticMap(ParamConfig.class.getName());

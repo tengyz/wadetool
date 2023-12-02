@@ -3,10 +3,16 @@ package com.wade.framework.common.cache.timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import com.wade.framework.common.cache.CacheConfig;
+import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
+import com.wade.framework.data.impl.DataArrayList;
+import com.wade.framework.data.impl.DataHashMap;
+import com.wade.framework.db.util.DbUtil;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
@@ -18,9 +24,9 @@ import com.wade.framework.exceptions.Thrower;
  * 
  */
 public class CacheTimeStamp {
-    private static Logger log = Logger.getLogger(CacheTimeStamp.class);
+    private static final Logger log = LogManager.getLogger(CacheTimeStamp.class);
     
-    public static final String CACHE_TIMESTAMP = "WT_CACHE_REFRESH_SWITCH";
+    public static final String CACHE_TIMESTAMP = "LOCAL_CACHE_REFRESH_SWITCH";
     
     private String cacheTimestamp = null;
     
@@ -28,15 +34,13 @@ public class CacheTimeStamp {
     
     private List<ICacheClearInvoker> clearInvokers = new ArrayList<ICacheClearInvoker>();
     
-    //    //查询数据库
-    //    private static SQLManager getService = null;
-    
     private CacheTimeStamp(String timestampKey) {
         this.timestampKey = timestampKey;
         try {
             this.cacheTimestamp = getTimestamp(timestampKey);
         }
         catch (Exception e) {
+            log.error("CacheTimeStamp异常！", e);
             this.cacheTimestamp = "";
         }
     }
@@ -70,22 +74,26 @@ public class CacheTimeStamp {
         try {
             String timestamp = getTimestamp(timestampKey);
             if (null == timestamp || "".equals(timestamp)) {
+                log.info("needReFreshCache()判断需要更新本地缓存：false");
                 return false;
             }
             if (null == cacheTimestamp || "".equals(cacheTimestamp)) {
+                log.info("needReFreshCache()判断需要更新本地缓存：false");
                 return false;
             }
             if (timestamp.compareTo(cacheTimestamp) > 0) {
                 cacheTimestamp = timestamp;
-                log.info("....needReFreshCache()...判断需要更新本地缓存，开始更新本地缓存...");
+                log.info("needReFreshCache()判断需要更新本地缓存：true");
                 return true;
             }
+            log.info("needReFreshCache()判断需要更新本地缓存：false");
             return false;
         }
         catch (Exception e) {
             log.error("needReFreshCache异常！！！", e);
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "needReFreshCache异常！！！");
         }
+        log.info("needReFreshCache()判断需要更新本地缓存：false");
         return false;
     }
     
@@ -113,24 +121,30 @@ public class CacheTimeStamp {
     }
     
     private String getTimestamp(String timestampKey) throws Exception {
-        // 获得字典表时间 wt_pub_commpara 的key=CACHE_REFRESH_SWITCH;
+        //获得字典表时间 TD_M_STATIC 的key=LOCAL_CACHE_REFRESH_SWITCH;
         String getTimestamp = null;
         try {
-            //            if (null == getService) {
-            //                getService = (SQLManager)SpringContextsUtil.getBean("sqlManager");
-            //            }
-            IDataList getList = null;
-            // getList=getService.queryList(new SQLReady(
-            //"select t.PARA_CODE1 TIMESTAMP_CODE from RP_PUB_COMMPARA t where t.param_code='RP_CACHE_REFRESH_SWITCH'"));
-            IDataMap data = getList.first();
-            getTimestamp = data.getString("TIMESTAMP_CODE");
+            IDataList ds = null;
+            StringBuilder sql = new StringBuilder().append("select t.DATA_NAME  from TD_M_STATIC  t where t.TYPE_ID='").append(CACHE_TIMESTAMP).append("' AND  VALID_FLAG='2'");
+            try {
+                //直接查询数据库
+                ds = DbUtil.queryList(sql.toString());
+                log.info("CacheTimeStamp直接jdbc获取数据库时间=:" + ds);
+            }
+            catch (Exception e) {
+                log.error("CacheTimeStamp直接jdbc获取数据库时间异常:", e);
+                Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "CacheTimeStamp直接jdbc获取数据库时间异常！！！");
+            }
+            IDataMap data = ds.first();
+            getTimestamp = data.getString("DATA_NAME");
         }
         catch (Exception e) {
             log.error("getTimestamp获取开关时间异常！！！", e);
-            //Thrower.throwException(BaseExceptionType.ERROR_MSG, e, "getTimestamp获取开关时间异常！！！");
             getTimestamp = null;
         }
-        log.info("===获取缓存是否刷新开关数据=getTimestamp=:" + getTimestamp);
+        if (log.isDebugEnabled()) {
+            log.debug("===获取缓存是否刷新开关数据=getTimestamp=:" + getTimestamp);
+        }
         return getTimestamp;
     }
     

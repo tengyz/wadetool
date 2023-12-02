@@ -16,8 +16,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
+import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
@@ -29,7 +31,7 @@ import com.wade.framework.exceptions.Thrower;
  * @Author      yz.teng
  */
 public final class BaseStringHelper {
-    private static final Logger log = Logger.getLogger(BaseStringHelper.class);
+    private static final Logger log = LogManager.getLogger(StringHelper.class);
     
     public static final int MESSAGE_CONFIRM = 1;
     

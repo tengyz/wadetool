@@ -3,14 +3,14 @@ package com.wade.framework.data.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 /**
  * ArrayList 继承类
@@ -82,8 +82,6 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
                         if ((value != null) && (((String)value).indexOf(CLASS_REP_STRING2) != -1)) {
                             value = StringUtils.replace((String)value, CLASS_REP_STRING2, CLASS_STRING2);
                         }
-                        
-                        //                        if (JSONUtils.mayBeJSON((String)value)) {
                         if (((String)value).startsWith("{")) {
                             list.add(new DataHashMap((String)value));
                         }
@@ -93,8 +91,6 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
                         else {
                             list.add(value);
                         }
-                        //                        }
-                        
                     }
                     else {
                         list.add(value);
@@ -104,7 +100,6 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
                     list.add(null);
                 }
             }
-            
             return list;
         }
         return null;

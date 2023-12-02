@@ -29,9 +29,7 @@ import net.sf.json.JSONObject;
  *
  */
 public class TreeJson implements Serializable {
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = 1L;
     
     public String getId() {
@@ -129,8 +127,10 @@ public class TreeJson implements Serializable {
     public static List<TreeJson> formatTree(List<Map<String, Object>> listData, String rootId) {
         TreeJson root = new TreeJson();
         TreeJson node = new TreeJson();
-        List<TreeJson> treelist = new ArrayList<TreeJson>();// 拼凑好的json格式的数据
-        List<TreeJson> parentnodes = new ArrayList<TreeJson>();// parentnodes存放所有的父节点
+        // 拼凑好的json格式的数据
+        List<TreeJson> treelist = new ArrayList<TreeJson>();
+        // parentnodes存放所有的父节点
+        List<TreeJson> parentnodes = new ArrayList<TreeJson>();
         boolean flag = false;
         List<TreeJson> list = formatTreeJson(listData);
         for (int i = 0; i < list.size(); i++) {
@@ -247,7 +247,6 @@ public class TreeJson implements Serializable {
     private static void getChildrenNodesForRole(List<TreeJson> parentnodes, TreeJson node) {
         //循环遍历所有父节点和node进行匹配，确定父子关系
         for (int i = parentnodes.size() - 1; i >= 0; i--) {
-            
             TreeJson pnode = parentnodes.get(i);
             //如果是父子关系，为父节点增加子节点，退出for循环
             if (pnode.getId().equals(node.getPid())) {
@@ -260,18 +259,14 @@ public class TreeJson implements Serializable {
     
     public static List<TreeJson> formartTreeAll(List<Map<String, Object>> listData, String rootId) {
         List<TreeJson> list = formatTreeJson(listData);
-        
         List<TreeJson> treelist = new ArrayList<TreeJson>();// 拼凑好的json格式的数据
-        
         Map<String, TreeJson> treeMap = new HashMap<String, TreeJson>();
-        
         //1、把跟节点放入到treeMap中
         for (TreeJson node : list) {
             if (node.getPid().equals(rootId)) {
                 treeMap.put(node.getId(), node);
             }
         }
-        
         //2、把其他节点挂在跟下
         //已经挂在跟下的节点
         List<TreeJson> secondLevelAlready = new ArrayList<TreeJson>();
@@ -289,16 +284,13 @@ public class TreeJson implements Serializable {
                 secondLevelNotAlready.add(node);
             }
         }
-        
         recursion(secondLevelAlready, secondLevelNotAlready);
-        
         //3、只取根节点数据
         for (Entry<String, TreeJson> entry : treeMap.entrySet()) {
             if (entry.getValue().getPid().equals(rootId)) {
                 treelist.add(entry.getValue());
             }
         }
-        
         return treelist;
     }
     
@@ -308,13 +300,11 @@ public class TreeJson implements Serializable {
         if (notAlready.size() == 0) {
             return;
         }
-        
         //在没有被挂的节点里面寻找已经挂了的节点的子节点
         Map<String, TreeJson> treeMap = new HashMap<String, TreeJson>();
         for (TreeJson node : already) {
             treeMap.put(node.getId(), node);
         }
-        
         //已经挂了的节点
         List<TreeJson> nodeAlready = new ArrayList<TreeJson>();
         //没有挂的节点

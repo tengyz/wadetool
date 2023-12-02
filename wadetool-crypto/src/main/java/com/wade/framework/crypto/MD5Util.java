@@ -4,7 +4,8 @@ import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * MD5加密工具
@@ -15,8 +16,7 @@ import org.apache.log4j.Logger;
  * @Author tengyizu
  */
 public class MD5Util {
-    
-    private static final Logger log = Logger.getLogger(MD5Util.class);
+    private static final Logger log = LogManager.getLogger(MD5Util.class);
     
     public static String computeGBK(String str) {
         MessageDigest messageDigest = null;
@@ -26,7 +26,7 @@ public class MD5Util {
             messageDigest.update(str.getBytes("GBK"));
         }
         catch (NoSuchAlgorithmException e) {
-            log.error("NoSuchAlgorithmException caught!");
+            log.error("NoSuchAlgorithmException caught!", e);
             System.exit(-1);
         }
         catch (UnsupportedEncodingException e) {
@@ -51,7 +51,7 @@ public class MD5Util {
             messageDigest.update(str.getBytes("utf-8"));
         }
         catch (NoSuchAlgorithmException e) {
-            log.error("NoSuchAlgorithmException caught!");
+            log.error("NoSuchAlgorithmException caught!", e);
             System.exit(-1);
         }
         catch (UnsupportedEncodingException e) {
@@ -77,22 +77,18 @@ public class MD5Util {
                 byteArray[i] = (byte)charArray[i];
             }
             MessageDigest md5 = MessageDigest.getInstance("MD5");
-            
             byte[] md5Bytes = md5.digest(byteArray);
-            
             StringBuffer hexValue = new StringBuffer();
-            
             for (int i = 0; i < md5Bytes.length; i++) {
                 int val = ((int)md5Bytes[i]) & 0xff;
                 if (val < 16)
                     hexValue.append("0");
                 hexValue.append(Integer.toHexString(val));
             }
-            
             return hexValue.toString();
         }
         catch (NoSuchAlgorithmException e) {
-            log.error("-----------------加密数据出错：" + e.getMessage() + "--------------");
+            log.error("加密数据出错：", e);
             return null;
         }
     }

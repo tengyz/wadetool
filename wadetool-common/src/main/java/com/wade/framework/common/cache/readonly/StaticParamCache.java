@@ -2,7 +2,8 @@ package com.wade.framework.common.cache.readonly;
 
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.common.cache.BaseReadOnlyCache;
 import com.wade.framework.common.cache.param.ParamConfig;
@@ -19,7 +20,7 @@ import com.wade.framework.data.impl.DataHashMap;
  * @Author      yz.teng
  */
 public class StaticParamCache extends BaseReadOnlyCache {
-    private static Logger log = Logger.getLogger(StaticParamCache.class);
+    private static final Logger log = LogManager.getLogger(StaticParamCache.class);
     
     @Override
     public Map<String, Object> loadData() throws Exception {
@@ -46,5 +47,4 @@ public class StaticParamCache extends BaseReadOnlyCache {
     public boolean containsTable(String tableName) throws Exception {
         return get(tableName) != null;
     }
-    
 }

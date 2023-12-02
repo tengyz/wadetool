@@ -4,7 +4,8 @@ import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.time.StopWatch;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /**
  * AOP监控方法执行时间
@@ -15,7 +16,7 @@ import org.apache.log4j.Logger;
  */
 public class MethodTimeAdvice implements MethodInterceptor {
     
-    private static final Logger log = Logger.getLogger(MethodTimeAdvice.class);
+    private static final Logger log = LogManager.getLogger(MethodTimeAdvice.class);
     
     /**
      * AOP监控方法执行时间

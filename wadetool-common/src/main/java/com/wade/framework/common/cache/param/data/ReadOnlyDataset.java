@@ -12,10 +12,7 @@ import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 public class ReadOnlyDataset implements IDataList {
-    
-    /**
-     * 
-     */
+
     private static final long serialVersionUID = -5371318769538071668L;
     
     private IDataList ds = null;

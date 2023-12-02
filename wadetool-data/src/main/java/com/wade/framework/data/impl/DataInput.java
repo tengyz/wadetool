@@ -65,7 +65,6 @@ public class DataInput implements IDataInput {
             str.append("\"data\":" + this.data.toString());
         }
         str.append("}");
-        
         return str.toString();
     }
 }

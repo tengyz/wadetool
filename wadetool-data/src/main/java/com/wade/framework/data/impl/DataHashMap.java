@@ -4,14 +4,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 /**
  * HashMap 继承类
@@ -40,18 +40,16 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
     }
     
     public DataHashMap(String jsonObject) {
-        
         if ((null != jsonObject) && (jsonObject.indexOf(CLASS_STRING1) != -1)) {
             jsonObject = StringUtils.replace(jsonObject, CLASS_STRING1, CLASS_REP_STRING1);
         }
         
-        if(JSONUtils.mayBeJSON(jsonObject)){
+        if (JSONUtils.mayBeJSON(jsonObject)) {
             JSONObject map = JSONObject.fromObject(jsonObject);
-            if (null !=map) {
+            if (null != map) {
                 putAll(fromJSONObject(map));
             }
         }
-        
     }
     
     public static DataHashMap fromJSONObject(JSONObject object) {
@@ -210,7 +208,6 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
     
     public IDataMap subData(String group, boolean istrim) throws Exception {
         IDataMap element = new DataHashMap();
-        
         String[] names = getNames();
         String prefix = group + "_";
         for (String name : names) {
@@ -218,7 +215,6 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
                 element.put(istrim ? name.substring(prefix.length()) : name, get(name));
             }
         }
-        
         return element;
     }
     

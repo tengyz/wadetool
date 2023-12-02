@@ -1,6 +1,5 @@
 package com.wade.framework.cache.localcache;
 
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -8,12 +7,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
+import org.quartz.JobBuilder;
+import org.quartz.JobDataMap;
 import org.quartz.JobDetail;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
 import org.quartz.SchedulerFactory;
+import org.quartz.TriggerBuilder;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.wade.framework.cache.localcache.interfaces.IReadOnlyCache;
@@ -28,7 +32,7 @@ import com.wade.framework.cache.localcache.interfaces.IReadWriteCache;
  * @Author tengyz
  */
 public final class CacheFactory {
-    private static final Logger log = Logger.getLogger(CacheFactory.class);
+    private static final Logger log = LogManager.getLogger(CacheFactory.class);
     
     private static Map<Class, IReadOnlyCache> ROCACHES = new HashMap();
     
@@ -62,11 +66,9 @@ public final class CacheFactory {
                 cache.setClassName(clazz.getName());
                 cache.refresh();
                 ROCACHES.put(clazz, cache);
-                
                 log.info("ReadOnlyCache:" + clazz.getName() + "刷新成功，加载数据量:" + cache.size() + "条，耗时:" + (System.currentTimeMillis() - start) + "毫秒");
             }
         }
-        
         return cache;
     }
     
@@ -81,31 +83,33 @@ public final class CacheFactory {
             if (item.isInitial) {
                 ROCACHE_NEEDINIT.add(item.className);
             }
-            
             try {
                 Class clazz = Class.forName(item.className);
-                
                 if (null != item.cronExpr) {
                     startSchedulerIfNotStarted();
-                    
-                    JobDetail jobDetail = new JobDetail("refresh_" + item.className + "_job", "CacheRefreshGroup", CacheAutoRefreshJob.class);
-                    jobDetail.getJobDataMap().put("CACHE_TYPE", "READONLY_CACHE");
-                    jobDetail.getJobDataMap().put("CACHE_NAME", clazz);
-                    CronTrigger trigger = new CronTrigger("refresh_" + item.className + "_trigger", "d");
+                    JobDataMap jobDataMap = new JobDataMap();
+                    jobDataMap.put("CACHE_NAME", clazz);
+                    JobDetail jobDetail = JobBuilder.newJob(CacheAutoRefreshJob.class)
+                            .withIdentity("refresh_" + item.className + "_job", "CacheRefreshGroup")
+                            .usingJobData("CACHE_TYPE", "READONLY_CACHE")
+                            .usingJobData(jobDataMap)
+                            .build();
                     try {
-                        trigger.setCronExpression(item.cronExpr);
+                        CronTrigger trigger = TriggerBuilder.newTrigger()
+                                .withIdentity("refresh_" + item.className + "_trigger")
+                                .startNow()
+                                .withSchedule(CronScheduleBuilder.cronSchedule(item.cronExpr))
+                                .build();
                         scheduler.scheduleJob(jobDetail, trigger);
                     }
-                    catch (ParseException e) {
-                        log.error(e);
-                    }
                     catch (SchedulerException e) {
-                        log.error(e);
+                        log.error("initReadOnlyCaches--SchedulerException异常！", e);
                     }
+                    
                 }
             }
             catch (Exception e) {
-                log.error("ReadOnlyCache配置加载出错! " + item.className, e);
+                log.error("ReadOnlyCache配置加载出错! " + item.className + ",", e);
             }
         }
     }
@@ -119,20 +123,22 @@ public final class CacheFactory {
             
             if (null != item.cronExpr) {
                 startSchedulerIfNotStarted();
-                JobDetail jobDetail = new JobDetail("refresh_" + name + "_job", "CacheRefreshGroup", CacheAutoRefreshJob.class);
-                jobDetail.getJobDataMap().put("CACHE_TYPE", "READWRITE_CACHE");
-                jobDetail.getJobDataMap().put("CACHE_NAME", name);
+                JobDetail jobDetail = JobBuilder.newJob(CacheAutoRefreshJob.class)
+                        .withIdentity("refresh_" + name + "_job", "CacheRefreshGroup")
+                        .usingJobData("CACHE_TYPE", "READWRITE_CACHE")
+                        .usingJobData("CACHE_NAME", name)
+                        .build();
                 
-                CronTrigger trigger = new CronTrigger("refresh_" + name + "_trigger", "d");
                 try {
-                    trigger.setCronExpression(item.cronExpr);
+                    CronTrigger trigger = TriggerBuilder.newTrigger()
+                            .withIdentity("refresh_" + name + "_trigger")
+                            .startNow()
+                            .withSchedule(CronScheduleBuilder.cronSchedule(item.cronExpr))
+                            .build();
                     scheduler.scheduleJob(jobDetail, trigger);
                 }
-                catch (ParseException e) {
-                    log.error(e);
-                }
                 catch (SchedulerException e) {
-                    log.error(e);
+                    log.error("initReadWriteCaches--SchedulerException异常！", e);
                 }
             }
         }
@@ -215,8 +221,8 @@ public final class CacheFactory {
             initReadWriteCaches(readwriteCacheItems);
         }
         catch (Exception e) {
-            log.error("CacheFactory 初始化异常static!" + e);
             e.printStackTrace();
+            log.error("CacheFactory 初始化异常static!", e);
         }
     }
 }

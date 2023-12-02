@@ -6,26 +6,30 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.AbstractReadOnlyCache;
 import com.wade.framework.cache.localcache.CacheFactory;
 import com.wade.framework.cache.util.ICache;
 import com.wade.framework.common.cache.impl.LocalCache;
+import com.wade.framework.common.cache.impl.RedisCache;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 /**
  * 加载配置文件相应的缓存
- * @author Administrator
- *
+ * @Description 加载配置文件相应的缓存 
+ * @ClassName   CacheManager 
+ * @Date        2018年11月26日 下午4:03:44 
+ * @Author      yz.teng
  */
 public class CacheManager {
-    private static final Logger log = Logger.getLogger(CacheManager.class);
+    private static Logger log = LogManager.getLogger(CacheManager.class);
     
     private static Map<String, ICache> cacheMap = new ConcurrentHashMap<String, ICache>(20);
     
-    private static Class<?>[] cacheClasses = {LocalCache.class};
+    private static Class<?>[] cacheClasses = {LocalCache.class, RedisCache.class};
     
     private static Lock lock = new ReentrantLock();
     
@@ -42,6 +46,8 @@ public class CacheManager {
     }
     
     public static ICache getCache(String cacheName) {
+        log.debug("CacheManager cacheName=:" + cacheName);
+        log.debug("CacheManager cacheMap=:" + cacheMap);
         try {
             ICache cache = (ICache)cacheMap.get(cacheName);
             if (cache == null)
@@ -64,6 +70,10 @@ public class CacheManager {
                     }
                     else {
                         cacheMap.put(cacheName, cache);
+                        if (log.isDebugEnabled()) {
+                            log.debug("CacheManager cacheName=:" + cacheName);
+                            log.debug("CacheManager cacheMap.put=:" + cacheMap);
+                        }
                         return cache;
                     }
                 }

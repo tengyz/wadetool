@@ -18,13 +18,10 @@ public class InstanceManager {
     
     public static <T> T getInstance(final Class<T> clazz) throws Exception {
         Class<?> clz = (Class<?>)clazz;
-        
         Object obj = CacheUtil.get(insMap, clz, new ICacheSourceProvider<Object>() {
-            
             public Object getSource() throws Exception {
                 return clazz.newInstance();
             }
-            
         });
         @SuppressWarnings("unchecked")
         T objT = (T)obj;
@@ -35,7 +32,6 @@ public class InstanceManager {
         if (!superClazz.isAssignableFrom(clazz)) {
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, clazz, superClazz);
         }
-        
         return getInstance(clazz);
     }
     

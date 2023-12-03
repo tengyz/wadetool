@@ -11,7 +11,7 @@ import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.CacheFactory;
 import com.wade.framework.cache.localcache.interfaces.IReadOnlyCache;
-import com.wade.framework.common.cache.DBSystemTimeCache;
+import com.wade.framework.common.cache.readonly.DBSystemTimeCache;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
@@ -61,8 +61,6 @@ public final class BaseTimeHelper {
      * @param isLocal 是否本应用时间，否是数据库时间
      * @return
      * @throws Exception
-     * @see [相关类/方法](可选)
-     * @since [产品/模块版本](可选)
      */
     public static final long currentTimeMillis(boolean isLocal) throws Exception {
         if (isLocal) {
@@ -179,7 +177,7 @@ public final class BaseTimeHelper {
     }
     
     static {
-        // 类调用时加载
+        //类调用时加载
         try {
             cache = CacheFactory.getReadOnlyCache(DBSystemTimeCache.class);
         }

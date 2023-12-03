@@ -74,8 +74,9 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
                     else if ((value instanceof String)) {
                         data.put((String)key, value);
                     }
-                    else
+                    else {
                         data.put((String)key, value);
+                    }
                 }
                 else {
                     data.put((String)key, value);
@@ -86,6 +87,7 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return null;
     }
     
+    @Override
     public String[] getNames() {
         String[] names = new String[size()];
         Iterator keys = keySet().iterator();
@@ -97,67 +99,84 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return names;
     }
     
+    @Override
     public boolean isNoN(String name) {
         return (name == null) || (!containsKey(name));
     }
     
+    @Override
     public String getString(String name) {
         Object value = super.get(name);
-        if (value == null)
+        if (value == null) {
             return null;
+        }
         return value.toString();
     }
     
+    @Override
     public String getString(String name, String defaultValue) {
         String value = getString(name);
-        if (value == null)
+        if (value == null) {
             return defaultValue;
+        }
         return value;
     }
     
+    @Override
     public boolean getBoolean(String name) {
         return getBoolean(name, false);
     }
     
+    @Override
     public boolean getBoolean(String name, boolean defaultValue) {
         String value = getString(name);
         return "".equals(value) ? defaultValue : Boolean.valueOf(value).booleanValue();
     }
     
+    @Override
     public double getDouble(String name) {
         return getDouble(name, 0.0D);
     }
     
+    @Override
     public double getDouble(String name, double defaultValue) {
         Object value = super.get(name);
-        if (value == null)
+        if (value == null) {
             return defaultValue;
+        }
         
         return Double.parseDouble(value.toString());
     }
     
+    @Override
     public int getInt(String name) {
         return getInt(name, 0);
     }
     
+    @Override
     public int getInt(String name, int defaultValue) {
         Object value = super.get(name);
-        if (value == null)
+        if (value == null) {
             return defaultValue;
+        }
         return Integer.parseInt(value.toString());
     }
     
+    @Override
     public long getLong(String name) {
         return getLong(name, 0L);
     }
     
+    @Override
     public long getLong(String name, long defaultValue) {
         Object value = super.get(name);
-        if (value == null)
+        if (value == null) {
             return defaultValue;
+        }
         return Long.parseLong(value.toString());
     }
     
+    @Override
     public IDataMap getData(String name) {
         Object value = super.get(name);
         if (value == null) {
@@ -169,6 +188,7 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return null;
     }
     
+    @Override
     public IDataMap getData(String name, IDataMap def) {
         Object value = super.get(name);
         if (value == null) {
@@ -180,6 +200,7 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return def;
     }
     
+    @Override
     public IDataList getDataset(String name, IDataList def) {
         Object value = super.get(name);
         if (value == null) {
@@ -191,6 +212,7 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return def;
     }
     
+    @Override
     public IDataList getDataset(String name) {
         Object value = super.get(name);
         if (value == null) {
@@ -202,10 +224,12 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return null;
     }
     
+    @Override
     public IDataMap subData(String group) throws Exception {
         return subData(group, false);
     }
     
+    @Override
     public IDataMap subData(String group, boolean istrim) throws Exception {
         IDataMap element = new DataHashMap();
         String[] names = getNames();
@@ -230,6 +254,7 @@ public class DataHashMap extends HashMap<String, Object> implements IDataMap {
         return (IDataList)super.put(key, value);
     }
     
+    @Override
     public String toString() {
         return JSONObject.fromObject(this).toString();
     }

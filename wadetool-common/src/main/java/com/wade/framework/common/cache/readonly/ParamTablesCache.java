@@ -1,10 +1,6 @@
 package com.wade.framework.common.cache.readonly;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,7 +21,9 @@ import com.wade.framework.file.config.XMLConfig;
 public class ParamTablesCache extends BaseReadOnlyCache {
     private static final Logger log = LogManager.getLogger(ParamTablesCache.class);
     
-    //现在不走xml配置 直接走表配置的
+    /**
+     * 现在不走xml配置 直接走表配置的
+     */
     private static boolean FROM_DB = true;
     
     private static final String PARAM_TABLE_FILE = "paramtables.xml";
@@ -64,7 +62,8 @@ public class ParamTablesCache extends BaseReadOnlyCache {
         return (ParamConfigItem)get(tableName);
     }
     
+    @SuppressWarnings("unchecked")
     public List<ParamConfigItem> getAllParamItemConfigList() {
-        return (List)get(COLLECTION_KEY);
+        return (List<ParamConfigItem>)get(COLLECTION_KEY);
     }
 }

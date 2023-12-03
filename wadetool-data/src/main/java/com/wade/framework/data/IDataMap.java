@@ -135,9 +135,22 @@ public abstract interface IDataMap extends Map<String, Object>, Serializable {
      * @Author      yz.teng
      */
     public abstract IDataMap getData(String paramString, IDataMap paramIData);
-    
+
+    /**
+     * 获取下一级数据
+     * @param paramString
+     * @return
+     * @throws Exception
+     */
     public abstract IDataMap subData(String paramString) throws Exception;
-    
+
+    /**
+     * 获取下一级数据
+     * @param paramString
+     * @param paramBoolean
+     * @return
+     * @throws Exception
+     */
     public abstract IDataMap subData(String paramString, boolean paramBoolean) throws Exception;
     
     /**

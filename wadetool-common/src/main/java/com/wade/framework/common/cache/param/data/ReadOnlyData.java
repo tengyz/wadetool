@@ -10,7 +10,7 @@ import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 public class ReadOnlyData implements IDataMap {
-
+    
     private static final long serialVersionUID = -114877960942030528L;
     
     private IDataMap data = null;
@@ -111,7 +111,7 @@ public class ReadOnlyData implements IDataMap {
     
     @Override
     public void clear() {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "clear");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "clear");
     }
     
     @Override
@@ -146,18 +146,18 @@ public class ReadOnlyData implements IDataMap {
     
     @Override
     public Object put(String key, Object val) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "put");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "put");
         return null;
     }
     
     @Override
     public void putAll(Map<? extends String, ? extends Object> map) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "putAll");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "putAll");
     }
     
     @Override
     public Object remove(Object val) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "remove");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "remove");
         return null;
     }
     

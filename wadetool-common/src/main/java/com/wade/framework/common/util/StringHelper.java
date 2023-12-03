@@ -22,7 +22,7 @@ import com.wade.framework.exceptions.Thrower;
  * 通用字符串工具类(字符串操作提供的方法,金额转换为大写,获取正则匹配字符串)
  * 
  * @Description (字符串操作提供的方法,金额转换为大写,获取正则匹配字符串)
- * @ClassName StringUtil
+ * @ClassName StringUtil ValidatorUtils
  * @Date 2016年9月29日 下午3:37:25
  * @Author tengyizu
  */
@@ -568,12 +568,11 @@ public class StringHelper {
     
     /**
      * 检查字符串中是否含有对应key的键值对
-     * 
-     * @param arr
-     * @param key
+     * @param searchStr
+     * @param subStr
+     * @param separator
      * @return
      */
-    
     public static boolean contains(String searchStr, String subStr, String separator) {
         searchStr = separator + searchStr + separator;
         subStr = separator + subStr + separator;

@@ -9,6 +9,9 @@ import java.util.List;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
 
+/**
+ * @author yizuteng
+ */
 public class DatasetResult extends DataArrayList implements IDataList {
     
     private List names = new ArrayList();
@@ -36,8 +39,9 @@ public class DatasetResult extends DataArrayList implements IDataList {
             for (int i = 1; i <= rsmd.getColumnCount(); i++) {
                 String name = rsmd.getColumnName(i).toUpperCase();
                 data.put(name, getValueByResultSet(rs, rsmd.getColumnType(i), name));
-                if (rs.isFirst())
+                if (rs.isFirst()) {
                     names.add(name);
+                }
             }
             add(data);
         }
@@ -49,6 +53,7 @@ public class DatasetResult extends DataArrayList implements IDataList {
      * get names
      * @return String[]
      */
+    @Override
     public String[] getNames() {
         return (String[])names.toArray(new String[0]);
     }
@@ -72,6 +77,7 @@ public class DatasetResult extends DataArrayList implements IDataList {
     /**
      * clear
      */
+    @Override
     public void clear() {
         super.clear();
         names = new ArrayList();

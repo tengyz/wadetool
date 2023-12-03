@@ -14,8 +14,8 @@ import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 /**
- * 本地缓存xml解析
- * @Description TODO 
+ * 本地缓存（localcache.xml）解析
+ * @Description 本地缓存（localcache.xml）解析
  * @ClassName   CacheXml 
  * @Date        2015年11月28日 上午11:40:21 
  * @Author      yz.teng
@@ -149,8 +149,8 @@ final class CacheXml {
             if (!"".equals(cronExpr)) {
                 items = cronExpr.split(" ");
                 if (5 != items.length) {
-                    log.error("读写缓存配置错误：cronExpr 只可配置：分    小时    日    月    周");
-                    throw new IllegalArgumentException("读写缓存配置错误：cronExpr 只可配置：分    小时    日    月    周");
+                    log.error("读写缓存配置错误：cronExpr 只可配置：分  小时  日  月  周");
+                    throw new IllegalArgumentException("读写缓存配置错误：cronExpr 只可配置：分  小时  日  月  周");
                 }
                 this.cronExpr = ("0 " + cronExpr);
             }

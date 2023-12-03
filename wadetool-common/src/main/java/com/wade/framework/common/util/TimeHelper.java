@@ -8,11 +8,11 @@ import java.util.Date;
 import com.wade.framework.common.util.base.BaseTimeHelper;
 
 /**
- * 时间工具类
+ * 时间工具类(日期格式化,日期解析,日期操作,账期加减)
  * 
  * @Description 时间工具类(日期格式化,日期解析,日期操作,账期加减)
- * @ClassName TimeHelper
- * 	时间工具类TimeHelper
+ * @ClassName TimeHelper TimeUtil
+ * 	时间工具类TimeHelper 
  * 	日期格式化
  * 	日期解析
  * 	日期操作
@@ -25,6 +25,13 @@ public final class TimeHelper {
     
     public static final String DATE_FORMAT = "yyyy-MM-dd";
     
+    /**
+     * 本地缓存获取时间
+     * @param format 时间格式
+     * @param isLocal 是否本地，true 获取当前服务时间，fasle获取数据库缓存时间
+     * @return
+     * @throws Exception
+     */
     protected static final String getSysDate(String format, boolean isLocal) throws Exception {
         return BaseTimeHelper.getSysDate(format, isLocal);
     }
@@ -44,6 +51,14 @@ public final class TimeHelper {
     
     public static final String getSysDateLocal(String format) throws Exception {
         return getSysDate(format, true);
+    }
+    
+    public static final long currentTimeMillis() throws Exception {
+        return BaseTimeHelper.currentTimeMillis(false);
+    }
+    
+    public static final long currentTimeMillis(boolean isLocal) throws Exception {
+        return BaseTimeHelper.currentTimeMillis(isLocal);
     }
     
     /**

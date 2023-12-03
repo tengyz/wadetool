@@ -5,7 +5,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.AbstractReadOnlyCache;
 import com.wade.framework.common.cache.timestamp.CacheTimeStamp;
-import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
@@ -17,33 +16,47 @@ import com.wade.framework.exceptions.Thrower;
 
 /**
  * 基础
+ * @author yizuteng
  */
 public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
     private final static Logger log = LogManager.getLogger(BaseReadOnlyCache.class);
+    
+    protected static boolean NEED_TIMESTAMP = "true".equalsIgnoreCase("true");
     
     protected CacheTimeStamp timestamp = null;
     
     @Override
     public void refresh() throws Exception {
         try {
-            if (getTimestampCode() == null)
+            if (!NEED_TIMESTAMP) {
                 super.refresh();
+            }
             else {
-                if (this.timestamp == null) {
+                if (getTimestampCode() == null) {
                     super.refresh();
-                    this.timestamp = CacheTimeStamp.getInstance(getTimestampCode());
                 }
-                else if (this.timestamp.needReFreshCache()) {
-                    log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache() start=:" + this.timestamp.needReFreshCache());
-                    super.refresh();
-                    log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache() end=:" + this.timestamp.needReFreshCache());
+                else {
+                    if (this.timestamp == null) {
+                        super.refresh();
+                        this.timestamp = CacheTimeStamp.getInstance(getTimestampCode());
+                    }
+                    else if (this.timestamp.needReFreshCache()) {
+                        log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache() start=:" + this.timestamp.needReFreshCache());
+                        super.refresh();
+                        log.info("....refresh()...开始刷新本地缓存 this.timestamp.needReFreshCache() end=:" + this.timestamp.needReFreshCache());
+                    }
                 }
+                
             }
         }
         catch (Exception e) {
             log.error("【BaseReadOnlyCache】刷新缓存" + this.getClass() + "失败", e);
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "【BaseReadOnlyCache】刷新缓存失败");
         }
+    }
+    
+    public IDataMap getData(String key) {
+        return (IDataMap)get(key);
     }
     
     /**
@@ -69,18 +82,30 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
     }
     
     public IDataList getList(IDataMap param) throws Exception {
-        // 表名
+        /**
+         * 表名
+         */
         String tableName = param.getString("tableName");
-        // 查询字段
+        /**
+         * 查询字段
+         */
         String selColumns = param.getString("selColumns");
         String[] condColumns = (String[])param.get("condColumns");
-        // 查询值
+        /**
+         * 查询值
+         */
         String[] condValues = (String[])param.get("condValues");
-        // 排序字段
+        /**
+         * 排序字段
+         */
         String sortKeys = param.getString("sortKeys");
-        // 数据源，查询哪个系统的表
+        /**
+         * 数据源，查询哪个系统的表
+         */
         String dataSrc = param.getString("dataSrc");
-        // 表状态字段，用来过滤有效数据
+        /**
+         * 表状态字段，用来过滤有效数据
+         */
         String tableState = param.getString("tableState");
         
         IDataList ds = new DataArrayList();

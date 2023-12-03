@@ -1,10 +1,11 @@
 package com.wade.framework.common.cache.impl;
 
-import com.wade.framework.cache.redis.RedisFactoryBusiness;
+import java.util.Date;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.Date;
+import com.wade.framework.cache.redis.RedisFactoryBusiness;
 
 /**
  * redis缓存操作
@@ -15,9 +16,9 @@ import java.util.Date;
  */
 public class RedisCache222 extends AbstractCache {
     private static final Logger log = LogManager.getLogger(RedisCache222.class);
-
+    
     private RedisFactoryBusiness cache = null;
-
+    
     public RedisCache222(String cacheName) {
         this.cacheName = cacheName;
         try {
@@ -268,6 +269,11 @@ public class RedisCache222 extends AbstractCache {
         }
         RedisFactoryBusiness.setexObject(prepareCacheKey(cacheKey), secTTL, value);
         return true;
+    }
+    
+    @Override
+    public void touch(String cacheKey, int secTTL) {
+        
     }
     
     @Override

@@ -1,19 +1,15 @@
-package com.wade.framework.cache.util;
+package com.wade.framework.common.cache;
 
 import java.util.Date;
 
 public interface ICache {
     public abstract String getCacheName();
     
-    public abstract void lock();
-    
-    public abstract void unlock();
-    
-    public abstract boolean isValid();
+    public abstract boolean remove(String cacheKey);
     
     public abstract void refresh();
     
-    public abstract boolean remove(String cacheKey);
+    public abstract boolean isValid();
     
     public abstract Object get(String cacheKey);
     
@@ -72,4 +68,6 @@ public interface ICache {
     public abstract boolean put(String cacheKey, StringBuilder valueBuilder, int secTTL);
     
     public abstract boolean put(String cacheKey, Object value, int secTTL);
+    
+    public abstract void touch(String cacheKey, int secTTL);
 }

@@ -75,10 +75,12 @@ public final class BaseStringHelper {
                 if (i == 0)
                     return "";
                 File file = new File(pathname + dirs[i]);
-                if (file.exists())
+                if (file.exists()) {
                     pathname = pathname + dirs[i] + "/";
-                else
+                }
+                else {
                     return "";
+                }
             }
         }
         return pathname;
@@ -166,10 +168,12 @@ public final class BaseStringHelper {
     }
     
     public static final Timestamp encodeTimestamp(String format, String timeStr) throws Exception {
-        if (StringUtils.isBlank(timeStr))
+        if (StringUtils.isBlank(timeStr)) {
             return null;
-        if (format.length() != timeStr.length())
+        }
+        if (format.length() != timeStr.length()) {
             format = getTimestampFormat(timeStr);
+        }
         SimpleDateFormat sdf = new SimpleDateFormat(format);
         return new Timestamp(sdf.parse(timeStr).getTime());
     }
@@ -227,8 +231,9 @@ public final class BaseStringHelper {
         
         int charlen = 0;
         for (int i = 0; i < chars.length; i++) {
-            if (chars[i] > '')
+            if (chars[i] > '') {
                 charlen += 2;
+            }
             else {
                 charlen++;
             }
@@ -244,8 +249,9 @@ public final class BaseStringHelper {
         int charlen = 0;
         
         while ((charlen < length) && (charidx < chars.length)) {
-            if (chars[charidx] > '')
+            if (chars[charidx] > '') {
                 charlen += 2;
+            }
             else {
                 charlen++;
             }
@@ -264,8 +270,9 @@ public final class BaseStringHelper {
             return amountToChinese(Double.parseDouble(money));
         }
         String decimal = money.substring(index + 1);
-        if (decimal.length() >= 2)
+        if (decimal.length() >= 2) {
             money = money.substring(0, index + 3);
+        }
         return amountToChinese(Double.parseDouble(money));
     }
     
@@ -336,8 +343,9 @@ public final class BaseStringHelper {
         else if (numFen == 0) {
             chineseStr = chineseStr + chineseDigits[numJiao] + "角";
         }
-        else if (numJiao == 0)
+        else if (numJiao == 0) {
             chineseStr = chineseStr + "零" + chineseDigits[numFen] + "分";
+        }
         else {
             chineseStr = chineseStr + chineseDigits[numJiao] + "角" + chineseDigits[numFen] + "分";
         }
@@ -349,11 +357,8 @@ public final class BaseStringHelper {
         if ((amountPart < 0) || (amountPart > 10000)) {
             throw new IllegalArgumentException("参数必须是大于等于 0，小于 10000 的整数！");
         }
-        
         String[] units = {"", "拾", "佰", "仟"};
-        
         int temp = amountPart;
-        
         String amountStr = new Integer(amountPart).toString();
         int amountStrLength = amountStr.length();
         boolean lastIsZero = true;
@@ -362,8 +367,9 @@ public final class BaseStringHelper {
         for (int i = 0; (i < amountStrLength) && (temp != 0); i++) {
             int digit = temp % 10;
             if (digit == 0) {
-                if (!lastIsZero)
+                if (!lastIsZero) {
                     chineseStr = "零" + chineseStr;
+                }
                 lastIsZero = true;
             }
             else {
@@ -376,8 +382,9 @@ public final class BaseStringHelper {
     }
     
     public static final String[] getValues(Object value) throws Exception {
-        if (value == null)
+        if (value == null) {
             return new String[0];
+        }
         if ((value instanceof String[])) {
             return (String[])value;
         }
@@ -414,17 +421,17 @@ public final class BaseStringHelper {
         PrintWriter pw = new PrintWriter(sw);
         e.printStackTrace(pw);
         String str = sw.toString();
-        if (maxLength == 0)
+        if (maxLength == 0) {
             return str;
-        
+        }
         int charLength = getCharLength(str, maxLength);
         return str.substring(0, charLength);
     }
     
     public static final Throwable getBottomException(Throwable exception) {
-        if (exception == null)
+        if (exception == null) {
             return null;
-        
+        }
         if (exception.getCause() != null) {
             exception = exception.getCause();
             return getBottomException(exception);

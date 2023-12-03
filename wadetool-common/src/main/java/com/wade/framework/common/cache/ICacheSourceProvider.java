@@ -1,4 +1,4 @@
-package com.wade.framework.cache.util;
+package com.wade.framework.common.cache;
 
 public interface ICacheSourceProvider<T> {
     

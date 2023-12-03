@@ -8,12 +8,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.AbstractReadOnlyCache;
-import com.wade.framework.common.cache.CacheConfig;
-import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
-import com.wade.framework.data.impl.DataArrayList;
-import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.db.util.DbUtil;
 
 /**
@@ -45,15 +41,11 @@ public class UacCacheTablesCache extends AbstractReadOnlyCache {
             String tableName = data.getString("TABLE_NAME");
             String version = data.getString("VERSION");
             version = StringUtils.replaceChars(version, ":- ", "").substring(6, 12);
-            if (log.isDebugEnabled()) {
-                log.debug("UacCacheTablesCache表的版本号本地缓存tableName=:" + tableName);
-                log.debug("UacCacheTablesCache表的版本号本地缓存version=:" + version);
-            }
+            log.info("UacCacheTablesCache表的版本号本地缓存tableName=:" + tableName);
+            log.info("UacCacheTablesCache表的版本号本地缓存version=:" + version);
             rtn.put(tableName, version);
         }
-        if (log.isDebugEnabled()) {
-            log.debug("UacCacheTablesCache表的版本号本地缓存size=:" + ds.size());
-        }
+        log.info("UacCacheTablesCache表的版本号本地缓存size=:" + ds.size());
         return rtn;
     }
 }

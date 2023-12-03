@@ -2,6 +2,11 @@ package com.wade.framework.data.impl;
 
 import java.io.Serializable;
 
+/**
+ * @Description
+ * @Date 2023-12-02 16:33
+ * @Author yizuteng
+ */
 public class Pagination implements Serializable {
     private static final long serialVersionUID = 1L;
     

@@ -12,7 +12,7 @@ import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 public class ReadOnlyDataset implements IDataList {
-
+    
     private static final long serialVersionUID = -5371318769538071668L;
     
     private IDataList ds = null;
@@ -89,31 +89,31 @@ public class ReadOnlyDataset implements IDataList {
     
     @Override
     public boolean add(Object val) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "add");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "add");
         
         return false;
     }
     
     @Override
     public void add(int index, Object val) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "add");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "add");
     }
     
     @Override
     public boolean addAll(Collection<? extends Object> collection) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "addAll");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "addAll");
         return false;
     }
     
     @Override
     public boolean addAll(int index, Collection<? extends Object> collection) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "addAll");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "addAll");
         return false;
     }
     
     @Override
     public void clear() {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "clear");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "clear");
     }
     
     @Override
@@ -158,31 +158,31 @@ public class ReadOnlyDataset implements IDataList {
     
     @Override
     public boolean remove(Object arg0) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "remove");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "remove");
         return false;
     }
     
     @Override
     public Object remove(int index) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "remove");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "remove");
         return null;
     }
     
     @Override
     public boolean removeAll(Collection<?> collection) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "removeAll");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "removeAll");
         return false;
     }
     
     @Override
     public boolean retainAll(Collection<?> collection) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "retainAll");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "retainAll");
         return false;
     }
     
     @Override
     public Object set(int index, Object obj) {
-        Thrower.throwException(BizExceptionEnum.ERROR_MSG, this.getClass(), "set");
+        Thrower.throwException(BizExceptionEnum.WADE_COMP_METHOD_NOT_SURPT, this.getClass(), "set");
         return null;
     }
     

@@ -2,13 +2,10 @@ package com.wade.framework.common.cache.impl;
 
 import java.util.Date;
 
-import com.wade.framework.cache.redis.RedisFactory;
-import com.wade.framework.cache.redis.RedisFactorySentinel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.cache.redis.RedisFactoryBusiness;
-import redis.clients.jedis.Jedis;
+import com.wade.framework.cache.redis.RedisFactorySentinel;
 
 /**
  * redis缓存操作
@@ -274,6 +271,11 @@ public class RedisCache extends AbstractCache {
         }
         RedisFactorySentinel.setexObject(prepareCacheKey(cacheKey), secTTL, value);
         return true;
+    }
+    
+    @Override
+    public void touch(String cacheKey, int secTTL) {
+        
     }
     
     @Override

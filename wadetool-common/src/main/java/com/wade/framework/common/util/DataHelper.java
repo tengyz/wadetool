@@ -3,21 +3,15 @@ package com.wade.framework.common.util;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.cache.util.CacheUtil;
-import com.wade.framework.cache.util.ICacheSourceProvider;
+import com.wade.framework.common.cache.CacheUtil;
+import com.wade.framework.common.cache.ICacheSourceProvider;
 import com.wade.framework.common.util.base.BaseDataHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
@@ -1084,7 +1078,7 @@ public class DataHelper {
      * @param data
      * @param key
      * @param c
-     * @throws AmException
+     * @throws Exception
      * @author chenjw
      */
     public static void addString(IDataMap data, String key, String c) throws Exception {
@@ -1595,7 +1589,7 @@ public class DataHelper {
     /**
      * list转IDataset
      * 
-     * @param IDataList
+     * @param list
      * @return
      */
     public static IDataList trans2IDataset(List<?> list) {
@@ -1640,7 +1634,7 @@ public class DataHelper {
     /**
      * IDataset转List
      * 
-     * @param List
+     * @param ds
      * @return
      */
     public static List<Map<String, Object>> trans2List(IDataList ds) {

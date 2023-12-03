@@ -23,6 +23,7 @@ public class DataOutput implements IDataOutput, Serializable {
         this.data = data;
     }
     
+    @Override
     public IDataList getData() {
         return this.data;
     }
@@ -31,6 +32,7 @@ public class DataOutput implements IDataOutput, Serializable {
         this.data = data;
     }
     
+    @Override
     public IDataMap getHead() {
         return this.head;
     }
@@ -39,10 +41,12 @@ public class DataOutput implements IDataOutput, Serializable {
         this.head = head;
     }
     
+    @Override
     public long getDataCount() {
         return this.head.getLong("X_RESULTCOUNT", 0L);
     }
     
+    @Override
     public String toString() {
         StringBuilder str = new StringBuilder(100);
         str.append("{");

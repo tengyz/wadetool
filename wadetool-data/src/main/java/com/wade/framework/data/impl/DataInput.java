@@ -3,6 +3,10 @@ package com.wade.framework.data.impl;
 import com.wade.framework.data.IDataInput;
 import com.wade.framework.data.IDataMap;
 
+/**
+ * 请求参数实现类
+ * @author yizuteng
+ */
 public class DataInput implements IDataInput {
     private static final long serialVersionUID = 1L;
     
@@ -22,6 +26,7 @@ public class DataInput implements IDataInput {
         this.data = data;
     }
     
+    @Override
     public IDataMap getHead() {
         return this.head;
     }
@@ -30,6 +35,7 @@ public class DataInput implements IDataInput {
         this.head = head;
     }
     
+    @Override
     public IDataMap getData() {
         return this.data;
     }
@@ -38,11 +44,13 @@ public class DataInput implements IDataInput {
         this.data = data;
     }
     
+    @Override
     public Pagination getPagination() {
         return this.pagin;
     }
     
-    public void setPagination(Pagination pagin) {
+    @Override
+    public void setPagination(Pagination paramPagination) {
         this.pagin = pagin;
         if (pagin != null) {
             this.head.put("X_PAGINCOUNT", String.valueOf(pagin.getCount()));
@@ -52,6 +60,7 @@ public class DataInput implements IDataInput {
         }
     }
     
+    @Override
     public String toString() {
         StringBuilder str = new StringBuilder(100);
         str.append("{");

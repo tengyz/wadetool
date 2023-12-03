@@ -3,9 +3,9 @@ package com.wade.framework.common.cache.param;
 import java.util.List;
 import java.util.Map;
 
-import com.wade.framework.cache.util.CacheUtil;
-import com.wade.framework.cache.util.ICacheSourceProvider;
 import com.wade.framework.common.cache.CacheManager;
+import com.wade.framework.common.cache.CacheUtil;
+import com.wade.framework.common.cache.ICacheSourceProvider;
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
 import com.wade.framework.common.cache.readonly.ParamTablesCache;
 
@@ -28,6 +28,7 @@ public class ParamConfig {
             return item;
         }
         return (ParamConfigItem)CacheUtil.get(paramItemConfs, tableName, new ICacheSourceProvider() {
+            @Override
             public ParamConfigItem getSource() throws Exception {
                 return new ParamConfigItem(tableName);
             }

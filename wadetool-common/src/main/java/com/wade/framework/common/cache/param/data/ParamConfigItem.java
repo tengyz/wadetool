@@ -7,11 +7,13 @@ import java.util.Map;
 import org.dom4j.Attribute;
 import org.dom4j.Element;
 
-import com.wade.framework.cache.util.InstanceManager;
 import com.wade.framework.common.cache.param.IParamDataProvider;
 import com.wade.framework.common.cache.param.MysqlTableParamDataProvider;
+import com.wade.framework.common.util.InstanceManager;
 
 public class ParamConfigItem {
+    
+    public static final String DEFAULT_DATA_SRC = "cen2";
     
     private String tableName = null;
     
@@ -23,19 +25,28 @@ public class ParamConfigItem {
     
     private boolean needLoadingAll = false;
     
+    /**
+     * 暂时不用
+     */
     private String eparchyKey = null;
     
     private String sortKeys = null;
-    //数据源名称系统管理：SYSPARAM
+    
+    /**
+     * 数据源名称
+     */
     private String dataSrc = null;
-    //表的状态字段和条件
+    
+    /**
+     * 表的状态字段和条件
+     */
     private String tableState = null;
+    
+    private Map<String, String> attrMap = null;
     
     public String getTableState() {
         return tableState;
     }
-    
-    private Map<String, String> attrMap = null;
     
     private transient IParamDataProvider paramDataProvider = null;
     
@@ -91,7 +102,7 @@ public class ParamConfigItem {
         this.cacheKeys = ((String)data.get("CACHE_COLUMNS"));
         this.eparchyKey = "";
         this.sortKeys = ((String)data.get("SORT_COLUMNS"));
-        this.dataSrc = (data.containsKey("DATA_SRC") ? (String)data.get("DATA_SRC") : "WTPARAM");
+        this.dataSrc = (data.containsKey("DATA_SRC") ? (String)data.get("DATA_SRC") : DEFAULT_DATA_SRC);
         this.needLoadingAll = "Y".equals(data.get("NEED_LOAD_ALL"));
         String indexes = (String)data.get("INDEXES");
         
@@ -99,10 +110,12 @@ public class ParamConfigItem {
             this.indexArr = indexes.split("\\|");
         }
         String provider = (String)data.get("DATA_PROVIDER");
-        if (provider == null)
+        if (provider == null) {
             this.paramDataProvider = new MysqlTableParamDataProvider();
-        else
+        }
+        else {
             this.paramDataProvider = ((IParamDataProvider)InstanceManager.newInstance(provider, IParamDataProvider.class, null));
+        }
     }
     
     public String getTableName() {
@@ -142,7 +155,7 @@ public class ParamConfigItem {
     }
     
     public String getDataSrc() {
-        return dataSrc;
+        return dataSrc == null ? DEFAULT_DATA_SRC : dataSrc;
     }
     
     @Override

@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
-import com.wade.framework.cache.util.ICache;
+import com.wade.framework.common.cache.ICache;
 
 /**
  * 缓存抽象类
@@ -25,6 +25,7 @@ public abstract class AbstractCache implements ICache {
         return cacheName;
     }
     
+    @Override
     public boolean isValid() {
         return this.valid;
     }

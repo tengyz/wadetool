@@ -93,6 +93,38 @@ public class MD5Util {
         }
     }
     
+    private static final char[] hexchar = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
+    
+    private static MessageDigest alg;
+    
+    public static final String hexdigest(byte[] bytes) {
+        byte[] digest = alg.digest(bytes);
+        return bytesToHex(digest);
+    }
+    
+    public static final String hexdigest(String str) {
+        byte[] digest = alg.digest(str.getBytes());
+        return bytesToHex(digest);
+    }
+    
+    public static final String hexdigest_3(String str) {
+        byte[] digest = null;
+        digest = alg.digest(str.getBytes());
+        digest = alg.digest(digest);
+        digest = alg.digest(digest);
+        return bytesToHex(digest);
+    }
+    
+    private static final String bytesToHex(byte[] digest) {
+        StringBuilder sb = new StringBuilder(digest.length * 2);
+        int i = 0;
+        for (int size = digest.length; i < size; i++) {
+            sb.append(hexchar[((digest[i] & 0xF0) >>> 4)]);
+            sb.append(hexchar[(digest[i] & 0xF)]);
+        }
+        return sb.toString();
+    }
+    
     /* 下面是主函数调用 */
     public static void main(String[] args) throws NoSuchAlgorithmException {
         // 加密后的数据:d0521106f6ba7f9ac0a7370fb28d0ec6

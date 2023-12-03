@@ -6,18 +6,15 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.common.cache.CacheConfig;
-import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
-import com.wade.framework.data.impl.DataArrayList;
-import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.db.util.DbUtil;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 /**
- * 专用于前台缓存的时间戳控制 缓存的时间戳配置在TD_B_COMMPARA表中 PARA_CODE为时间戳的KEY 通过getInstance(key) 可以获取一个缓存时间戳控制类的实例 PARA_CODE1为刷新时间戳的频率
+ * 专用于前台缓存的时间戳控制 缓存的时间戳配置在TD_B_COMMPARA表中 PARA_CODE为时间戳的KEY 通过getInstance(key) 
+ * 可以获取一个缓存时间戳控制类的实例 PARA_CODE1为刷新时间戳的频率
  * PARA_DATE7 为时间戳 如果比原来的新 则需要更新缓存 注意：由定时刷新时会先判断这个时间窜，如果不是最新的不做刷新操作
  * 
  * @author yz.teng
@@ -61,6 +58,7 @@ public class CacheTimeStamp {
      * @return
      */
     public static CacheTimeStamp getInstance(String cacheKeyName) {
+        log.info(".....get a new CacheTimeStamp.....", cacheKeyName);
         CacheTimeStamp timestamp = new CacheTimeStamp(cacheKeyName);
         return timestamp;
     }
@@ -77,13 +75,10 @@ public class CacheTimeStamp {
                 log.info("needReFreshCache()判断需要更新本地缓存：false");
                 return false;
             }
-            if (null == cacheTimestamp || "".equals(cacheTimestamp)) {
-                log.info("needReFreshCache()判断需要更新本地缓存：false");
-                return false;
-            }
             if (timestamp.compareTo(cacheTimestamp) > 0) {
-                cacheTimestamp = timestamp;
+                log.info("........need to refresh....", timestampKey);
                 log.info("needReFreshCache()判断需要更新本地缓存：true");
+                cacheTimestamp = timestamp;
                 return true;
             }
             log.info("needReFreshCache()判断需要更新本地缓存：false");
@@ -107,8 +102,10 @@ public class CacheTimeStamp {
         try {
             needRefresh = needReFreshCache();
             if (needRefresh) {
+                log.info("........begin to clearCache....invoker size:", clearInvokers.size());
                 for (int i = 0, size = clearInvokers.size(); i < size; i++) {
                     ICacheClearInvoker invoker = clearInvokers.get(i);
+                    log.info("execute cacheClearInvoker: ", invoker);
                     invoker.clearListeningCache();
                 }
             }
@@ -125,7 +122,9 @@ public class CacheTimeStamp {
         String getTimestamp = null;
         try {
             IDataList ds = null;
-            StringBuilder sql = new StringBuilder().append("select t.DATA_NAME  from TD_M_STATIC  t where t.TYPE_ID='").append(CACHE_TIMESTAMP).append("' AND  VALID_FLAG='2'");
+            StringBuilder sql = new StringBuilder().append("select t.DATA_NAME  from TD_M_STATIC  t where t.TYPE_ID='")
+                    .append(CACHE_TIMESTAMP)
+                    .append("' AND  VALID_FLAG='2'");
             try {
                 //直接查询数据库
                 ds = DbUtil.queryList(sql.toString());
@@ -156,6 +155,7 @@ public class CacheTimeStamp {
         addCacheClearInvoker(new DefaultCacheClearInvoker(objs));
     }
     
+    @Override
     public String toString() {
         String str = "{" + "cacheTimestamp = " + cacheTimestamp + ";" + "cacheKey = " + timestampKey + "}";
         return str;

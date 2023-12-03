@@ -22,10 +22,9 @@ public abstract interface IDataList extends List<Object>, Serializable {
     public static final int TYPE_DOUBLE = 4;
     
     public static final int MAX_RECORD = 2000;
-    
+
     /**
      * 获取列名数组
-     * @param paramInt
      * @return
      */
     public abstract String[] getNames();

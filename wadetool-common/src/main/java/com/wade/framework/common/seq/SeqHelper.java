@@ -3,18 +3,14 @@ package com.wade.framework.common.seq;
 import java.lang.reflect.Constructor;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.cache.util.CacheUtil;
-import com.wade.framework.cache.util.ICacheSourceProvider;
+import com.wade.framework.common.cache.CacheUtil;
+import com.wade.framework.common.cache.ICacheSourceProvider;
 import com.wade.framework.data.Timer;
 
 /**
@@ -245,13 +241,13 @@ public class SeqHelper {
         System.out.println("去重前的大小" + list.size());
         List<String> newlist = new ArrayList<String>(new HashSet<String>(list));
         System.out.println("去后大小" + newlist.size());
-
-//TDOO
-//        StringBuilder strbuf = new StringBuilder();
-//        strbuf.append(getOrderno()); // 获取地域编码序号，不足两位前面补9
-//        strbuf.append(getSysDate_yyMMdd()); // 取6位系统时间，yyMMdd
-//        strbuf.append(fillupFigure(nextval, 8, "0")); // 取初始序列,不足8位前面补 0
-//        nextval = strbuf.toString();
+        
+        //TDOO
+        //        StringBuilder strbuf = new StringBuilder();
+        //        strbuf.append(getOrderno()); // 获取地域编码序号，不足两位前面补9
+        //        strbuf.append(getSysDate_yyMMdd()); // 取6位系统时间，yyMMdd
+        //        strbuf.append(fillupFigure(nextval, 8, "0")); // 取初始序列,不足8位前面补 0
+        //        nextval = strbuf.toString();
         
     }
     

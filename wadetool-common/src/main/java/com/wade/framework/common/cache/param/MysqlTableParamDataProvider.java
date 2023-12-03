@@ -43,19 +43,33 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
     }
     
     public IDataList getList(IDataMap param) throws Exception {
-        // 表名
+        /**
+         *  表名
+         */
         String tableName = param.getString("tableName");
-        // 查询字段
+        /**
+         * 查询字段
+         */
         String selColumns = param.getString("selColumns");
-        //查询的列
+        /**
+         * 查询的列
+         */
         String[] condColumns = (String[])param.get("condColumns");
-        // 查询值
+        /**
+         * 查询值
+         */
         String[] condValues = (String[])param.get("condValues");
-        // 排序字段
+        /**
+         * 排序字段
+         */
         String sortKeys = param.getString("sortKeys");
-        // 数据源，查询哪个系统的表
+        /**
+         * 数据源，查询哪个系统的表
+         */
         String dataSrc = param.getString("dataSrc");
-        // 表状态字段，用来过滤有效数据
+        /**
+         * 表状态字段，用来过滤有效数据
+         */
         String tableState = param.getString("tableState");
         
         IDataList ds = new DataArrayList();

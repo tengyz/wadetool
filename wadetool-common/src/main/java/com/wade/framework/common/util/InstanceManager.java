@@ -1,8 +1,13 @@
-package com.wade.framework.cache.util;
+package com.wade.framework.common.util;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.wade.framework.common.cache.CacheUtil;
+import com.wade.framework.common.cache.ICacheSourceProvider;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
@@ -14,14 +19,20 @@ import com.wade.framework.exceptions.Thrower;
  * @Author      yz.teng
  */
 public class InstanceManager {
+    private static final Logger log = LogManager.getLogger(StringHelper.class);
+    
     private static final Map<Class<?>, Object> insMap = new ConcurrentHashMap<Class<?>, Object>();
     
     public static <T> T getInstance(final Class<T> clazz) throws Exception {
         Class<?> clz = (Class<?>)clazz;
+        
         Object obj = CacheUtil.get(insMap, clz, new ICacheSourceProvider<Object>() {
+            
+            @Override
             public Object getSource() throws Exception {
                 return clazz.newInstance();
             }
+            
         });
         @SuppressWarnings("unchecked")
         T objT = (T)obj;
@@ -30,37 +41,41 @@ public class InstanceManager {
     
     public static <T> T getInstance(final Class<T> clazz, Class<?> superClazz) throws Exception {
         if (!superClazz.isAssignableFrom(clazz)) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, clazz, superClazz);
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_CAST_ERROR, clazz, superClazz);
         }
+        
         return getInstance(clazz);
     }
     
     public static <T> T newInstance(String clzName, Class<T> superClazz, T defIns) {
         try {
-            Class<?> clazz = InstanceManager.class.getClassLoader().loadClass(clzName);
+            Class<?> clazz = Class.forName(clzName);
             if (!superClazz.isAssignableFrom(clazz)) {
                 if (defIns != null)
                     return defIns;
-                Thrower.throwException(BizExceptionEnum.ERROR_MSG, clazz, superClazz);
+                Thrower.throwException(BizExceptionEnum.WADE_COMP_CAST_ERROR, clazz, superClazz);
             }
             @SuppressWarnings("unchecked")
             T obj = (T)clazz.newInstance();
             return obj;
         }
         catch (ClassNotFoundException e) {
+            log.error(e);
             if (defIns != null)
                 return defIns;
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, clzName);
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_NEW_INSTANCE, e, clzName);
         }
         catch (InstantiationException e) {
+            log.error(e);
             if (defIns != null)
                 return defIns;
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, clzName);
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_NEW_INSTANCE, e, clzName);
         }
         catch (IllegalAccessException e) {
+            log.error(e);
             if (defIns != null)
                 return defIns;
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, clzName);
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_NEW_INSTANCE, e, clzName);
         }
         return null;
     }

@@ -9,8 +9,8 @@ import java.util.Map.Entry;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.cache.util.CacheUtil;
-import com.wade.framework.cache.util.ICacheSourceProvider;
+import com.wade.framework.common.cache.CacheUtil;
+import com.wade.framework.common.cache.ICacheSourceProvider;
 import com.wade.framework.common.cache.param.ParamConfig;
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
 import com.wade.framework.common.cache.param.data.ReadOnlyDataset;
@@ -33,7 +33,7 @@ import com.wade.framework.exceptions.Thrower;
 public class ParamTable implements Serializable {
     private static final Logger log = LogManager.getLogger(ParamTable.class);
     
-    private static final long serialVersionUID = 6053908101123034071L;
+    private static final long serialVersionUID = 6053908101123112021L;
     
     /**
      * 表名
@@ -56,13 +56,15 @@ public class ParamTable implements Serializable {
     private Map<String, IDataList>[] indexDatas = null;
     
     /**
-     * 构造函数，@param tableName 表名，@param primaryKeys 主键列的集合，各列名称以逗号“,”分割
-     * param indexes 索引列的集合，各索引以“|”分割，每个索引内各列以逗号“,”分割，@param eparchyKey 地州字段的列名
+     * 构造函数:@param tableName	表名, @param primaryKeys	主键列的集合，各列名称以逗号“,”分割
+     * 构造函数: @param indexes	索引列的集合,各索引以“|”分割，每个索引内各列以逗号“,”分割,@param eparchyKey	地州字段的列名
+     * @param itemConf
      */
     public ParamTable(ParamConfigItem itemConf) {
+        log.debug("buildParamTable:", itemConf);
         this.tableName = itemConf.getTableName();
         if (StringHelper.isBlank(tableName) || StringHelper.isBlank(itemConf.getPrimaryKeys())) {
-            log.warn("buildParamTableFailed:" + tableName + itemConf.getPrimaryKeys());
+            log.warn("buildParamTableFailed:", tableName, itemConf.getPrimaryKeys());
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, "paramtables.xml:表名和主键没有配置");
         }
         
@@ -93,9 +95,7 @@ public class ParamTable implements Serializable {
         data.put("TABLE_NAME", tableName);
         ParamConfigItem item = ParamConfig.getParamItemConfig(tableName);
         srcDatas = item.getParamDataProvider().getAllData(item);
-        if (log.isDebugEnabled()) {
-            log.debug("loadData==加载参数表[" + tableName + "]数据成功，共加载数据" + srcDatas.size() + "条");
-        }
+        log.info("loadData==加载参数表[", tableName, "]数据成功，共加载数据", srcDatas.size(), "条");
         int indexCount = indexes.length;
         
         @SuppressWarnings("unchecked")
@@ -116,10 +116,10 @@ public class ParamTable implements Serializable {
                     }
                 }).add(d);
             }
-            if (log.isDebugEnabled()) {
-                log.debug("构建索引数据成功:" + tableName + "-" + Arrays.toString(tIdx.getColumns()) + "共构建数据" + indexDatas[j].size() + "条" + "，耗时:"
-                        + (System.nanoTime() - s));
-            }
+            
+            log.info("构建索引数据成功:" + tableName + "-" + Arrays.toString(tIdx.getColumns()) + "共构建数据" + indexDatas[j].size() + "条" + "，耗时:"
+                    + (System.nanoTime() - s));
+            
         }
         long s = System.nanoTime();
         int count = 0;
@@ -129,9 +129,7 @@ public class ParamTable implements Serializable {
                 count++;
             }
         }
-        if (log.isDebugEnabled()) {
-            log.debug("组装只读List完毕，耗时：" + (System.nanoTime() - s) + "，共转换：" + count + "条数据");
-        }
+        log.info("组装只读List完毕，耗时：" + (System.nanoTime() - s) + "，共转换：" + count + "条数据");
     }
     
     /**
@@ -158,13 +156,13 @@ public class ParamTable implements Serializable {
             }
         }
         if (value == null) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, tableName + Arrays.toString(cols) + "异常");
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_CACHE_NOTMATCH, tableName, Arrays.toString(cols));
         }
         
         if (!like) {
             for (int i = 0; i < value.length; i++) {
                 IDataList ds = indexDatas[idxIndex].get(value[i]);
-                if (ds != null){
+                if (ds != null) {
                     return ds;
                 }
             }

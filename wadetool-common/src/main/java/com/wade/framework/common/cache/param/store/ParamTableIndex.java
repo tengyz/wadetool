@@ -7,8 +7,11 @@ import java.util.Map;
 import com.wade.framework.common.util.DataHelper;
 import com.wade.framework.common.util.StringHelper;
 
+/**
+ * @author yizuteng
+ */
 public class ParamTableIndex implements Serializable {
-
+    
     private static final long serialVersionUID = -6673183183232359047L;
     
     private int id = -1;

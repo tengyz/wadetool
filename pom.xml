@@ -1,100 +1,102 @@
 <?xml version='1.0' encoding='utf-8'?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
 
-	<packaging>pom</packaging>
+    <packaging>pom</packaging>
 
-	<groupId>com.wade</groupId>
-	<artifactId>wadetool-parent</artifactId>
-	<version>iam.parent.v202109</version>
-	<name>wadetool</name>
-	<description>提供丰富的Java工具方法</description>
-	<url>http://120.77.183.31:8080/help/</url>
+    <groupId>com.wade</groupId>
+    <artifactId>wadetool-parent</artifactId>
+    <version>iam.parent.v202109</version>
+    <name>wadetool</name>
+    <description>提供丰富的Java工具方法</description>
+    <url>http://120.77.183.31:8080/help/</url>
 
-	<modules>
-		<module>wadetool-cache</module>
-		<module>wadetool-data</module>
-		<module>wadetool-common</module>
-		<module>wadetool-aop</module>
-		<module>wadetool-crypto</module>
-		<module>wadetool-db</module>
-		<module>wadetool-exceptions</module>
-		<module>wadetool-file</module>
-	</modules>
+    <modules>
+        <module>wadetool-cache</module>
+        <module>wadetool-data</module>
+        <module>wadetool-common</module>
+        <module>wadetool-aop</module>
+        <module>wadetool-crypto</module>
+        <module>wadetool-db</module>
+        <module>wadetool-exceptions</module>
+        <module>wadetool-file</module>
+        <module>wadetool-log</module>
+    </modules>
 
-	<properties>
-		<project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
-		<project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
-	</properties>
+    <properties>
+        <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>utf-8</project.reporting.outputEncoding>
+    </properties>
 
-	<dependencyManagement>
-		<dependencies>
-			<!--Log4j2 -->
+    <dependencyManagement>
+        <dependencies>
+            <!--Log4j2 -->
 
-	    	<dependency>
-	            <groupId>org.apache.logging.log4j</groupId>
-	            <artifactId>log4j-core</artifactId>
-	            <version>2.19.0</version>
-	            <scope>provided</scope>
-	        </dependency>
-	        <dependency>
-	            <groupId>org.apache.logging.log4j</groupId>
-	            <artifactId>log4j-api</artifactId>
-	            <version>2.19.0</version>
-	            <scope>provided</scope>
-	        </dependency>
-		</dependencies>
-	</dependencyManagement>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-core</artifactId>
+                <version>2.19.0</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-api</artifactId>
+                <version>2.19.0</version>
+                <scope>provided</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.5.1</version>
-				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
-				<configuration>
-					<aggregate>true</aggregate>
-				</configuration>
-			</plugin>
-			<!-- Source -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-source-plugin</artifactId>
-				<version>3.0.1</version>
-				<executions>
-					<execution>
-						<phase>package</phase>
-						<goals>
-							<goal>jar-no-fork</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.5.1</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <configuration>
+                    <aggregate>true</aggregate>
+                </configuration>
+            </plugin>
+            <!-- Source -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.0.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
- <repositories>
+    <repositories>
         <!--uac maven私服地址-->
         <repository>
-			<id>my-repository</id>
-			<name>my repository  Mirror</name>
-			<url>http://111.111.111.111/nexus/content/groups/public/</url>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-			<snapshots>
-				<enabled>true</enabled>
-			</snapshots>
-        </repository> 
+            <id>my-repository</id>
+            <name>my repository Mirror</name>
+            <url>http://111.111.111.111/nexus/content/groups/public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
         <!-- maven私服地址-->
         <repository>
             <id>Nexus aliyun</id>
@@ -119,19 +121,19 @@
             </snapshots>
         </repository>
     </repositories>
-	
- <!-- 配置远程发布到私服，mvn deploy -->
-	<distributionManagement>
-		<repository>
-			<id>maven-releases</id>
-			<name>maven-releases</name>
-			<url>http://182.43.37.215:8081/nexus/repository/maven-releases/</url>
-		</repository>
-		<snapshotRepository>
-			<id>maven-snapshots</id>
-			<name>maven-snapshots</name>
-			<url>http://182.43.37.215:8081/nexus/repository/maven-snapshots/</url>
-		</snapshotRepository>
-	</distributionManagement>
-	 
+
+    <!-- 配置远程发布到私服，mvn deploy -->
+    <distributionManagement>
+        <repository>
+            <id>maven-releases</id>
+            <name>maven-releases</name>
+            <url>http://182.43.37.215:8081/nexus/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>maven-snapshots</id>
+            <name>maven-snapshots</name>
+            <url>http://182.43.37.215:8081/nexus/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
 </project>

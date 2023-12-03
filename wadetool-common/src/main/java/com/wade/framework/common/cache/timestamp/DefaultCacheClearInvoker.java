@@ -31,7 +31,7 @@ public class DefaultCacheClearInvoker extends ICacheClearInvoker {
                 listCaches.add((List<?>)obj);
             }
             else {
-                Thrower.throwException(BizExceptionEnum.ERROR_MSG, obj.getClass());
+                Thrower.throwException(BizExceptionEnum.WADE_COMP_TYPE_NOT_SURPT, obj.getClass());
             }
         }
     }

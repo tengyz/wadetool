@@ -103,8 +103,7 @@ public class ParamMgr {
         }
         String valueName = null;
         String cacheKey = CacheKeyCreater.getCacheKey(itemConf.getDataSrc(), tableName, version, name, "T", keys, values);
-        log.info("===getStaticValue===version=:" + version);
-        log.info("===getStaticValue===cacheKey=:" + cacheKey);
+        log.info("===getStaticValue===version=:" + version + ",cacheKey=:" + cacheKey);
         ICache cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
         Object retValue = cache.get(cacheKey);
         if (null != retValue) {
@@ -134,7 +133,7 @@ public class ParamMgr {
                 valueName = defValue;
             }
         }
-        log.info("getStaticValue", tableName, keys, name, values, valueName);
+        log.info("======getStaticValue===" + tableName + keys + name + values + valueName);
         return valueName;
     }
     
@@ -174,7 +173,7 @@ public class ParamMgr {
                 if (apCache.containsTable(tableName)) {
                     IDataList ds = apCache.getList(tableName, cols, values, like);
                     log.info("get param from readonly [" + tableName + "]" + cols + values + ":" + ds + "use time:"
-                            + Long.valueOf(timer.getUseTimeInMillis()) + "ms");
+                            + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
                     return ds;
                 }
                 log.debug(new Object[] {"not match index", tableName, cols, values});
@@ -193,7 +192,7 @@ public class ParamMgr {
             String cacheKey = CacheKeyCreater.getCacheKey(cols, values);
             IDataList list = CacheUtil.get(cache, cacheKey, provider);
             log.info("get param from cache [" + tableName + "] " + cols + values + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis())
-                    + "ms");
+                    + " ms");
             return list;
         }
         //获取redis分布式缓存,获取版本号
@@ -210,7 +209,7 @@ public class ParamMgr {
                 IDataList list = CacheUtil.get(cache, cacheKey, provider);
                 if (log.isInfoEnabled()) {
                     log.info("get param from redis_staticparam_cache" + cacheKey + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis())
-                            + "ms");
+                            + " ms");
                 }
                 return list;
             }
@@ -219,7 +218,7 @@ public class ParamMgr {
         }
         //如果前面条件不满足，最后查询数据库
         IDataList list = provider.getSource();
-        log.info("get param from database" + tableName + cols + values + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis()) + "ms");
+        log.info("get param from database" + tableName + cols + values + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
         return list;
     }
     
@@ -260,6 +259,27 @@ public class ParamMgr {
         return getListLike(tableName, colArr, values);
     }
     
+    /**
+     * 根据typeId 获取静态参数表list
+     * @param typeId
+     * @return
+     * @throws Exception
+     */
+    public static final IDataList getStaticList(String typeId) throws Exception {
+        return getList("TD_M_STATIC", new String[] {"TYPE_ID"}, new String[] {typeId});
+    }
+    
+    /**
+     * 根据typeId，pDataId 获取静态参数表list
+     * @param typeId
+     * @param pDataId
+     * @return
+     * @throws Exception
+     */
+    public static final IDataList getStaticListByParent(String typeId, String pDataId) throws Exception {
+        return getList("TD_M_STATIC", new String[] {"TYPE_ID", "PDATA_ID"}, new String[] {typeId, pDataId});
+    }
+    
     public static IDataList getList(String tableName, String[] cols, String[] values) throws Exception {
         return getList(tableName, cols, values, false);
     }
@@ -295,6 +315,16 @@ public class ParamMgr {
     public static IDataMap getCommPara(String paraCode) throws Exception {
         return getData("TD_B_COMMPARA", "PARA_CODE", paraCode);
     }
+    
+    //    public static IDataset getListByCodeCode(String tableName, String sqlRef, IData data) throws Exception {
+    //        data.put("_TABLE_NAME", tableName);
+    //        data.put("_SQL_REF", sqlRef);
+    //        
+    //        ParamConfigItem item = ParamConfig.getParamItemConfig(tableName);
+    //        data.put("_DATA_SOURCE", item.getDataSrc());
+    //        IDataset ds = ServiceCaller.callList("AC_AcctParam_GetListByCodeCode", data);
+    //        return ds;
+    //    }
     
     /**
      * 测试方法

@@ -16,6 +16,7 @@ public class DbUtil {
     private static final Logger log = LogManager.getLogger(DbUtil.class);
     
     public static IDataList queryList(String sql) {
+        log.info("===DbUtil===sql=:" + sql);
         Db db = new Db();
         Connection conn = null;
         PreparedStatement pstm = null;

@@ -13,9 +13,12 @@ import com.wade.framework.data.IDataMap;
 import com.wade.framework.data.impl.DataArrayList;
 import com.wade.framework.data.impl.DataHashMap;
 
+/**
+ * 缓存刷新，提供给前台或者后端进行手动刷新
+ */
 public class CacheContainer {
     
-    public static final Boolean IS_PRODUCTION = true;
+    public static final Boolean IS_PRODUCTION = false;
     
     private static final Map<String, IReadOnlyCache> readOnlyCacheMap = new ConcurrentHashMap<String, IReadOnlyCache>();
     

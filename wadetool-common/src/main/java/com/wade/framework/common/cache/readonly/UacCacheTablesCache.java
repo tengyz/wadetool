@@ -29,10 +29,10 @@ public class UacCacheTablesCache extends AbstractReadOnlyCache {
         IDataList ds = null;
         try {
             ds = DbUtil.queryList(sql);
-            log.info("UacCacheTablesCache直接jdbc获取数据库时间=:" + ds);
+            log.info("UacCacheTablesCache直接jdbc获取ds=:" + ds);
         }
         catch (Exception e) {
-            log.error("UacCacheTablesCache直接jdbc获取数据库时间异常:", e);
+            log.error("UacCacheTablesCache直接jdbc获取数据库异常:", e);
         }
         
         int i = 0;
@@ -41,8 +41,7 @@ public class UacCacheTablesCache extends AbstractReadOnlyCache {
             String tableName = data.getString("TABLE_NAME");
             String version = data.getString("VERSION");
             version = StringUtils.replaceChars(version, ":- ", "").substring(6, 12);
-            log.info("UacCacheTablesCache表的版本号本地缓存tableName=:" + tableName);
-            log.info("UacCacheTablesCache表的版本号本地缓存version=:" + version);
+            log.info("UacCacheTablesCache表的版本号本地缓存tableName=:" + tableName + ",version=:" + version);
             rtn.put(tableName, version);
         }
         log.info("UacCacheTablesCache表的版本号本地缓存size=:" + ds.size());

@@ -12,7 +12,7 @@ import com.wade.framework.exceptions.Thrower;
 
 /**
  * 缓存清除操作
- * @author yz。teng
+ * @author teng
  *
  */
 public class DefaultCacheClearInvoker extends ICacheClearInvoker {

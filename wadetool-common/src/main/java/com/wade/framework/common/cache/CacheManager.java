@@ -48,17 +48,17 @@ public class CacheManager {
                 }
                 
                 if (!cache.isValid()) {
-                    log.info("获取缓存对象【", cacheName, "】失败，请确认是否有缓存配置!");
+                    log.info("获取缓存对象【" + cacheName + "】失败，请确认是否有缓存配置!");
                 }
                 else {
                     CacheContainer.registerCache(cacheName, cache);
-                    log.debug("获取缓存对象【", cacheName, "】成功，实例化缓存类", cache.getClass());
+                    log.info("获取缓存对象【" + cacheName + "】成功，实例化缓存类" + cache.getClass());
                 }
                 return cache;
             }
         });
         if (cache != null && cache.isValid()) {
-            log.debug("获取缓存对象【", cacheName, "】成功:", (cache != null ? cache.getClass() : null));
+            log.info("获取缓存对象【" + cacheName + "】成功:" + (cache != null ? cache.getClass() : null));
             return cache;
         }
         return null;

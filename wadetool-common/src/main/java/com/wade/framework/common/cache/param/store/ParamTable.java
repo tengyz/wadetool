@@ -95,7 +95,7 @@ public class ParamTable implements Serializable {
         data.put("TABLE_NAME", tableName);
         ParamConfigItem item = ParamConfig.getParamItemConfig(tableName);
         srcDatas = item.getParamDataProvider().getAllData(item);
-        log.info("loadData==加载参数表[", tableName, "]数据成功，共加载数据", srcDatas.size(), "条");
+        log.info("loadData==加载参数表[" + tableName + "]数据成功，共加载数据[" + srcDatas.size() + "]条");
         int indexCount = indexes.length;
         
         @SuppressWarnings("unchecked")

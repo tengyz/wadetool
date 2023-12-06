@@ -356,6 +356,8 @@ CREATE TABLE `td_m_static` (
 INSERT INTO `uac_param`.`td_m_static` (`table_id`, `update_no`, `update_time`, `TYPE_ID`, `DATA_ID`, `DATA_NAME`, `VALID_FLAG`, `PDATA_ID`, `REMARK`) VALUES (206, NULL, NULL, 'TEST', '1', 'TEST111', '1', 'pddd', '测试');
 INSERT INTO `uac_param`.`td_m_static` (`table_id`, `update_no`, `update_time`, `TYPE_ID`, `DATA_ID`, `DATA_NAME`, `VALID_FLAG`, `PDATA_ID`, `REMARK`) VALUES (207, NULL, NULL, 'TEST', '2', 'TEST222', '1', 'pddd', '测试');
 INSERT INTO `uac_param`.`td_m_static` (`table_id`, `update_no`, `update_time`, `TYPE_ID`, `DATA_ID`, `DATA_NAME`, `VALID_FLAG`, `PDATA_ID`, `REMARK`) VALUES (208, NULL, NULL, 'TEST', '3', 'TEST333', '1', 'pxxx', NULL);
+插入缓存开关数据：
+INSERT INTO `uac_param`.`td_m_static` (`table_id`, `update_no`, `update_time`, `TYPE_ID`, `DATA_ID`, `DATA_NAME`, `VALID_FLAG`, `PDATA_ID`, `REMARK`) VALUES (3, 3, '2023-03-09 15:33:51', 'LOCAL_CACHE_REFRESH_SWITCH', 'LOCAL_CACHE_REFRESH_SWITCH', '2023-03-09 15:33:51', '2', NULL, '本地缓存刷新开关');
 
 
 第五步：在配置文件application.properties中新增数据库连接和账号密码，根据自己环境修改ip和账号密码，配置如下：
@@ -413,6 +415,8 @@ CacheContainer.clear(cacheNameArr);
 //每次发版，更新了字典表等参数表时，需要根据表名称进行刷新缓存，更新表的版本号，实现批量多个微服务或者多个服务刷新
 //表名就是table_id，更新哪张表，条件中就带哪张表的表名。不要全量更新，以免刷新失败
 update td_m_cache_tables t set  t.version = now()  where   t.table_name in ('TD_M_STATIC','TD_M_APP')
+//本地只读缓存刷新
+update td_m_static t set  t.DATA_NAME = now()  where   t.TYPE_ID ='LOCAL_CACHE_REFRESH_SWITCH' AND VALID_FLAG='2'
 
 ````
 

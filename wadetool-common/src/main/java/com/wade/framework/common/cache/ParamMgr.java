@@ -22,15 +22,11 @@ import com.wade.framework.exceptions.Thrower;
 
 /**
  * 获取静态参数工具类
- * source:配置的aicache会走aicache,可通过aicache刷新缓存
- * dataType:CacheConfig.xml中的 server_code
+ * source:配置的aicache会走aicache,可通过aicache刷新缓存，dataType:CacheConfig.xml中的 server_code
  * 不配置走的分布式缓存,没个表的缓存数据在redis上key为:STATIC_PARAM_TAB_VERSION_表名
  * 查询条件列需要走上BS_PARAM_TABLES表配置的主键和索引才能命中缓存
- * 否则在aicache缓存中找不到
- * 这样刷新缓存需要删除redis
- * STATIC_PARAM_TAB_VERSION_表名
- * 的key
- * 在使用ParamMgr获取缓存的时候一定要按表bs_param_tables配置的主键和索引列查找
+ * 否则在aicache缓存中找不到，这样刷新缓存需要删除redis，STATIC_PARAM_TAB_VERSION_表名
+ * 的key，在使用ParamMgr获取缓存的时候一定要按表bs_param_tables配置的主键和索引列查找
  * 否则会出现缓存无法刷新的情况
  * @Description 获取静态参数工具类
  * @ClassName ParamMgr
@@ -44,12 +40,11 @@ public class ParamMgr {
     
     private static final String IMPOSSIBLE_VALUE = "<-- IMPOSSIBLE_VALUE -->";
     
-    public static final String ACCT_KEY_PREFIX = "UAC_";
-    
-    public static final int CACHE_KEY_MAX_LEN = 250;
-    
     private static final boolean REDIS_DISABLED = "false".equals(CacheConfig.STATICPARAM_DISABLED);
     
+    /**
+     * 类加载时执行
+     */
     static {
         try {
             cacheTables = CacheFactory.getReadOnlyCache(UacCacheTablesCache.class);
@@ -93,6 +88,16 @@ public class ParamMgr {
         return getStaticValue(tableName, key, name, value, null);
     }
     
+    /**
+     * 先查询分布式缓存，再查询本地缓存
+     * @param tableName
+     * @param keys
+     * @param name
+     * @param values
+     * @param defValue
+     * @return
+     * @throws Exception
+     */
     public static String getStaticValue(String tableName, String[] keys, String name, String[] values, String defValue) throws Exception {
         ParamConfigItem itemConf = ParamConfig.getParamItemConfig(tableName);
         String version = null;
@@ -103,7 +108,9 @@ public class ParamMgr {
         }
         String valueName = null;
         String cacheKey = CacheKeyCreater.getCacheKey(itemConf.getDataSrc(), tableName, version, name, "T", keys, values);
-        log.info("===getStaticValue===version=:" + version + ",cacheKey=:" + cacheKey);
+        if (log.isDebugEnabled()) {
+            log.debug("===getStaticValue===version=:" + version + ",cacheKey=:" + cacheKey);
+        }
         ICache cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
         Object retValue = cache.get(cacheKey);
         if (null != retValue) {
@@ -133,7 +140,9 @@ public class ParamMgr {
                 valueName = defValue;
             }
         }
-        log.info("======getStaticValue===" + tableName + keys + name + values + valueName);
+        if (log.isDebugEnabled()) {
+            log.info("======getStaticValue===" + tableName + keys + name + values + valueName);
+        }
         return valueName;
     }
     
@@ -165,18 +174,22 @@ public class ParamMgr {
         tableName = tableName.toUpperCase();
         ParamConfigItem itemConf = ParamConfig.getParamItemConfig(tableName);
         //不等于like，却是全量加载
-        log.info("like=:" + like);
-        log.info("isNeedLoadingAll=:" + itemConf.isNeedLoadingAll());
+        if (log.isDebugEnabled()) {
+            log.debug("like=:" + like);
+            log.debug("isNeedLoadingAll=:" + itemConf.isNeedLoadingAll());
+        }
         if (!like && itemConf.isNeedLoadingAll()) {
             StaticParamCache apCache = CacheManager.getReadOnlyCache(StaticParamCache.class);
             try {
                 if (apCache.containsTable(tableName)) {
                     IDataList ds = apCache.getList(tableName, cols, values, like);
-                    log.info("get param from readonly [" + tableName + "]" + cols + values + ":" + ds + "use time:"
-                            + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
+                    if (log.isDebugEnabled()) {
+                        log.debug("get param from readonly [" + tableName + "]" + cols + values + ":" + ds + "use time:"
+                                + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
+                    }
                     return ds;
                 }
-                log.debug(new Object[] {"not match index", tableName, cols, values});
+                log.warn(new Object[] {"not match index", tableName, cols, values});
             }
             catch (Exception e) {
                 log.warn("从只读缓存中读取参数出错", e.getMessage());
@@ -191,34 +204,39 @@ public class ParamMgr {
         if (cache != null) {
             String cacheKey = CacheKeyCreater.getCacheKey(cols, values);
             IDataList list = CacheUtil.get(cache, cacheKey, provider);
-            log.info("get param from cache [" + tableName + "] " + cols + values + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis())
-                    + " ms");
+            if (log.isDebugEnabled()) {
+                log.info("get param from cache [" + tableName + "] " + cols + values + ":" + list + "use time:"
+                        + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
+            }
             return list;
         }
         //获取redis分布式缓存,获取版本号
         String version = getCacheTableVersion(tableName);
-        log.info("获取分布式缓存,获取版本号 version=:" + version);
         if (version != null) {
             //初始化redis客户端
             cache = CacheManager.getCache("REDIS_STATICPARAM_CACHE");
             if (cache != null) {
                 String cacheKey = CacheKeyCreater.getCacheKey(tableName, version, cols, values);
                 if (log.isDebugEnabled()) {
-                    log.debug("获取分布式缓存,获取版本号 version cacheKey=:" + cacheKey);
+                    log.debug("获取分布式缓存 cacheKey=:" + cacheKey);
                 }
                 IDataList list = CacheUtil.get(cache, cacheKey, provider);
-                if (log.isInfoEnabled()) {
-                    log.info("get param from redis_staticparam_cache" + cacheKey + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis())
-                            + " ms");
+                if (log.isDebugEnabled()) {
+                    log.debug("get param from redis_staticparam_cache" + cacheKey + ":" + list + "use time:"
+                            + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
                 }
                 return list;
             }
-            
-            log.info("static redis_staticparam_cache is null");
+            if (log.isDebugEnabled()) {
+                log.debug("static redis_staticparam_cache is null");
+            }
         }
         //如果前面条件不满足，最后查询数据库
         IDataList list = provider.getSource();
-        log.info("get param from database" + tableName + cols + values + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
+        if (log.isDebugEnabled()) {
+            log.debug("get param from database" + tableName + cols + values + ":" + list + "use time:" + Long.valueOf(timer.getUseTimeInMillis())
+                    + " ms");
+        }
         return list;
     }
     
@@ -231,16 +249,20 @@ public class ParamMgr {
      * @Author      yz.teng
      */
     public static String getCacheTableVersion(String tableName) throws Exception {
+        String version = null;
         if (cacheTables == null) {
             synchronized (ParamMgr.class) {
                 cacheTables = CacheFactory.getReadOnlyCache(UacCacheTablesCache.class);
             }
         }
-        String version = (String)cacheTables.get(tableName);
+        version = (String)cacheTables.get(tableName);
         if (null == version) {
             ////UOP_PARAM数据库下面,在UOP_PARAM.CACHE_TABLES中未定义!
             log.warn(tableName, "在CACHE_TABLES中未定义!");
             version = "0";
+        }
+        if (log.isDebugEnabled()) {
+            log.debug("获取版本号getCacheTableVersion version=:" + version + ",tableName=:" + tableName);
         }
         return version;
     }

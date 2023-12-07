@@ -2,6 +2,9 @@ package com.wade.framework.common.cache;
 
 import java.util.Date;
 
+/**
+ * 缓存接口类
+ */
 public interface ICache {
     public abstract String getCacheName();
     

@@ -90,6 +90,9 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
          * 查询字段
          */
         String selColumns = param.getString("selColumns");
+        /**
+         * 需要缓存的列
+         */
         String[] condColumns = (String[])param.get("condColumns");
         /**
          * 查询值
@@ -147,11 +150,13 @@ public abstract class BaseReadOnlyCache extends AbstractReadOnlyCache {
         try {
             //直接查询数据库
             ds = DbUtil.queryList(sql.toString());
-            log.info("BaseReadOnlyCache直接jdbc获取数据库时间=:" + ds);
+            if (log.isDebugEnabled()) {
+                log.debug("BaseReadOnlyCache直接jdbc获取数据库ds=:" + ds);
+            }
         }
         catch (Exception e) {
-            log.error("BaseReadOnlyCache直接jdbc获取数据库时间异常:", e);
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "BaseReadOnlyCache直接jdbc获取数据库时间异常！！！");
+            log.error("BaseReadOnlyCache直接jdbc获取数据库异常:", e);
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "BaseReadOnlyCache直接jdbc获取数据库异常！！！");
         }
         return ds;
     }

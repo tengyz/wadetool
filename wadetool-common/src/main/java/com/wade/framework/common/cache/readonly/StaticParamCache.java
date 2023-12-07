@@ -37,11 +37,11 @@ public class StaticParamCache extends BaseReadOnlyCache {
             String oldVersion = tableVersion.get(tableName);
             String newVersion = ParamMgr.getCacheTableVersion(tableName);
             if (oldVersion != null && oldVersion.equals(newVersion)) {
-                log.info("StaticParamCache need not reload table...", tableName);
+                log.info("StaticParamCache need not reload table tableName=:" + tableName);
                 map.put(tableName, get(tableName));
                 continue;
             }
-            log.info("StaticParamCache reload table...", tableName, oldVersion, newVersion);
+            log.info("StaticParamCache reload table...tableName=:" + tableName + ",oldVersion=:" + oldVersion + ",newVersion=:" + newVersion);
             tableVersion.put(tableName, newVersion);
             
             ParamTable pt = new ParamTable(itemConf);

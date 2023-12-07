@@ -15,6 +15,9 @@ public class CacheKeyCreater {
      */
     public static final String ACCT_KEY_PREFIX = "WADE_";
     
+    /**
+     * key最大长度
+     */
     public static final int CACHE_KEY_MAX_LEN = 250;
     
     /**

@@ -9,6 +9,7 @@ import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 /**
+ * 缓存工具类
  * @author yizuteng
  */
 public class CacheUtil {

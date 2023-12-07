@@ -30,7 +30,6 @@ public class DBSystemTimeCache extends AbstractReadOnlyCache {
             IDataList getList = DbUtil.queryList("select date_format(now(),'%Y-%c-%d %H:%i:%s') as nowtimes from dual");
             IDataMap getData = getList.first();
             String sysdate = getData.getString("NOWTIMES");
-            log.info("直接jdbc获取数据库时间=:" + sysdate);
             rtn.put("DBSystemTimeCache", getLong(sysdate));
         }
         catch (Exception e) {

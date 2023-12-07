@@ -58,7 +58,7 @@ public class CacheTimeStamp {
      * @return
      */
     public static CacheTimeStamp getInstance(String cacheKeyName) {
-        log.info(".....get a new CacheTimeStamp.....", cacheKeyName);
+        log.info("get a new CacheTimeStamp cacheKeyName=：" + cacheKeyName);
         CacheTimeStamp timestamp = new CacheTimeStamp(cacheKeyName);
         return timestamp;
     }
@@ -72,23 +72,23 @@ public class CacheTimeStamp {
         try {
             String timestamp = getTimestamp(timestampKey);
             if (null == timestamp || "".equals(timestamp)) {
-                log.info("needReFreshCache()判断需要更新本地缓存：false");
+                log.info("判断需要更新本地缓存：false");
                 return false;
             }
             if (timestamp.compareTo(cacheTimestamp) > 0) {
-                log.info("........need to refresh....", timestampKey);
-                log.info("needReFreshCache()判断需要更新本地缓存：true");
+                log.info("need to refresh=timestampKey=：", timestampKey);
+                log.info("判断需要更新本地缓存：true");
                 cacheTimestamp = timestamp;
                 return true;
             }
-            log.info("needReFreshCache()判断需要更新本地缓存：false");
+            log.info("判断需要更新本地缓存：false");
             return false;
         }
         catch (Exception e) {
             log.error("needReFreshCache异常！！！", e);
             Thrower.throwException(BizExceptionEnum.ERROR_MSG, e, "needReFreshCache异常！！！");
         }
-        log.info("needReFreshCache()判断需要更新本地缓存：false");
+        log.info("判断需要更新本地缓存：false");
         return false;
     }
     
@@ -102,7 +102,7 @@ public class CacheTimeStamp {
         try {
             needRefresh = needReFreshCache();
             if (needRefresh) {
-                log.info("........begin to clearCache....invoker size:", clearInvokers.size());
+                log.info("begin to clearCache....invoker size=:" + clearInvokers.size());
                 for (int i = 0, size = clearInvokers.size(); i < size; i++) {
                     ICacheClearInvoker invoker = clearInvokers.get(i);
                     log.info("execute cacheClearInvoker: ", invoker);
@@ -128,7 +128,7 @@ public class CacheTimeStamp {
             try {
                 //直接查询数据库
                 ds = DbUtil.queryList(sql.toString());
-                log.info("CacheTimeStamp直接jdbc获取数据库时间=:" + ds);
+                log.info("直接jdbc获取数据库时间=:" + ds);
             }
             catch (Exception e) {
                 log.error("CacheTimeStamp直接jdbc获取数据库时间异常:", e);

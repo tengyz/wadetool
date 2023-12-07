@@ -18,6 +18,7 @@ import com.wade.framework.common.util.DataHelper;
 import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
+import com.wade.framework.data.Timer;
 import com.wade.framework.data.impl.DataArrayList;
 import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.exceptions.BizExceptionEnum;
@@ -33,7 +34,7 @@ import com.wade.framework.exceptions.Thrower;
 public class ParamTable implements Serializable {
     private static final Logger log = LogManager.getLogger(ParamTable.class);
     
-    private static final long serialVersionUID = 6053908101123112021L;
+    private static final long serialVersionUID = 6053908101133112031L;
     
     /**
      * 表名
@@ -95,7 +96,7 @@ public class ParamTable implements Serializable {
         data.put("TABLE_NAME", tableName);
         ParamConfigItem item = ParamConfig.getParamItemConfig(tableName);
         srcDatas = item.getParamDataProvider().getAllData(item);
-        log.info("loadData==加载参数表[" + tableName + "]数据成功，共加载数据[" + srcDatas.size() + "]条");
+        log.info("loadData加载参数表[" + tableName + "]数据成功，共加载数据[" + srcDatas.size() + "]条");
         int indexCount = indexes.length;
         
         @SuppressWarnings("unchecked")
@@ -103,7 +104,8 @@ public class ParamTable implements Serializable {
         indexDatas = map;
         
         for (int j = 0; j < indexCount; j++) {
-            long s = System.nanoTime();
+            // 开始计算时间
+            Timer timer = new Timer();
             indexDatas[j] = new HashMap<String, IDataList>();
             ParamTableIndex tIdx = indexes[j];
             for (int i = 0; i < srcDatas.size(); i++) {
@@ -118,10 +120,11 @@ public class ParamTable implements Serializable {
             }
             
             log.info("构建索引数据成功:" + tableName + "-" + Arrays.toString(tIdx.getColumns()) + "共构建数据" + indexDatas[j].size() + "条" + "，耗时:"
-                    + (System.nanoTime() - s));
+                    + Long.valueOf(timer.getUseTimeInMillis()) + " ms");
             
         }
-        long s = System.nanoTime();
+        // 开始计算时间
+        Timer timer2 = new Timer();
         int count = 0;
         for (int i = 0; i < indexCount; i++) {
             for (Entry<String, IDataList> entry : indexDatas[i].entrySet()) {
@@ -129,7 +132,7 @@ public class ParamTable implements Serializable {
                 count++;
             }
         }
-        log.info("组装只读List完毕，耗时：" + (System.nanoTime() - s) + "，共转换：" + count + "条数据");
+        log.info("组装只读List完毕，耗时：" + Long.valueOf(timer2.getUseTimeInMillis()) + " ms" + " ，共转换：" + count + "条数据");
     }
     
     /**

@@ -1,23 +1,10 @@
 package com.wade.framework.cache.localcache;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.quartz.CronScheduleBuilder;
-import org.quartz.CronTrigger;
-import org.quartz.JobBuilder;
-import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
-import org.quartz.SchedulerFactory;
-import org.quartz.TriggerBuilder;
+import org.quartz.*;
 import org.quartz.impl.StdSchedulerFactory;
 
 import com.wade.framework.cache.localcache.interfaces.IReadOnlyCache;
@@ -66,7 +53,7 @@ public final class CacheFactory {
                 cache.setClassName(clazz.getName());
                 cache.refresh();
                 ROCACHES.put(clazz, cache);
-                log.info("ReadOnlyCache:" + clazz.getName() + "刷新成功，加载数据量:" + cache.size() + "条，耗时:" + (System.currentTimeMillis() - start) + "毫秒");
+                log.info("ReadOnlyCache:" + clazz.getName() + ",刷新成功，加载数据量:" + cache.size() + "条，耗时:" + (System.currentTimeMillis() - start) + " 毫秒");
             }
         }
         return cache;
@@ -179,8 +166,8 @@ public final class CacheFactory {
                     cache.setClassName(clazzName);
                     cache.refresh();
                     ROCACHES.put(clazz, cache);
-                    log.info("ReadOnlyCache:" + clazz.getName() + "刷新成功，加载数据量:" + cache.size() + "条，耗时:" + (System.currentTimeMillis() - start)
-                            + "毫秒");
+                    log.info("ReadOnlyCache:" + clazz.getName() + " ,刷新成功，加载数据量:" + cache.size() + "条，耗时:" + (System.currentTimeMillis() - start)
+                            + " 毫秒");
                 }
             }
             catch (Exception e) {

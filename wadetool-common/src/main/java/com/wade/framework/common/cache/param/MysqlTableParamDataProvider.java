@@ -13,6 +13,9 @@ import com.wade.framework.db.util.DbUtil;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
+/**
+ * mysql数据库查询
+ */
 public class MysqlTableParamDataProvider implements IParamDataProvider {
     private static final Logger log = LogManager.getLogger(MysqlTableParamDataProvider.class);
     
@@ -107,28 +110,23 @@ public class MysqlTableParamDataProvider implements IParamDataProvider {
             sql.append(" order by ").append(sortKeys);
         }
         IDataList dsList = null;
+        if (log.isDebugEnabled()) {
+            log.debug("判断查询哪个系统的数据库dataSrc=：" + dataSrc);
+        }
         // 判断查询哪个系统的数据库，调用相应系统的服务查询数据
         if (StringHelper.isNonBlank(dataSrc) && "USER_CENTER_PARAM".equals(dataSrc)) {
-            if (log.isDebugEnabled()) {
-                log.debug("sql=:" + sql.toString());
-            }
             try {
                 //当调用微服务异常时，直接查询数据库
                 dsList = DbUtil.queryList(sql.toString());
-                log.info("MysqlTableParamDataProvider直接jdbc获取数据库数据=:" + dsList);
             }
             catch (Exception e) {
                 log.error("MysqlTableParamDataProvider直接jdbc获取数据库数据异常:", e);
             }
         }
         else {
-            if (log.isDebugEnabled()) {
-                log.debug("sql=:" + sql.toString());
-            }
             try {
                 //当调用微服务异常时，直接查询数据库
                 dsList = DbUtil.queryList(sql.toString(), dataSrc);
-                log.info("判断查询哪个系统的数据库，调用相应系统的服务查询数据dataSrc=：" + dataSrc + "MysqlTableParamDataProvider直接jdbc获取数据库数据=:" + dsList);
             }
             catch (Exception e) {
                 log.error("MysqlTableParamDataProvider直接jdbc获取数据库数据异常:", e);

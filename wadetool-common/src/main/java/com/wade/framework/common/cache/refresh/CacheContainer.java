@@ -15,6 +15,7 @@ import com.wade.framework.data.impl.DataHashMap;
 
 /**
  * 缓存刷新，提供给前台或者后端进行手动刷新
+ * @author yz.teng
  */
 public class CacheContainer {
     

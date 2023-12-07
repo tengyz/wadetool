@@ -5,7 +5,7 @@ import com.wade.framework.common.cache.param.data.ParamConfigItem;
 import com.wade.framework.data.IDataList;
 
 /**
- * @author yizuteng
+ * @author yzteng
  */
 public class ParamCacheSourceProvider implements ICacheSourceProvider<IDataList> {
     private ParamConfigItem conf = null;

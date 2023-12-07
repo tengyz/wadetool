@@ -16,7 +16,9 @@ public class DbUtil {
     private static final Logger log = LogManager.getLogger(DbUtil.class);
     
     public static IDataList queryList(String sql) {
-        log.info("===DbUtil===sql=:" + sql);
+        if (log.isDebugEnabled()) {
+            log.debug("===DbUtil=sql=:" + sql.toString());
+        }
         Db db = new Db();
         Connection conn = null;
         PreparedStatement pstm = null;
@@ -38,6 +40,9 @@ public class DbUtil {
     }
     
     public static IDataList queryList(String sql, String dataSrc) {
+        if (log.isDebugEnabled()) {
+            log.debug("===DbUtil=dataSrc==sql=:" + sql.toString());
+        }
         Db db = new Db(dataSrc);
         Connection conn = null;
         PreparedStatement pstm = null;

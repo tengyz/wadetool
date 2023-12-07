@@ -8,13 +8,9 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import com.wade.framework.common.cache.CacheConfig;
-import com.wade.framework.common.util.HttpHelper;
 import com.wade.framework.common.util.StringHelper;
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
-import com.wade.framework.data.impl.DataArrayList;
-import com.wade.framework.data.impl.DataHashMap;
 import com.wade.framework.db.util.DbUtil;
 
 /**
@@ -85,7 +81,9 @@ public abstract class AbstractSequence implements ISequence {
             }
         }
         sqlAllTemp.append(" )A  ORDER BY  A.NEXTVALS ASC ");
-        log.info("AbstractSequence this fetchSize=:" + this.fetchSize);
+        if (log.isDebugEnabled()) {
+            log.debug("AbstractSequence this fetchSize=:" + this.fetchSize);
+        }
         this.sql = sqlAllTemp.toString();
     }
     
@@ -118,8 +116,10 @@ public abstract class AbstractSequence implements ISequence {
                 try {
                     //当调用微服务异常时，直接查询数据库
                     ds = DbUtil.queryList(sql);
-                    log.info("AbstractSequence直接jdbc获取数据库时间sql=:" + sql);
-                    log.info("AbstractSequence直接jdbc获取数据库时间ds=:" + ds);
+                    if (log.isDebugEnabled()) {
+                        log.debug("AbstractSequence直接jdbc获取数据库时间sql=:" + sql);
+                        log.debug("AbstractSequence直接jdbc获取数据库时间ds=:" + ds);
+                    }
                 }
                 catch (Exception e) {
                     log.error("AbstractSequence直接jdbc获取数据库时间异常:", e);

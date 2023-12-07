@@ -11,18 +11,39 @@ import com.wade.framework.common.cache.param.IParamDataProvider;
 import com.wade.framework.common.cache.param.MysqlTableParamDataProvider;
 import com.wade.framework.common.util.InstanceManager;
 
+/**
+ * 集合加载
+ * @author yz.teng
+ */
 public class ParamConfigItem {
-    
+    /**
+     * 默认数据源
+     */
     public static final String DEFAULT_DATA_SRC = "cen2";
     
+    /**
+     * 表名
+     */
     private String tableName = null;
     
+    /**
+     * 主键
+     */
     private String primaryKeys = null;
     
+    /**
+     * 索引字段
+     */
     private String[] indexArr = null;
     
+    /**
+     * 缓存key
+     */
     private String cacheKeys = null;
     
+    /**
+     * 是否全量加载：Y：全量，N：否
+     */
     private boolean needLoadingAll = false;
     
     /**
@@ -30,6 +51,9 @@ public class ParamConfigItem {
      */
     private String eparchyKey = null;
     
+    /**
+     * 排序字段
+     */
     private String sortKeys = null;
     
     /**

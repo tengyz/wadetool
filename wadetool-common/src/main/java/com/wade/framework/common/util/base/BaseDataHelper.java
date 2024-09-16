@@ -30,9 +30,7 @@ public final class BaseDataHelper {
         IDataMap[] datas = (IDataMap[])data.toArray(maps);
         DataComparator c = new DataComparator(key, keyType, order);
         Arrays.sort(datas, c);
-        
         List list = Arrays.asList(datas);
-        
         data.clear();
         data.addAll(list);
     }
@@ -50,15 +48,12 @@ public final class BaseDataHelper {
     private static final void sort(IDataList data, String key, int type, int order, String fix, int fixType) {
         IDataMap[] maps = new DataHashMap[data.size()];
         IDataMap[] datas = (IDataMap[])data.toArray(maps);
-        
         DataComparator c = new DataComparator(key, type, order);
-        
         if (fix == null) {
             Arrays.sort(datas, c);
         }
         else {
             int[] marks = mark(data, fix, fixType);
-            
             int pre = 0;
             int i = 1;
             for (int size = marks.length; i < size; i++) {
@@ -67,7 +62,6 @@ public final class BaseDataHelper {
             }
         }
         List list = Arrays.asList(datas);
-        
         data.clear();
         data.addAll(list);
     }
@@ -98,10 +92,10 @@ public final class BaseDataHelper {
                     break;
                 }
             }
-            if (include)
+            if (include) {
                 subset.add(subdata);
+            }
         }
-        
         return subset;
     }
     
@@ -136,7 +130,6 @@ public final class BaseDataHelper {
         for (int i = 0; i < list.size(); i++) {
             value.add(nullable ? null : "");
         }
-        
         int index = 0;
         for (Iterator i$ = list.iterator(); i$.hasNext();) {
             Object obj = i$.next();
@@ -147,9 +140,7 @@ public final class BaseDataHelper {
             else if ((obj instanceof IDataMap)) {
                 d1 = (IDataMap)obj;
             }
-            
             Iterator iter = d1.keySet().iterator();
-            
             while (iter.hasNext()) {
                 String k1 = (String)iter.next();
                 IDataList v1 = (IDataList)data.get(k1);
@@ -160,7 +151,6 @@ public final class BaseDataHelper {
                     
                     data.put(k1, value);
                 }
-                
                 v1.set(index, d1.get(k1));
                 data.put(k1, v1);
             }
@@ -224,14 +214,11 @@ public final class BaseDataHelper {
                 break;
             }
         }
-        
         int[] ms = new int[tail + 1];
-        
         int i = 0;
         for (int size = ms.length; i < size; i++) {
             ms[i] = marks[i];
         }
-        
         return ms;
     }
     
@@ -260,7 +247,6 @@ public final class BaseDataHelper {
         data.put("k2", "v2");
         data.put("k5", "v5");
         ds.add(data);
-        
         System.out.println(datasetToData(ds, false));
     }
 }

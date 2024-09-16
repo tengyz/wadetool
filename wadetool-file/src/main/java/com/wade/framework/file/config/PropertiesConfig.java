@@ -29,11 +29,10 @@ public class PropertiesConfig {
         }
         catch (IOException e) {
             e.printStackTrace();
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "config-10000", e);
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "PropertiesConfig", e);
         }
-        
         if (this.props == null)
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "config-10000");
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "PropertiesConfig");
     }
     
     public PropertiesConfig(String file) {
@@ -47,10 +46,10 @@ public class PropertiesConfig {
             this.props.load(in);
         }
         catch (FileNotFoundException e) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "config-10000", e);
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "PropertiesConfig", e);
         }
         catch (IOException e) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "config-10002", e);
+            Thrower.throwException(BizExceptionEnum.ERROR_MSG, "PropertiesConfig", e);
         }
     }
     
@@ -80,7 +79,6 @@ public class PropertiesConfig {
             String key = (String)e.nextElement();
             data.put(key, getProperty(key));
         }
-        
         return data;
     }
 }

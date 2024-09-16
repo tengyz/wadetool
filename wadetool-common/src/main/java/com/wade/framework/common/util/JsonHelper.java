@@ -1,25 +1,17 @@
 package com.wade.framework.common.util;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import com.wade.framework.data.IDataMap;
+import com.wade.framework.data.impl.DataHashMap;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
-
-import org.apache.log4j.Logger;
-
-import com.wade.framework.data.IDataMap;
-import com.wade.framework.data.impl.DataHashMap;
 
 /**
  * json转换工具类
@@ -29,7 +21,7 @@ import com.wade.framework.data.impl.DataHashMap;
  * @Author      tengyz
  */
 public class JsonHelper {
-    private static final Logger log = Logger.getLogger(JsonHelper.class);
+    private static final Logger log = LogManager.getLogger(JsonHelper.class);
     
     /**
      * 字符串是否非空
@@ -61,8 +53,7 @@ public class JsonHelper {
     
     /**
      * 判断List是否为null或者空
-     * 
-     * @param str
+     * @param list
      * @return
      */
     public static boolean isListEmpty(List<?> list) {
@@ -77,6 +68,7 @@ public class JsonHelper {
             JSONObject.fromObject(value);
         }
         catch (JSONException e) {
+            log.error("isJson转换异常:", e);
             return false;
         }
         return true;
@@ -104,7 +96,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("toJSON转换异常" + e);
+            log.error("toJSON转换异常:", e);
         }
         return obj;
     }
@@ -121,9 +113,8 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("toJSONStr转换异常" + e);
+            log.error("toJSONStr转换异常:", e);
         }
-        
         return jsonstr;
     }
     
@@ -140,7 +131,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("parseToObject转换异常" + e);
+            log.error("parseToObject转换异常:", e);
         }
         return parseObj;
     }
@@ -149,7 +140,7 @@ public class JsonHelper {
      * 从一个JSON数组得到一个java对象数组，形如： [{"id" : idValue, "name" : nameValue}, {"id" :
      * idValue, "name" : nameValue}, ...]
      * 
-     * @param object
+     * @param jsonString
      * @param clazz
      * @return
      */
@@ -166,7 +157,7 @@ public class JsonHelper {
     /**
      * 从一个JSON数组得到一个java对象集合
      * 
-     * @param object
+     * @param jsonString
      * @param clazz
      * @return
      */
@@ -183,7 +174,7 @@ public class JsonHelper {
     
     /**
      * 字符串 获取json对象
-     * @param String value
+     * @param jsonString value
      * @return JSONObject
      */
     public static JSONObject toJsonObject(String jsonString) {
@@ -192,6 +183,7 @@ public class JsonHelper {
             jObj = JSONObject.fromObject(jsonString);
         }
         catch (JSONException e) {
+            log.error("toJsonObject转换异常:", e);
             jObj = new JSONObject();
         }
         return jObj;
@@ -222,7 +214,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("parseToJSONArray转换异常" + e);
+            log.error("parseToJSONArray转换异常:", e);
         }
         return parseObj;
     }
@@ -230,7 +222,7 @@ public class JsonHelper {
     /**
      * json对象转换成实体bean
      * @param jsonObj
-     * @param obj
+     * @param clazz
      * @return
      */
     public static Object toObject(JSONObject jsonObj, Class<?> clazz) {
@@ -240,7 +232,7 @@ public class JsonHelper {
         }
         catch (Exception e) {
             e.printStackTrace();
-            log.error("parseToObject转换异常" + e);
+            log.error("parseToObject转换异常:", e);
         }
         return parseObj;
     }
@@ -254,12 +246,15 @@ public class JsonHelper {
     public static Object reflect(JSONArray json) {
         List<Object> list = new ArrayList<Object>();
         for (Object o : json) {
-            if (o instanceof JSONArray)
+            if (o instanceof JSONArray) {
                 list.add(reflect((JSONArray)o));
-            else if (o instanceof JSONObject)
+            }
+            else if (o instanceof JSONObject) {
                 list.add(toMap((JSONObject)o));
-            else
+            }
+            else {
                 list.add(o);
+            }
         }
         return list;
     }
@@ -275,12 +270,15 @@ public class JsonHelper {
         Set<?> keys = json.keySet();
         for (Object key : keys) {
             Object o = json.get((String)key);
-            if (o instanceof JSONArray)
+            if (o instanceof JSONArray) {
                 map.put((String)key, reflect((JSONArray)o));
-            else if (o instanceof JSONObject)
+            }
+            else if (o instanceof JSONObject) {
                 map.put((String)key, toMap((JSONObject)o));
-            else
+            }
+            else {
                 map.put((String)key, o);
+            }
         }
         return map;
     }
@@ -288,7 +286,7 @@ public class JsonHelper {
     /**
      * 将json字符串转换成Map-List集合
      * @see JSONHelper#reflect(JSONArray)
-     * @param json
+     * @param StringJson
      * @return
      */
     public static Map<String, Object> toMap(String StringJson) {
@@ -297,12 +295,15 @@ public class JsonHelper {
         Set<?> keys = json.keySet();
         for (Object key : keys) {
             Object o = json.get((String)key);
-            if (o instanceof JSONArray)
+            if (o instanceof JSONArray) {
                 map.put((String)key, reflect((JSONArray)o));
-            else if (o instanceof JSONObject)
+            }
+            else if (o instanceof JSONObject) {
                 map.put((String)key, toMap((JSONObject)o));
-            else
+            }
+            else {
                 map.put((String)key, o);
+            }
         }
         return map;
     }
@@ -444,6 +445,7 @@ public class JsonHelper {
                 return new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(s);
             }
             catch (java.text.ParseException e) {
+                log.error("getDateFromJSON转换异常:", e);
                 e.printStackTrace();
             }
         }
@@ -538,8 +540,9 @@ public class JsonHelper {
     
     /**
      * 返回状态
-     * 
-     * @param str
+     * @param respCode
+     * @param respDesc
+     * @param result
      * @return
      */
     @SuppressWarnings("unchecked")
@@ -553,8 +556,9 @@ public class JsonHelper {
     
     /**
      * 返回状态
-     * 
-     * @param str
+     * @param respCode
+     * @param respDesc
+     * @param result
      * @return
      */
     @SuppressWarnings("unchecked")

@@ -7,20 +7,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.input.SAXBuilder;
 
 /**
- * 本地缓存xml解析
- * @Description TODO 
+ * 本地缓存（localcache.xml）解析
+ * @Description 本地缓存（localcache.xml）解析
  * @ClassName   CacheXml 
  * @Date        2015年11月28日 上午11:40:21 
  * @Author      yz.teng
  */
 final class CacheXml {
-    private static final Logger log = Logger.getLogger(CacheFactory.class);
+    private static final Logger log = LogManager.getLogger(CacheXml.class);
     
     private static final String CACHE_FILENAME = "localcache.xml";
     
@@ -95,11 +96,10 @@ final class CacheXml {
             String className = elem.getAttributeValue("className");
             String init = elem.getAttributeValue("init");
             String cronExpr = elem.getAttributeValue("cronExpr");
-            
-            if ((init == null) || ("".equals(init))) {
+            if ((null == init) || ("".equals(init))) {
                 init = "false";
             }
-            if (cronExpr == null) {
+            if (null == cronExpr) {
                 cronExpr = "";
             }
             ReadOnlyCacheItem item = new ReadOnlyCacheItem(className, init, cronExpr);
@@ -116,17 +116,15 @@ final class CacheXml {
             String name = elem.getAttributeValue("name");
             String maxSize = elem.getAttributeValue("maxSize");
             String cronExpr = elem.getAttributeValue("cronExpr");
-            
-            if ((maxSize == null) || ("".equals(maxSize))) {
+            if ((null == maxSize) || ("".equals(maxSize))) {
                 maxSize = "2000";
             }
-            if (cronExpr == null) {
+            if (null == cronExpr) {
                 cronExpr = "";
             }
             ReadWriteCacheItem item = new ReadWriteCacheItem(name, Integer.parseInt(maxSize), cronExpr);
             rtn.add(item);
         }
-        
         return rtn;
     }
     
@@ -151,8 +149,8 @@ final class CacheXml {
             if (!"".equals(cronExpr)) {
                 items = cronExpr.split(" ");
                 if (5 != items.length) {
-                    log.error("读写缓存配置错误：cronExpr 只可配置：分    小时    日    月    周");
-                    throw new IllegalArgumentException("读写缓存配置错误：cronExpr 只可配置：分    小时    日    月    周");
+                    log.error("读写缓存配置错误：cronExpr 只可配置：分  小时  日  月  周");
+                    throw new IllegalArgumentException("读写缓存配置错误：cronExpr 只可配置：分  小时  日  月  周");
                 }
                 this.cronExpr = ("0 " + cronExpr);
             }

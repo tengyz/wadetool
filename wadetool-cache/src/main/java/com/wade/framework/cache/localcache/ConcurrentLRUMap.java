@@ -180,6 +180,7 @@ public class ConcurrentLRUMap<K, V> implements Serializable {
             }
         }
         
+        @Override
         public VV remove(Object key) {
             this.lock.lock();
             try {
@@ -190,6 +191,7 @@ public class ConcurrentLRUMap<K, V> implements Serializable {
             }
         }
         
+        @Override
         public void clear() {
             this.lock.lock();
             try {
@@ -200,6 +202,7 @@ public class ConcurrentLRUMap<K, V> implements Serializable {
             }
         }
         
+        @Override
         public boolean removeEldestEntry(Map.Entry<KK, VV> eldest) {
             return size() > this.maxSize;
         }

@@ -4,18 +4,19 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
 /**
  * 缓存清除操作
- * @author yz。teng
+ * @author teng
  *
  */
 public class DefaultCacheClearInvoker extends ICacheClearInvoker {
-    private static Logger log = Logger.getLogger(DefaultCacheClearInvoker.class);
+    private static final Logger log = LogManager.getLogger(DefaultCacheClearInvoker.class);
     
     private List<Map<?, ?>> mapCaches = new ArrayList<Map<?, ?>>();
     
@@ -30,7 +31,7 @@ public class DefaultCacheClearInvoker extends ICacheClearInvoker {
                 listCaches.add((List<?>)obj);
             }
             else {
-                Thrower.throwException(BizExceptionEnum.ERROR_MSG, obj.getClass());
+                Thrower.throwException(BizExceptionEnum.WADE_COMP_TYPE_NOT_SURPT, obj.getClass());
             }
         }
     }

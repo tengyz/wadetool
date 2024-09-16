@@ -1,42 +1,57 @@
 <?xml version='1.0' encoding='utf-8'?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
-	<packaging>jar</packaging>
 	
 	<parent>
 		<groupId>com.wade</groupId>
 		<artifactId>wadetool-parent</artifactId>
-		<version>1.0.1</version>
+		<version>iam.parent.v202109</version>
 	</parent>
-
+	
 	<artifactId>wadetool-common</artifactId>
-	<name>${project.artifactId}</name>
-	<description>wadetool common</description>
+    <version>iam.v20210915</version>
+    <packaging>jar</packaging>
+    <name>${project.artifactId}</name>
+    <description>wadetool common</description>
 	
 	<dependencies>
 	    <dependency>
 			<groupId>com.wade</groupId>
 			<artifactId>wadetool-data</artifactId>
-			<version>${project.parent.version}</version>
-		 </dependency>
-	    <dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-			<scope>provided</scope>
+			<version>iam.v20210915</version>
 		</dependency>
+		<dependency>
+			<groupId>com.wade</groupId>
+			<artifactId>wadetool-exceptions</artifactId>
+			<version>iam.v20210915</version>
+		</dependency>
+	    <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
          <dependency>
 			<groupId>com.wade</groupId>
 			<artifactId>wadetool-cache</artifactId>
-			<version>${project.parent.version}</version>
+			<version>iam.v20210915</version>
+			<scope>provided</scope>
 		 </dependency>
 		 <dependency>
 			<groupId>com.wade</groupId>
 			<artifactId>wadetool-aop</artifactId>
-			<version>${project.parent.version}</version>
+			<version>iam.v20210915</version>
 		 </dependency>
-		 	<!-- http工具类 -->
+		 <dependency>
+			<groupId>com.wade</groupId>
+			<artifactId>wadetool-db</artifactId>
+			<version>iam.v20210915</version>
+		 </dependency>
+		<!-- http工具类 -->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -47,16 +62,10 @@
 			<artifactId>httpcore</artifactId>
 			<version>4.3.1</version>
 		</dependency>
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
-			<optional>true</optional>
-		</dependency>
 		 <dependency>
 			<groupId>com.wade</groupId>
 			<artifactId>wadetool-crypto</artifactId>
-			<version>${project.parent.version}</version>
+			<version>iam.v20210915</version>
 		 </dependency>
 		 <!-- 用于xml read-->  
 		 <dependency>
@@ -67,7 +76,7 @@
 		 <dependency>
 			<groupId>com.wade</groupId>
 			<artifactId>wadetool-file</artifactId>
-			<version>${project.parent.version}</version>
+			<version>iam.v20210915</version>
 		 </dependency>
 		<!-- excel导出-->
 		<dependency>
@@ -84,25 +93,12 @@
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
-			<version>2.4</version>
+			<version>2.5</version>
 			<optional>true</optional>
 		</dependency>
 	 
 	</dependencies>
 	
 	
-		
-    <!-- 配置远程发布到私服，mvn deploy -->
-	<distributionManagement>
-        <repository>
-            <id>nexus-releases</id>
-            <name>Nexus Release Repository</name>
-            <url>http://192.168.1.198:8081/nexus/content/repositories/releases/</url>
-        </repository>
-        <snapshotRepository>
-		    <id>snapshots</id>
-		    <name>Nexus Snapshot Repository</name>
-		    <url>http://192.168.1.198:8081/nexus/content/repositories/snapshots/</url>
-		</snapshotRepository>
-    </distributionManagement>
+ 
 </project>

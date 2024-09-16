@@ -26,6 +26,4 @@ public @interface BussinessLog {
     };
     
     OpType type() default OpType.SEARCH;
-    
-    String param() default "";
 }

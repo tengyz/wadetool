@@ -3,18 +3,19 @@ package com.wade.framework.common.cache.param;
 import java.util.List;
 import java.util.Map;
 
-import com.wade.framework.cache.util.CacheUtil;
-import com.wade.framework.cache.util.ICacheSourceProvider;
 import com.wade.framework.common.cache.CacheManager;
+import com.wade.framework.common.cache.CacheUtil;
+import com.wade.framework.common.cache.ICacheSourceProvider;
 import com.wade.framework.common.cache.param.data.ParamConfigItem;
 import com.wade.framework.common.cache.readonly.ParamTablesCache;
 
 /**
  * 本地缓存表配置xml
- * @author tengyz
- *
+ * @Description 本地缓存表配置xml 
+ * @ClassName   ParamConfig 
+ * @Date        2018年3月29日 上午11:00:03 
+ * @Author      yz.teng
  */
-
 public class ParamConfig {
     
     private static Map<String, ParamConfigItem> paramItemConfs = CacheManager.getStaticMap(ParamConfig.class.getName());
@@ -27,6 +28,7 @@ public class ParamConfig {
             return item;
         }
         return (ParamConfigItem)CacheUtil.get(paramItemConfs, tableName, new ICacheSourceProvider() {
+            @Override
             public ParamConfigItem getSource() throws Exception {
                 return new ParamConfigItem(tableName);
             }

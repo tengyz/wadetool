@@ -1,12 +1,15 @@
 package com.wade.framework.exceptions;
 
 import com.wade.framework.exceptions.base.BaseException;
-import com.wade.framework.exceptions.base.BaseException.ExceptionLevel;
 
 public enum BizExceptionEnum implements BaseException {
     FILE_NOT_FOUND("%s文件没有找到", ExceptionLevel.ERROR), INPUTPARAMS_NOT_MATCH("函数参数个数不正确！", ExceptionLevel.ERROR), INPUTPAMAMS_NOT_FOUND("%s必须传入！",
             ExceptionLevel.ERROR), DATE_FORMART_ERR("日期格式化出现错误%s", ExceptionLevel.ERROR), CACHE_LOAD_ERROR("调用生成器加载缓存失败"), ERROR_MSG("%s",
-            ExceptionLevel.ERROR), LoginServiceImpl("工号密码错误，请确认后重新输入！", ExceptionLevel.ERROR), RESULT_EMPTY("结果集为空", ExceptionLevel.ERROR);
+                    ExceptionLevel.ERROR), LoginServiceImpl("工号密码错误，请确认后重新输入！", ExceptionLevel.ERROR), RESULT_EMPTY("结果集为空",
+                            ExceptionLevel.ERROR), WADE_COMP_CACHE_LOAD("调用生成器加载缓存失败"), WADE_COMP_CACHE_NOTMATCH(
+                                    "参数缓存不匹配[%s]-%s"), WADE_COMP_CAST_ERROR("类[%s]不是[%s]的子类"), WADE_COMP_NEW_INSTANCE(
+                                            "构造对象[%s]出错"), WADE_COMP_TYPE_NOT_SURPT("缓存清空执行器不支持类型%s",
+                                                    ExceptionLevel.ERROR), WADE_COMP_METHOD_NOT_SURPT("[%s]不支持此方法[%s]");
     
     private ExceptionLevel level = null;
     

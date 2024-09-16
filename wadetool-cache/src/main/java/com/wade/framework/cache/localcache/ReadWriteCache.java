@@ -4,7 +4,8 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Set;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.interfaces.IReadWriteCache;
 
@@ -17,7 +18,7 @@ import com.wade.framework.cache.localcache.interfaces.IReadWriteCache;
  * @Author yz.teng
  */
 public class ReadWriteCache implements IReadWriteCache {
-    private static final Logger LOG = Logger.getLogger(ReadWriteCache.class);
+    private static final Logger log = LogManager.getLogger(ReadWriteCache.class);
     
     private LinkedHashMap<Long, Integer> refreshHistory = new LinkedHashMap();
     
@@ -38,9 +39,10 @@ public class ReadWriteCache implements IReadWriteCache {
     }
     
     public void refresh() {
-        LOG.info("读写缓存刷新! name: " + getName());
+        log.info("读写缓存刷新! refresh start: " + getName());
         updateRefreshHistory();
         this.cache.clear();
+        log.info("读写缓存刷新! refresh end: " + getName());
     }
     
     public Object get(String key) throws Exception {

@@ -3,14 +3,14 @@ package com.wade.framework.data.impl;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
-
 import org.apache.commons.lang.StringUtils;
 
 import com.wade.framework.data.IDataList;
 import com.wade.framework.data.IDataMap;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+import net.sf.json.util.JSONUtils;
 
 /**
  * ArrayList 继承类
@@ -42,8 +42,9 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
     
     public DataArrayList(IDataMap[] datas) {
         super(20);
-        for (IDataMap data : datas)
+        for (IDataMap data : datas) {
             add(data);
+        }
     }
     
     public DataArrayList(IDataList list) {
@@ -82,8 +83,6 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
                         if ((value != null) && (((String)value).indexOf(CLASS_REP_STRING2) != -1)) {
                             value = StringUtils.replace((String)value, CLASS_REP_STRING2, CLASS_STRING2);
                         }
-                        
-                        //                        if (JSONUtils.mayBeJSON((String)value)) {
                         if (((String)value).startsWith("{")) {
                             list.add(new DataHashMap((String)value));
                         }
@@ -93,8 +92,6 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
                         else {
                             list.add(value);
                         }
-                        //                        }
-                        
                     }
                     else {
                         list.add(value);
@@ -104,59 +101,69 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
                     list.add(null);
                 }
             }
-            
             return list;
         }
         return null;
     }
     
+    @Override
     public String[] getNames() {
         return size() > 0 ? ((IDataMap)get(0)).getNames() : null;
     }
     
+    @Override
     public Object get(int index) {
         return super.get(index);
     }
     
+    @Override
     public Object get(int index, String name) {
         IDataMap data = (IDataMap)get(index);
         return data == null ? null : data.get(name);
     }
     
+    @Override
     public Object get(int index, String name, Object def) {
         Object value = get(index, name);
         return value == null ? def : value;
     }
     
+    @Override
     public IDataMap getData(int index) {
         Object value = get(index);
-        if (value == null)
+        if (value == null) {
             return null;
-        if ((value instanceof String))
+        }
+        if ((value instanceof String)) {
             return new DataHashMap((String)value);
+        }
         if ((value instanceof JSONObject)) {
             return DataHashMap.fromJSONObject((JSONObject)value);
         }
         return (IDataMap)value;
     }
     
+    @Override
     public IDataList getDataset(int index) {
         Object value = get(index);
         if (value == null) {
             return null;
         }
-        if ((value instanceof String))
+        if ((value instanceof String)) {
             return new DataArrayList((String)value);
+        }
         if ((value instanceof JSONArray)) {
             return fromJSONArray((JSONArray)value);
         }
         return (IDataList)value;
     }
     
+    @Override
     public IDataMap first() {
         return size() > 0 ? (IDataMap)get(0) : null;
     }
     
+    @Override
     public IDataMap toData() {
         IDataMap data = new DataHashMap();
         Iterator it = iterator();
@@ -180,6 +187,7 @@ public class DataArrayList extends ArrayList<Object> implements IDataList {
         return data;
     }
     
+    @Override
     public String toString() {
         return JSONArray.fromObject(this).toString();
     }

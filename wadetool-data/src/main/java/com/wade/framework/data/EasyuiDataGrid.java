@@ -8,17 +8,27 @@ package com.wade.framework.data;
  */
 public class EasyuiDataGrid implements java.io.Serializable {
     
-    /**
-     */
     private static final long serialVersionUID = 1L;
     
-    private int page = 1;// 当前页
+    /**
+     * 当前页
+     */
+    private int page = 1;
     
-    private int rows = 10;// 每页显示记录数
+    /**
+     * 每页显示记录数
+     */
+    private int rows = 10;
     
-    private String sort = null;// 排序字段名
+    /**
+     * 排序字段名
+     */
+    private String sort = null;
     
-    private String order = "asc";// 按什么排序(asc,desc)
+    /**
+     * 按什么排序(asc,desc)
+     */
+    private String order = "asc";
     
     public int getPage() {
         return page;

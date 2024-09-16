@@ -3,7 +3,8 @@ package com.wade.framework.exceptions;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.exceptions.base.BaseException;
 import com.wade.framework.exceptions.base.BaseException.ExceptionLevel;
@@ -16,7 +17,7 @@ import com.wade.framework.exceptions.base.BaseException.ExceptionLevel;
  * @Author      yz.teng
  */
 public class Thrower {
-    private static Logger log = Logger.getLogger(Thrower.class);
+    private static final Logger log = LogManager.getLogger(Thrower.class);
     
     public static void throwException(BaseException e) throws BussinessException {
         throwException(e, (Throwable)null);

@@ -1,10 +1,11 @@
 package com.wade.framework.common.cache.impl;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import com.wade.framework.cache.localcache.CacheFactory;
 import com.wade.framework.cache.localcache.interfaces.IReadWriteCache;
-import com.wade.framework.cache.util.ICache;
+import com.wade.framework.common.cache.ICache;
 import com.wade.framework.exceptions.BizExceptionEnum;
 import com.wade.framework.exceptions.Thrower;
 
@@ -14,19 +15,17 @@ import com.wade.framework.exceptions.Thrower;
  *
  */
 public class LocalCache extends AbstractCache implements ICache {
-    private static final Logger log = Logger.getLogger(LocalCache.class);
+    private static final Logger log = LogManager.getLogger(LocalCache.class);
     
     private IReadWriteCache cache = null;
     
     public LocalCache(String cacheName) {
-        log.info("=====LocalCache=======cacheName=:" + cacheName);
         this.cacheName = cacheName;
         this.cache = CacheFactory.getReadWriteCache(cacheName);
         this.valid = (this.cache != null);
-        log.info("=====LocalCache=======cache=:" + cache);
-        log.info("=====LocalCache=======valid=:" + valid);
     }
     
+    @Override
     public void refresh() {
         this.cache.refresh();
     }
@@ -44,7 +43,7 @@ public class LocalCache extends AbstractCache implements ICache {
                 return cache.get(cacheKey);
         }
         catch (Exception e) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e);
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_CACHE_LOAD, e);
             return null;
         }
     }
@@ -60,9 +59,14 @@ public class LocalCache extends AbstractCache implements ICache {
             return true;
         }
         catch (Exception e) {
-            Thrower.throwException(BizExceptionEnum.ERROR_MSG, e);
+            Thrower.throwException(BizExceptionEnum.WADE_COMP_CACHE_LOAD, e);
             return false;
         }
+    }
+    
+    @Override
+    public void touch(String cacheKey, int secTTL) {
+        
     }
     
     @Override

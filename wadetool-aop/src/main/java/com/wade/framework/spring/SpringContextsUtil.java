@@ -1,6 +1,7 @@
 package com.wade.framework.spring;
 
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.context.ApplicationContext;
@@ -15,7 +16,7 @@ import org.springframework.context.ApplicationContextAware;
  * @version V1.0
  */
 public class SpringContextsUtil implements ApplicationContextAware {
-    private static Logger log = Logger.getLogger(SpringContextsUtil.class);
+    private static final Logger log = LogManager.getLogger(SpringContextsUtil.class);
     
     private static ApplicationContext applicationContext; //Spring应用上下文环境   
     

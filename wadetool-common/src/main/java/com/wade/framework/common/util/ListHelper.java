@@ -6,9 +6,10 @@ import java.util.Map;
 
 /**
  * list工具类
- * 
- * @author yz.teng
- * 
+ * @Description list工具类 
+ * @ClassName   ListHelper 
+ * @Date        2018年12月10日 上午11:34:42 
+ * @Author      yz.teng
  */
 public class ListHelper {
     public static final int ORDER_ASCEND = 0;
@@ -97,8 +98,9 @@ public class ListHelper {
         for (int i = 0; i < list.size(); i++) {
             Map<String, Object> map = (Map)list.get(i);
             if (keys != null) {
-                for (String key : keys)
+                for (String key : keys) {
                     MapHelper.addToItem(retMap, key, map.get(key));
+                }
             }
             else {
                 for (Map.Entry entry : map.entrySet()) {

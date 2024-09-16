@@ -27,6 +27,7 @@ import com.wade.framework.exceptions.Thrower;
  * 
  */
 public class XMLConfig {
+    
     public static Element getRoot(String file) throws Exception {
         InputStream in = null;
         try {
@@ -66,7 +67,6 @@ public class XMLConfig {
             Attribute attr = (Attribute)iter.next();
             properties.put(attr.getName(), attr.getValue());
         }
-        
         return properties;
     }
     
@@ -78,13 +78,11 @@ public class XMLConfig {
     public static IDataList getElements(Element root, String xpath) throws Exception {
         IDataList data = new DataArrayList();
         List nodes = root.selectNodes(xpath);
-        
         for (Iterator i$ = nodes.iterator(); i$.hasNext();) {
             Object obj = i$.next();
             IDataMap attrs = getProperties((Element)obj);
             data.add(attrs);
         }
-        
         return data;
     }
     
